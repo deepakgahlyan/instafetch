@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl = "https://instafetch.com";
-
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = "https://www.instafetch.app";
+
   return [
     {
       url: baseUrl,
@@ -15,6 +15,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/blog/how-instafetch-works`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/how-to-download-instagram-reels`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/instagram-download-tips`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/privacy`,

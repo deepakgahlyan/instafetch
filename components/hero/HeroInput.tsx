@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast, Toaster } from "sonner";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input";
 import DownloadResult from "@/components/downloader/DownloadResult";
 
 interface MediaItem {

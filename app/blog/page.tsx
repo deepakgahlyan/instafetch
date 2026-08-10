@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Instagram Downloader Guides & Tips",
+  title: "Instagram Downloader Guides & Tips | InstaFetch",
   description:
     "Learn how to download public Instagram Reels, videos and photos, understand how InstaFetch works, and get better results from Instagram downloads.",
   alternates: {

@@ -1,16 +1,16 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { navigation } from "@/config/navigation";
+import MobileMenu from "./MobileMenu";
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-xl">
+    <header className="relative z-50 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link
           href="/"
-          className="text-2xl font-bold tracking-tight text-white"
+          className="text-2xl font-bold tracking-tight"
         >
-          Insta
+          <span className="text-white">Insta</span>
           <span className="text-violet-500">Fetch</span>
         </Link>
 
@@ -26,9 +26,16 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <Button className="rounded-full">
-          Download
-        </Button>
+        <div className="hidden md:block">
+          <Link
+            href="#download"
+            className="inline-flex h-9 items-center justify-center rounded-full bg-zinc-900 px-4 text-sm font-medium text-white transition hover:bg-zinc-800"
+          >
+            Download
+          </Link>
+        </div>
+
+        <MobileMenu />
       </div>
     </header>
   );

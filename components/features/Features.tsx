@@ -1,3 +1,4 @@
+import { Download, Lock, Video } from "lucide-react";
 import FeatureCard from "./FeatureCard";
 
 export default function Features() {
@@ -7,6 +8,10 @@ export default function Features() {
       className="mx-auto max-w-7xl px-6 py-32"
     >
       <div className="mb-16 text-center">
+        <span className="mb-4 inline-block rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-2 text-sm text-violet-400">
+          Built for simplicity
+        </span>
+
         <h2 className="text-5xl font-bold text-white">
           Why Choose InstaFetch?
         </h2>
@@ -18,21 +23,21 @@ export default function Features() {
 
       <div className="grid gap-8 md:grid-cols-3">
         <FeatureCard
-          icon="⚡"
+          icon={<Download size={34} />}
           title="Lightning Fast"
-          description="Download Instagram videos in seconds."
+          description="Download supported Instagram content in seconds."
         />
 
         <FeatureCard
-          icon="🔒"
+          icon={<Lock size={34} />}
           title="100% Secure"
-          description="No login required. No data stored."
+          description="No Instagram login required and no credentials requested."
         />
 
         <FeatureCard
-          icon="🎥"
+          icon={<Video size={34} />}
           title="HD Quality"
-          description="Original quality downloads every time."
+          description="Download supported content in the available original quality."
         />
       </div>
     </section>

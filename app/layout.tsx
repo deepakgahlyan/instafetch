@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 const siteUrl = "https://www.instafetch.app";
@@ -57,7 +58,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="min-h-screen bg-zinc-950">
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2536087122989226"
+          crossOrigin="anonymous"
+          strategy="beforeInteractive"
+        />
+
+        {children}
+      </body>
     </html>
   );
 }

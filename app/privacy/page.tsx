@@ -1,4 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Read the InstaFetch Privacy Policy and learn how information is handled when using the service.",
+  alternates: {
+    canonical: "/privacy",
+  },
+};
 
 export default function PrivacyPage() {
   return (
@@ -19,16 +29,16 @@ export default function PrivacyPage() {
           Last updated: August 10, 2026
         </p>
 
-        <div className="mt-12 space-y-10 text-zinc-400 leading-8">
+        <div className="mt-12 space-y-10 leading-8 text-zinc-400">
           <section>
             <h2 className="mb-3 text-2xl font-semibold text-white">
               Information We Collect
             </h2>
             <p>
               InstaFetch is designed to work without requiring users to
-              provide Instagram login credentials. When you submit a public
-              Instagram URL, the URL is processed to provide the requested
-              download functionality.
+              provide Instagram login credentials. Submitted public
+              Instagram URLs are processed to provide download
+              functionality.
             </p>
           </section>
 
@@ -47,8 +57,8 @@ export default function PrivacyPage() {
               Instagram Credentials
             </h2>
             <p>
-              InstaFetch does not ask users for Instagram passwords or login
-              credentials.
+              InstaFetch does not ask users for Instagram passwords or
+              login credentials.
             </p>
           </section>
 
@@ -57,19 +67,9 @@ export default function PrivacyPage() {
               Third-Party Services
             </h2>
             <p>
-              InstaFetch may rely on third-party services to process public
-              media URLs. Those services may have their own privacy policies
-              and terms.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="mb-3 text-2xl font-semibold text-white">
-              Contact
-            </h2>
-            <p>
-              If you have questions about this Privacy Policy, please
-              contact the InstaFetch team.
+              InstaFetch may rely on third-party services to process
+              publicly accessible media URLs. Those services may have
+              their own policies.
             </p>
           </section>
         </div>

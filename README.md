@@ -29,6 +29,7 @@ https://www.instafetch.app/instagram-video-downloader
 
 ### Instagram Reels Downloader
 
+<<<<<<< HEAD
 Download publicly available Instagram Reels:
 
 https://www.instafetch.app/instagram-reels-downloader
@@ -59,3 +60,13 @@ Built with:
 InstaFetch is an independent third-party tool and is not affiliated with Instagram or Meta.
 
 Users should only download content they have permission to download and use.
+=======
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+<a href="https://smollaunch.com" target="_blank" rel="noopener">
+  <img src="https://smollaunch.com/badges/featured.svg" alt="InstaFetch — Featured on Smol Launch" loading="lazy" width="250" height="60" />
+</a>
+<a href="https://saascity.io" target="_blank" rel="noopener">
+  <img src="https://saascity.io/badges/featured-dark.svg" alt="Featured on SaaSCity" width="150" height="54" />
+</a>
+>>>>>>> e6e959e (Add Smol Launch featured badge)

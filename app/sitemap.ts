@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 const baseUrl = "https://www.instafetch.app";
+// Sitemap uses the canonical InstaFetch production domain.
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

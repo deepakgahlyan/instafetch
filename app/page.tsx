@@ -98,6 +98,38 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Featured badges */}
+        <section className="mx-auto max-w-4xl px-6 pb-12">
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <a
+              href="https://smollaunch.com"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="https://smollaunch.com/badges/featured.svg"
+                alt="InstaFetch — Featured on Smol Launch"
+                loading="lazy"
+                width="250"
+                height="60"
+              />
+            </a>
+
+            <a
+              href="https://saascity.io"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="https://saascity.io/badges/featured-dark.svg"
+                alt="Featured on SaaSCity"
+                width="150"
+                height="54"
+              />
+            </a>
+          </div>
+        </section>
+
         <FAQ />
 
         <Footer />

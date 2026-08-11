@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# InstaFetch
 
-## Getting Started
+Fast and simple Instagram video, Reels, and photo downloader for public content.
 
-First, run the development server:
+🌐 **Website:** https://www.instafetch.app
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## About
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+InstaFetch is a browser-based tool for downloading publicly available Instagram videos, Reels, and photos.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Paste a public Instagram URL and use InstaFetch to download the available media without installing a desktop application.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+- Instagram video downloader
+- Instagram Reels downloader
+- Instagram photo downloader
+- Fast browser-based experience
+- No Instagram login required
+- Mobile-friendly interface
 
-To learn more about Next.js, take a look at the following resources:
+## Downloaders
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Instagram Video Downloader
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Download publicly available Instagram videos:
 
-## Deploy on Vercel
+https://www.instafetch.app/instagram-video-downloader
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Instagram Reels Downloader
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Download publicly available Instagram Reels:
+
+https://www.instafetch.app/instagram-reels-downloader
+
+### Instagram Photo Downloader
+
+Download publicly available Instagram photos:
+
+https://www.instafetch.app/instagram-photo-downloader
+
+## Blog
+
+Learn more about Instagram downloading and InstaFetch:
+
+https://www.instafetch.app/blog
+
+## Technology
+
+Built with:
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+## Disclaimer
+
+InstaFetch is an independent third-party tool and is not affiliated with Instagram or Meta.
+
+Users should only download content they have permission to download and use.

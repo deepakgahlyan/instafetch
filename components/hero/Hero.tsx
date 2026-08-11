@@ -14,12 +14,13 @@ export default function Hero() {
       <h1 className="relative max-w-5xl text-6xl font-extrabold leading-tight text-white md:text-8xl">
         Download Instagram
         <span className="block bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
-          Videos & Reels
+          Videos &amp; Reels
         </span>
       </h1>
 
       <p className="relative mt-8 max-w-2xl text-xl text-zinc-400">
-        Download public Instagram videos, reels and photos in seconds.
+        Download public Instagram videos, Reels and photos in seconds with
+        InstaFetch. No Instagram login required.
       </p>
 
       <HeroInput />

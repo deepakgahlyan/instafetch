@@ -5,19 +5,27 @@ import HowItWorks from "@/components/how-it-works/HowItWorks";
 import FAQ from "@/components/faq/FAQ";
 import Footer from "@/components/footer/Footer";
 
+const siteUrl = "https://www.instafetch.app";
+
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   name: "InstaFetch",
-  url: "https://instafetch.com",
+  url: siteUrl,
   description:
-    "Fast and simple downloader for public Instagram videos, reels and photos.",
+    "Fast and simple downloader for public Instagram videos, Reels and photos.",
   applicationCategory: "MultimediaApplication",
   operatingSystem: "Web",
+  browserRequirements: "Requires JavaScript",
   offers: {
     "@type": "Offer",
     price: "0",
     priceCurrency: "USD",
+  },
+  creator: {
+    "@type": "Organization",
+    name: "InstaFetch",
+    url: siteUrl,
   },
 };
 

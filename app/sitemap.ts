@@ -12,49 +12,48 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
-
     {
       url: `${baseUrl}/instagram-video-downloader`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.9,
     },
-
+    {
+      url: `${baseUrl}/instagram-reels-downloader`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
     {
       url: `${baseUrl}/blog`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,
     },
-
     {
       url: `${baseUrl}/blog/how-instafetch-works`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
     },
-
     {
       url: `${baseUrl}/blog/how-to-download-instagram-reels`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
     },
-
     {
       url: `${baseUrl}/blog/instagram-download-tips`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
     },
-
     {
       url: `${baseUrl}/privacy`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.3,
     },
-
     {
       url: `${baseUrl}/terms`,
       lastModified: now,

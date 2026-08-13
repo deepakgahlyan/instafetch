@@ -13,7 +13,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const parsedUrl = new URL(url);
+    let parsedUrl: URL;
+
+    try {
+      parsedUrl = new URL(url);
+    } catch {
+      return NextResponse.json(
+        { error: "Please enter a valid Instagram URL." },
+        { status: 400 }
+      );
+    }
+
     const hostname = parsedUrl.hostname.toLowerCase();
 
     if (
@@ -30,9 +40,11 @@ export async function POST(request: Request) {
 
     const media = await extractInstagramMedia(url);
 
-    console.log("Instagram extraction result:", media);
+    console.log(
+      `Instagram extraction returned ${media.length} media item(s).`
+    );
 
-    if (!media || media.length === 0) {
+    if (!media.length) {
       return NextResponse.json(
         { error: "No downloadable media was found." },
         { status: 404 }
@@ -44,15 +56,23 @@ export async function POST(request: Request) {
       media,
     });
   } catch (error) {
-    console.error("INSTAGRAM EXTRACTION ERROR:", error);
+    console.error(
+      "INSTAGRAM EXTRACTION ERROR:",
+      error
+    );
 
     const errorMessage =
-      error instanceof Error ? error.message : String(error);
+      error instanceof Error
+        ? error.message
+        : String(error);
 
     return NextResponse.json(
       {
-        error: "Instagram extraction failed.",
-        details: errorMessage,
+        error: errorMessage.includes(
+          "APIFY_API_TOKEN"
+        )
+          ? "Instagram downloader is not configured."
+          : "Instagram extraction failed.",
       },
       { status: 500 }
     );

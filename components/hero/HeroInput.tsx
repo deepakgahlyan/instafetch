@@ -10,6 +10,7 @@ interface MediaItem {
   download_url?: string;
   thumbnail?: string;
   type?: string;
+  caption?: string;
 }
 
 export default function HeroInput() {
@@ -35,31 +36,57 @@ export default function HeroInput() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({
+          url: url.trim(),
+        }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setMessage(data.error || "Something went wrong.");
-        toast.error(data.error || "Download failed.");
+        setMessage(
+          data.error || "Something went wrong."
+        );
+
+        toast.error(
+          data.error || "Download failed."
+        );
+
         return;
       }
 
-      const results = data.media || [];
+      const results: MediaItem[] =
+        Array.isArray(data.media)
+          ? data.media
+          : [];
 
       setMedia(results);
 
       if (!results.length) {
-        setMessage("No downloadable media was found.");
-        toast.error("No downloadable media was found.");
+        setMessage(
+          "No downloadable media was found."
+        );
+
+        toast.error(
+          "No downloadable media was found."
+        );
+
         return;
       }
 
-      toast.success("Your media is ready to download.");
+      toast.success(
+        results.length > 1
+          ? `${results.length} media items found.`
+          : "Your media is ready to download."
+      );
     } catch {
-      setMessage("Unable to connect. Please try again.");
-      toast.error("Unable to connect. Please try again.");
+      setMessage(
+        "Unable to connect. Please try again."
+      );
+
+      toast.error(
+        "Unable to connect. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -87,7 +114,9 @@ export default function HeroInput() {
           <Input
             type="url"
             value={url}
-            onChange={(event) => setUrl(event.target.value)}
+            onChange={(event) =>
+              setUrl(event.target.value)
+            }
             placeholder="Paste Instagram URL here..."
             disabled={loading}
             className="h-16 flex-1 border-0 bg-transparent text-lg text-white shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-zinc-500"

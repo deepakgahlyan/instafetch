@@ -1,0 +1,46 @@
+name: InstaFetch SEO Agent
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instafetch-seo-agent
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    environment: SEO-agent
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run backlink discovery and intelligence
+        env:
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+        run: node seo-agent/run.mjs
+
+      - name: Commit SEO agent state
+        run: |
+          git config user.name "InstaFetch SEO Agent"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add seo-agent/data/opportunities.json seo-agent/data/outreach.json seo-agent/data/learnings.json
+          if git diff --cached --quiet; then
+            echo "No SEO agent changes to commit."
+            exit 0
+          fi
+          git commit -m "Update SEO agent intelligence"
+          git push

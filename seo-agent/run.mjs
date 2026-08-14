@@ -50,7 +50,6 @@ async function search(query) {
   return Array.isArray(data.results) ? data.results : [];
 }
 
-// Stage 3: determine a legitimate reason InstaFetch could earn the link.
 function identifyOpportunity(item) {
   const text = `${item.title} ${item.snippet} ${item.url}`;
   const match = OPPORTUNITY_PATTERNS.find((p) => p.re.test(text));
@@ -64,17 +63,69 @@ function identifyOpportunity(item) {
   return { opportunityType: type, pitchAngle: angles[type] };
 }
 
-// Stage 4: create personalized drafts. The agent never sends unsolicited messages by itself.
+// Create varied, target-specific outreach drafts. Variation is based on the actual article,
+// opportunity type, and target domain; it is not a single mass-mail template.
+function hashString(value) {
+  let hash = 0;
+  for (let i = 0; i < value.length; i++) hash = ((hash << 5) - hash + value.charCodeAt(i)) | 0;
+  return Math.abs(hash);
+}
+
+function cleanTitle(title) {
+  return String(title || "the article").replace(/\s+/g, " ").trim().slice(0, 140);
+}
+
 function createOutreachDraft(item) {
+  const article = cleanTitle(item.title);
+  const angle = item.pitchAngle || "InstaFetch may be relevant to readers looking for a simple Instagram resource.";
+  const seed = hashString(`${item.domain}:${article}:${item.opportunityType}`);
+  const openings = [
+    `I was reading “${article}” and thought one small addition might be useful.`,
+    `I came across “${article}” while looking through Instagram resources and noticed the section on related tools.`,
+    `I found “${article}” while researching Instagram tools and wanted to pass along a resource that may fit the page.`,
+    `Your “${article}” caught my attention because it already covers tools in this space.`,
+    `I was looking at your Instagram resources and came across “${article}”.`,
+  ];
+  const middle = [
+    `${angle} InstaFetch is a simple browser-based option for supported public Instagram media: ${SITE}.`,
+    `InstaFetch is another browser-based option for supported public Instagram media, and it may be worth considering if you update the list: ${SITE}.`,
+    `The reason I’m reaching out is that InstaFetch could give readers another simple option alongside the tools you already mention: ${SITE}.`,
+    `If you are revisiting the article, InstaFetch could be a relevant addition for readers looking for a straightforward web-based option: ${SITE}.`,
+  ];
+  const closings = [
+    `If it doesn't fit the article, no worries at all.`,
+    `Feel free to take a look and decide whether it adds anything useful for your readers.`,
+    `No pressure if it isn't a match for the page.`,
+    `I’ll leave it with you in case it is useful for a future update.`,
+  ];
+  const subjects = [
+    `A possible addition to “${article.slice(0, 65)}”`,
+    `One resource for your Instagram tools article`,
+    `A small suggestion for your Instagram guide`,
+    `Possible addition for your Instagram resource list`,
+    `Resource suggestion for your Instagram article`,
+  ];
+  const greeting = seed % 4 === 0 ? "Hello," : seed % 4 === 1 ? "Hi there," : seed % 4 === 2 ? "Hi," : "Hello there,";
+  const opening = openings[seed % openings.length];
+  const bodyMiddle = middle[(seed >> 3) % middle.length];
+  const closing = closings[(seed >> 5) % closings.length];
+  const subject = subjects[(seed >> 7) % subjects.length];
+
   return {
-    subject: "Possible resource for your Instagram article",
-    body: `Hi there,\n\nI came across “${item.title}” while researching Instagram resources. ${item.pitchAngle}\n\nInstaFetch (${SITE}) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch`,
+    subject,
+    body: `${greeting}\n\n${opening}\n\n${bodyMiddle}\n\n${closing}\n\nThanks,\nInstaFetch`,
+    personalization: {
+      targetDomain: item.domain,
+      articleTitle: article,
+      opportunityType: item.opportunityType,
+      variationSeed: seed,
+      generatedFromTarget: true,
+    },
     createdAt: new Date().toISOString(),
     sent: false,
   };
 }
 
-// Stage 5: verify whether a target currently links to InstaFetch.
 async function verifyBacklink(item) {
   try {
     const response = await fetch(item.url, { redirect: "follow", headers: { "user-agent": "InstaFetch-SEO-Agent/1.0" }, signal: AbortSignal.timeout(10000) });
@@ -87,7 +138,6 @@ async function verifyBacklink(item) {
   }
 }
 
-// Stage 6: learn which opportunity types and quality bands are producing outcomes.
 function buildLearningReport(opportunities, outreach) {
   const groups = {};
   for (const item of opportunities) {
@@ -115,7 +165,6 @@ async function main() {
   const existing = await readJson(OPPORTUNITIES_PATH, []);
   const byUrl = new Map(existing.map((item) => [item.url, item]));
 
-  // Stages 1-2: discovery + qualification.
   for (const query of QUERIES) {
     console.log(`Searching: ${query}`);
     for (const result of await search(query)) {
@@ -132,7 +181,6 @@ async function main() {
   const outreach = await readJson(OUTREACH_PATH, []);
   const outreachByUrl = new Map(outreach.map((item) => [item.url, item]));
 
-  // Stages 3-5: reason-to-link, outreach draft, and backlink verification.
   for (const item of opportunities.filter((x) => x.status === "qualified").slice(0, 50)) {
     if (!item.opportunityType) Object.assign(item, identifyOpportunity(item));
     if (!outreachByUrl.has(item.url)) outreachByUrl.set(item.url, { url: item.url, domain: item.domain, ...createOutreachDraft(item) });

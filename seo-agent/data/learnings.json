@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-14T17:09:23.670Z",
+  "generatedAt": "2026-08-14T17:11:41.270Z",
   "totalOpportunities": 52,
-  "qualified": 40,
-  "outreachDrafts": 27,
+  "qualified": 39,
+  "outreachDrafts": 28,
   "sent": 0,
   "linked": 0,
   "submissionQueue": 0,
@@ -16,7 +16,7 @@
     "editorial-mention": {
       "opportunities": 8,
       "linked": 0,
-      "avgQuality": 71,
+      "avgQuality": 69,
       "linkRate": 0
     },
     "directory-submission": {

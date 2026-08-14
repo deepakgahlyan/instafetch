@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 
 const baseUrl = "https://www.instafetch.app";
-// Sitemap uses the canonical InstaFetch production domain.
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -12,6 +11,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "weekly",
       priority: 1,
+    },
+    {
+      url: `${baseUrl}/instagram-downloader`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/instagram-video-downloader`,

@@ -1,101 +1,108 @@
-"use client";
-
-import { useState } from "react";
-
 const faqs = [
+  {
+    question: "What is InstaFetch?",
+    answer:
+      "InstaFetch is a free online Instagram downloader for supported public Instagram videos, Reels, and photos. It lets users check available media from a supported Instagram URL and download it directly from a web browser.",
+  },
+  {
+    question: "How does InstaFetch work?",
+    answer:
+      "Copy the URL of a supported public Instagram video, Reel, or photo and paste it into the InstaFetch downloader. InstaFetch checks the URL and displays available media when downloadable content is found.",
+  },
+  {
+    question: "Can I download Instagram Reels with InstaFetch?",
+    answer:
+      "Yes. InstaFetch supports downloading supported public Instagram Reels. Copy the Reel URL, paste it into InstaFetch, and download the available media.",
+  },
+  {
+    question: "Can I download Instagram videos with InstaFetch?",
+    answer:
+      "Yes. InstaFetch supports downloading supported public Instagram videos. Paste the video's Instagram URL into the downloader to check whether downloadable media is available.",
+  },
+  {
+    question: "Can I download Instagram photos with InstaFetch?",
+    answer:
+      "Yes. InstaFetch supports downloading supported public Instagram photos when downloadable media is available from the supplied URL.",
+  },
+  {
+    question: "Do I need an Instagram login to use InstaFetch?",
+    answer:
+      "No. InstaFetch is designed to work without requiring users to enter their Instagram username or password.",
+  },
+  {
+    question: "Do I need to install an app to use InstaFetch?",
+    answer:
+      "No. InstaFetch is a browser-based service. You can use it from a supported desktop, tablet, or mobile web browser without installing a dedicated application.",
+  },
   {
     question: "Is InstaFetch free?",
     answer:
-      "Yes. InstaFetch is designed to provide free downloads of supported public Instagram content.",
+      "Yes. InstaFetch is free to use for supported public Instagram media.",
   },
   {
-    question: "Do I need an Instagram account?",
+    question: "Does InstaFetch work on mobile devices?",
     answer:
-      "No. You do not need to log in to InstaFetch to use the downloader.",
+      "Yes. InstaFetch is designed to work through modern mobile web browsers as well as desktop browsers.",
   },
   {
-    question: "What can I download?",
+    question: "Why can't InstaFetch download some Instagram content?",
     answer:
-      "InstaFetch is designed for supported public Instagram videos, reels and photos.",
+      "Not every Instagram URL can be processed. Content may be private, unavailable, unsupported, restricted, or otherwise inaccessible. InstaFetch only provides downloadable media when it can successfully access supported content.",
   },
   {
-    question: "Is my information stored?",
+    question: "Does InstaFetch store my Instagram password?",
     answer:
-      "InstaFetch does not require you to provide your Instagram login credentials.",
+      "No. InstaFetch does not require you to provide an Instagram username or password to use the downloader.",
   },
   {
-    question: "Why isn't my link working?",
+    question: "Is downloading Instagram content allowed?",
     answer:
-      "Make sure you copied a valid public Instagram URL. Private, unavailable, or unsupported content may not be downloadable.",
+      "Users should only download and use content they have permission to save or reuse. Copyright, privacy, and other applicable laws and platform terms can apply to downloaded content. InstaFetch does not grant permission to reuse someone else's content.",
   },
 ];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
     <section
       id="faq"
-      className="mx-auto max-w-4xl px-6 py-32"
+      className="relative mx-auto max-w-5xl px-6 py-24"
     >
-      <div className="mb-16 text-center">
-        <span className="mb-4 inline-block rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-2 text-sm text-violet-400">
-          Questions?
-        </span>
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="text-sm font-semibold uppercase tracking-widest text-violet-400">
+          InstaFetch FAQ
+        </p>
 
-        <h2 className="text-5xl font-bold text-white">
-          Frequently Asked Questions
+        <h2 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-5xl">
+          Frequently asked questions
         </h2>
 
-        <p className="mt-4 text-zinc-400">
-          Everything you need to know about InstaFetch.
+        <p className="mt-5 text-lg leading-8 text-zinc-400">
+          Learn how InstaFetch works, what Instagram content it supports, and
+          what you need to use the downloader.
         </p>
       </div>
 
-      <div className="divide-y divide-zinc-800">
-        {faqs.map((faq, index) => {
-          const isOpen = openIndex === index;
+      <div className="mt-12 space-y-4">
+        {faqs.map((faq) => (
+          <details
+            key={faq.question}
+            className="group rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6"
+          >
+            <summary className="cursor-pointer list-none text-lg font-semibold text-white">
+              <div className="flex items-center justify-between gap-6">
+                <span>{faq.question}</span>
 
-          return (
-            <div key={faq.question}>
-              <button
-                type="button"
-                onClick={() => toggleFAQ(index)}
-                className="flex w-full items-center justify-between py-7 text-left"
-              >
-                <span className="pr-8 text-lg font-semibold text-white">
-                  {faq.question}
-                </span>
-
-                <span
-                  className={`text-2xl text-zinc-500 transition-transform duration-300 ${
-                    isOpen ? "rotate-45" : ""
-                  }`}
-                >
+                <span className="shrink-0 text-2xl text-violet-400 transition-transform group-open:rotate-45">
                   +
                 </span>
-              </button>
-
-              <div
-                className={`grid transition-all duration-300 ${
-                  isOpen
-                    ? "grid-rows-[1fr] opacity-100"
-                    : "grid-rows-[0fr] opacity-0"
-                }`}
-              >
-                <div className="overflow-hidden">
-                  <p className="pb-7 pr-12 leading-7 text-zinc-400">
-                    {faq.answer}
-                  </p>
-                </div>
               </div>
-            </div>
-          );
-        })}
+            </summary>
+
+            <p className="mt-4 max-w-4xl text-sm leading-7 text-zinc-400">
+              {faq.answer}
+            </p>
+          </details>
+        ))}
       </div>
     </section>
   );

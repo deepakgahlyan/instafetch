@@ -66,7 +66,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 <a href="https://smollaunch.com" target="_blank" rel="noopener">
   <img src="https://smollaunch.com/badges/featured.svg" alt="InstaFetch — Featured on Smol Launch" loading="lazy" width="250" height="60" />
 </a>
+
+
 <a href="https://saascity.io" target="_blank" rel="noopener">
   <img src="https://saascity.io/badges/featured-dark.svg" alt="Featured on SaaSCity" width="150" height="54" />
 </a>
->>>>>>> e6e959e (Add Smol Launch featured badge)
+

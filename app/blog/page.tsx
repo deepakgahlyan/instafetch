@@ -1,173 +1,267 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
+
+const siteUrl = "https://www.instafetch.app";
 
 export const metadata: Metadata = {
-  title: "Instagram Downloader Guides & Tips | InstaFetch",
+  title: "Instagram Downloader Guides & Tips",
   description:
-    "Learn how to download public Instagram Reels, videos and photos, understand how InstaFetch works, and get better results from Instagram downloads.",
+    "Learn how to download supported public Instagram videos, Reels, and photos with InstaFetch. Explore Instagram downloader guides, tutorials, and tips.",
   alternates: {
-    canonical: "https://www.instafetch.app/blog",
+    canonical: `${siteUrl}/blog`,
   },
   openGraph: {
     title: "Instagram Downloader Guides & Tips | InstaFetch",
     description:
-      "Practical guides for downloading public Instagram Reels, videos and photos with InstaFetch.",
-    url: "https://www.instafetch.app/blog",
-    type: "website",
+      "Guides and tutorials about downloading supported public Instagram videos, Reels, and photos with InstaFetch.",
+    url: `${siteUrl}/blog`,
     siteName: "InstaFetch",
-  },
-  robots: {
-    index: true,
-    follow: true,
+    type: "website",
   },
 };
 
-const posts = [
+const articles = [
   {
-    slug: "how-to-download-instagram-reels",
-    title: "How to Download Instagram Reels",
-    description:
-      "Learn how to download supported public Instagram Reels from your phone, tablet or computer using a simple browser workflow.",
-    category: "Instagram Reels",
-    readTime: "5 min read",
-  },
-  {
-    slug: "how-instafetch-works",
     title: "How InstaFetch Works",
     description:
-      "Understand how InstaFetch processes a public Instagram URL and prepares supported videos, Reels and photos for download.",
-    category: "How It Works",
-    readTime: "4 min read",
+      "Learn how InstaFetch processes supported public Instagram URLs and how to use the downloader from your browser.",
+    href: "/blog/how-instafetch-works",
+    category: "InstaFetch Guide",
   },
   {
-    slug: "instagram-download-tips",
+    title: "How to Download Instagram Reels",
+    description:
+      "A practical guide to downloading supported public Instagram Reels using a browser-based workflow.",
+    href: "/blog/how-to-download-instagram-reels",
+    category: "Instagram Reels",
+  },
+  {
     title: "Instagram Download Tips",
     description:
-      "Get better results when downloading public Instagram content and learn why some Instagram links may not work.",
+      "Helpful tips for working with supported Instagram video, Reel, and photo URLs and troubleshooting download issues.",
+    href: "/blog/instagram-download-tips",
     category: "Tips",
-    readTime: "5 min read",
   },
 ];
 
-const blogStructuredData = {
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  name: "Instagram Downloader Guides & Tips",
-  description:
-    "Practical guides about downloading public Instagram Reels, videos and photos.",
-  url: "https://www.instafetch.app/blog",
-  isPartOf: {
-    "@type": "WebSite",
-    name: "InstaFetch",
-    url: "https://www.instafetch.app",
-  },
-  mainEntity: {
-    "@type": "ItemList",
-    itemListElement: posts.map((post, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: post.title,
-      url: `https://www.instafetch.app/blog/${post.slug}`,
-    })),
-  },
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${siteUrl}/blog#webpage`,
+      url: `${siteUrl}/blog`,
+      name: "Instagram Downloader Guides & Tips",
+      description:
+        "Guides and tutorials about downloading supported public Instagram videos, Reels, and photos with InstaFetch.",
+      isPartOf: {
+        "@id": `${siteUrl}/#website`,
+      },
+      about: {
+        "@id": `${siteUrl}/#application`,
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${siteUrl}/blog#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "InstaFetch",
+          item: siteUrl,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Blog",
+          item: `${siteUrl}/blog`,
+        },
+      ],
+    },
+  ],
 };
 
 export default function BlogPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-white">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(blogStructuredData),
+          __html: JSON.stringify(structuredData),
         }}
       />
 
-      <header className="border-b border-zinc-800">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <Link href="/" className="text-2xl font-bold">
-            Insta<span className="text-violet-500">Fetch</span>
-          </Link>
+      <main className="min-h-screen bg-zinc-950 text-white">
+        {/* Header */}
+        <section className="mx-auto max-w-5xl px-6 pb-16 pt-24">
+          <div className="text-center">
+            <Link
+              href="/"
+              className="text-sm font-semibold uppercase tracking-[0.2em] text-violet-400"
+            >
+              InstaFetch
+            </Link>
+
+            <h1 className="mt-5 text-4xl font-extrabold tracking-tight md:text-6xl">
+              Instagram Downloader Guides &amp; Tips
+            </h1>
+
+            <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-zinc-400">
+              Learn how InstaFetch works and find practical guides for working
+              with supported public Instagram videos, Reels, and photos.
+            </p>
+          </div>
+        </section>
+
+        {/* Intro */}
+        <section className="mx-auto max-w-4xl px-6 pb-16">
+          <div className="rounded-3xl border border-violet-500/20 bg-violet-500/5 p-8 md:p-10">
+            <h2 className="text-2xl font-bold">
+              About the InstaFetch blog
+            </h2>
+
+            <p className="mt-4 leading-8 text-zinc-300">
+              InstaFetch is a browser-based Instagram downloader for supported
+              public Instagram videos, Reels, and photos. This blog provides
+              guides that explain how the service works, how to use it, and
+              what to do when an Instagram URL cannot be processed.
+            </p>
+
+            <p className="mt-4 leading-8 text-zinc-400">
+              Our guides focus on straightforward answers and practical steps
+              rather than unnecessary technical information.
+            </p>
+          </div>
+        </section>
+
+        {/* Articles */}
+        <section className="mx-auto max-w-6xl px-6 py-16">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-widest text-violet-400">
+              Guides
+            </p>
+
+            <h2 className="mt-3 text-3xl font-bold md:text-4xl">
+              Latest InstaFetch guides
+            </h2>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {articles.map((article) => (
+              <article
+                key={article.href}
+                className="flex flex-col rounded-3xl border border-zinc-800 bg-zinc-900/60 p-7"
+              >
+                <span className="text-xs font-semibold uppercase tracking-wider text-violet-400">
+                  {article.category}
+                </span>
+
+                <h3 className="mt-4 text-xl font-semibold">
+                  {article.title}
+                </h3>
+
+                <p className="mt-3 flex-1 text-sm leading-7 text-zinc-400">
+                  {article.description}
+                </p>
+
+                <Link
+                  href={article.href}
+                  className="mt-6 text-sm font-semibold text-violet-400 hover:text-violet-300"
+                >
+                  Read guide →
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* Topic hub */}
+        <section className="mx-auto max-w-5xl px-6 py-16">
+          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8 md:p-10">
+            <h2 className="text-2xl font-bold md:text-3xl">
+              Instagram downloader resources
+            </h2>
+
+            <p className="mt-4 leading-8 text-zinc-400">
+              Looking for a specific InstaFetch downloader? Use the dedicated
+              pages below for supported Instagram videos, Reels, and photos.
+            </p>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              <Link
+                href="/instagram-video-downloader"
+                className="rounded-2xl border border-zinc-800 bg-zinc-950/70 p-5 transition hover:border-violet-500/50"
+              >
+                <h3 className="font-semibold">
+                  Instagram Video Downloader
+                </h3>
+
+                <p className="mt-2 text-sm text-zinc-400">
+                  Download supported public Instagram videos.
+                </p>
+
+                <span className="mt-4 inline-block text-sm font-semibold text-violet-400">
+                  Open tool →
+                </span>
+              </Link>
+
+              <Link
+                href="/instagram-reels-downloader"
+                className="rounded-2xl border border-zinc-800 bg-zinc-950/70 p-5 transition hover:border-violet-500/50"
+              >
+                <h3 className="font-semibold">
+                  Instagram Reels Downloader
+                </h3>
+
+                <p className="mt-2 text-sm text-zinc-400">
+                  Download supported public Instagram Reels.
+                </p>
+
+                <span className="mt-4 inline-block text-sm font-semibold text-violet-400">
+                  Open tool →
+                </span>
+              </Link>
+
+              <Link
+                href="/instagram-photo-downloader"
+                className="rounded-2xl border border-zinc-800 bg-zinc-950/70 p-5 transition hover:border-violet-500/50"
+              >
+                <h3 className="font-semibold">
+                  Instagram Photo Downloader
+                </h3>
+
+                <p className="mt-2 text-sm text-zinc-400">
+                  Download supported public Instagram photos.
+                </p>
+
+                <span className="mt-4 inline-block text-sm font-semibold text-violet-400">
+                  Open tool →
+                </span>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="mx-auto max-w-4xl px-6 pb-24 pt-12 text-center">
+          <h2 className="text-3xl font-bold md:text-4xl">
+            Ready to use InstaFetch?
+          </h2>
+
+          <p className="mx-auto mt-4 max-w-2xl leading-7 text-zinc-400">
+            Use the InstaFetch Instagram downloader to check supported public
+            videos, Reels, and photos.
+          </p>
 
           <Link
             href="/"
-            className="text-sm text-zinc-400 transition hover:text-white"
+            className="mt-7 inline-flex rounded-2xl bg-gradient-to-r from-violet-600 to-pink-600 px-8 py-4 font-semibold text-white transition hover:scale-105"
           >
-            Back Home
+            Open InstaFetch
           </Link>
-        </div>
-      </header>
-
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-block rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-2 text-sm text-violet-400">
-            InstaFetch Blog
-          </span>
-
-          <h1 className="mt-6 text-4xl font-bold tracking-tight md:text-5xl">
-            Instagram Downloader Guides & Tips
-          </h1>
-
-          <p className="mt-5 text-lg leading-8 text-zinc-400">
-            Practical guides for downloading supported public Instagram
-            Reels, videos and photos, understanding how InstaFetch works, and
-            getting better results from your downloads.
-          </p>
-        </div>
-
-        <div className="mt-16 grid gap-8 md:grid-cols-3">
-          {posts.map((post) => (
-            <article
-              key={post.slug}
-              className="flex flex-col rounded-3xl border border-zinc-800 bg-zinc-900/60 p-8 transition duration-300 hover:-translate-y-1 hover:border-violet-500/40"
-            >
-              <div className="mb-6 flex h-32 items-end rounded-2xl bg-gradient-to-br from-violet-600/30 to-pink-600/20 p-5">
-                <span className="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs text-zinc-300">
-                  {post.category}
-                </span>
-              </div>
-
-              <h2 className="text-2xl font-bold tracking-tight">
-                {post.title}
-              </h2>
-
-              <p className="mt-4 flex-1 leading-7 text-zinc-400">
-                {post.description}
-              </p>
-
-              <div className="mt-6 flex items-center justify-between">
-                <span className="text-xs text-zinc-500">
-                  {post.readTime}
-                </span>
-
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="text-sm font-semibold text-violet-400 transition hover:text-violet-300"
-                >
-                  Read article →
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="mx-auto mt-20 max-w-3xl rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8 text-center">
-          <h2 className="text-2xl font-bold">
-            Ready to download a public Instagram post?
-          </h2>
-
-          <p className="mt-3 text-zinc-400">
-            Paste a supported Instagram URL into InstaFetch and see whether
-            downloadable media is available.
-          </p>
-
-          <Link
-            href="/#download"
-            className="mt-6 inline-flex rounded-full bg-gradient-to-r from-violet-600 to-pink-600 px-6 py-3 font-semibold text-white transition hover:scale-105"
-          >
-            Open InstaFetch Downloader
-          </Link>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </>
   );
 }

@@ -15,7 +15,8 @@
     "createdAt": "2026-08-14T17:11:14.755Z",
     "sent": false,
     "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-14T17:11:41.267Z"
+    "contactCheckedAt": "2026-08-14T17:11:41.267Z",
+    "sendError": "Cloudflare sending is not configured"
   },
   {
     "url": "https://cocosolution.com/en/blog/social-media-tools",
@@ -224,16 +225,6 @@
     "sent": false
   },
   {
-    "url": "https://www.hootsuite.com/social-media-tools",
-    "domain": "hootsuite.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Best Free Social Media Tools for Growth & Engagement” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:15.431Z",
-    "sent": false,
-    "to": "supportresponse@hootsuite.com",
-    "sendError": "Cloudflare sending is not configured"
-  },
-  {
     "url": "https://emplifi.io/resources/blog/instagram-marketing",
     "domain": "emplifi.io",
     "subject": "Possible resource for your Instagram article",
@@ -320,15 +311,5 @@
     "body": "Hi there,\n\nI came across “Instagram Downloader - Thumbnail, Video, Reels, Photo, Story, Highlight” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
     "createdAt": "2026-08-14T16:00:04.013Z",
     "sent": false
-  },
-  {
-    "url": "https://curator.io/blog/instagram-marketing-tools",
-    "domain": "curator.io",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “28 Types of Instagram Marketing Tools (With Top Options for ...” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:03.438Z",
-    "sent": false,
-    "to": "support@curator.io",
-    "sendError": "Cloudflare sending is not configured"
   }
 ]

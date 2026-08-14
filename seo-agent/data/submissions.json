@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "url": "https://curator.io/blog/instagram-marketing-tools",
+    "domain": "curator.io",
+    "sourcePage": "https://curator.io/blog/instagram-marketing-tools",
+    "listingName": "InstaFetch",
+    "websiteUrl": "https://www.instafetch.app",
+    "description": "InstaFetch is a simple web-based tool for downloading supported public Instagram videos and Reels.",
+    "category": "Social Media Tools",
+    "tags": [
+      "Instagram downloader",
+      "Instagram Reels downloader",
+      "social media tools",
+      "video downloader"
+    ],
+    "opportunityType": "directory-submission",
+    "qualityScore": 84,
+    "status": "ready_for_review",
+    "automationNote": "Prepared for manual review. Do not submit where CAPTCHA, account creation, payment, or deceptive automation is required.",
+    "createdAt": "2026-08-14T17:23:35.334Z"
+  }
+]

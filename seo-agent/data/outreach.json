@@ -28,7 +28,11 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T16:44:00.258Z",
-    "sent": false
+    "sent": false,
+    "to": "hello@socialpilot.co",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T17:08:25.763Z",
+    "sendError": "Cloudflare sending is not configured"
   },
   {
     "url": "https://www.mariahmagazine.com/instagram-tools-resource-list",
@@ -43,22 +47,11 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T16:43:59.018Z",
-    "sent": false
-  },
-  {
-    "url": "https://creators.instagram.com/reels",
-    "domain": "creators.instagram.com",
-    "subject": "A small suggestion for your Instagram guide",
-    "body": "Hi,\n\nI came across “Level Up with Instagram Reels | Instagram for Creators” while looking through Instagram resources and noticed the section on related tools.\n\nIf you are revisiting the article, InstaFetch could be a relevant addition for readers looking for a straightforward web-based option: https://www.instafetch.app.\n\nNo pressure if it isn't a match for the page.\n\nThanks,\nInstaFetch",
-    "personalization": {
-      "targetDomain": "creators.instagram.com",
-      "articleTitle": "Level Up with Instagram Reels | Instagram for Creators",
-      "opportunityType": "resource-page",
-      "variationSeed": 2054708186,
-      "generatedFromTarget": true
-    },
-    "createdAt": "2026-08-14T16:43:57.791Z",
-    "sent": false
+    "sent": false,
+    "to": "mariah@mariahmagazine.com",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T17:08:29.982Z",
+    "sendError": "Cloudflare sending is not configured"
   },
   {
     "url": "https://alextooby.com/instagram-tools",
@@ -73,36 +66,6 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T16:43:55.093Z",
-    "sent": false
-  },
-  {
-    "url": "https://www.facebookblueprint.com/student/page/412177-resources-for-creators",
-    "domain": "facebookblueprint.com",
-    "subject": "Resource suggestion for your Instagram article",
-    "body": "Hello there,\n\nI came across “Resources for Creators : Learn new skills to build your brand or business” while looking through Instagram resources and noticed the section on related tools.\n\nThe reason I’m reaching out is that InstaFetch could give readers another simple option alongside the tools you already mention: https://www.instafetch.app.\n\nIf it doesn't fit the article, no worries at all.\n\nThanks,\nInstaFetch",
-    "personalization": {
-      "targetDomain": "facebookblueprint.com",
-      "articleTitle": "Resources for Creators : Learn new skills to build your brand or business",
-      "opportunityType": "resource-page",
-      "variationSeed": 393785491,
-      "generatedFromTarget": true
-    },
-    "createdAt": "2026-08-14T16:43:53.855Z",
-    "sent": false
-  },
-  {
-    "url": "https://chromewebstore.google.com/detail/cbnmngfnpibbjobleaghjkdlibjhphlf",
-    "domain": "chromewebstore.google.com",
-    "subject": "A small suggestion for your Instagram guide",
-    "body": "Hi,\n\nI came across “Instagram Downloader - Download Instagram Video, Story, Reels & Photo - Chrome Web Store” while looking through Instagram resources and noticed the section on related tools.\n\nInstaFetch is another browser-based option for supported public Instagram media, and it may be worth considering if you update the list: https://www.instafetch.app.\n\nI’ll leave it with you in case it is useful for a future update.\n\nThanks,\nInstaFetch",
-    "personalization": {
-      "targetDomain": "chromewebstore.google.com",
-      "articleTitle": "Instagram Downloader - Download Instagram Video, Story, Reels & Photo - Chrome Web Store",
-      "opportunityType": "editorial-mention",
-      "variationSeed": 1926914286,
-      "generatedFromTarget": true
-    },
-    "createdAt": "2026-08-14T16:43:53.528Z",
     "sent": false
   },
   {
@@ -138,23 +101,6 @@
     "sent": false
   },
   {
-    "url": "https://www.miracamp.com/learn/content-creation/becoming-a-successful",
-    "domain": "miracamp.com",
-    "subject": "A small suggestion for your Instagram guide",
-    "body": "Hello,\n\nYour “Become Instagram Creator” caught my attention because it already covers tools in this space.\n\nThe reason I’m reaching out is that InstaFetch could give readers another simple option alongside the tools you already mention: https://www.instafetch.app.\n\nFeel free to take a look and decide whether it adds anything useful for your readers.\n\nThanks,\nInstaFetch",
-    "personalization": {
-      "targetDomain": "miracamp.com",
-      "articleTitle": "Become Instagram Creator",
-      "opportunityType": "resource-page",
-      "variationSeed": 534817588,
-      "generatedFromTarget": true
-    },
-    "createdAt": "2026-08-14T16:43:52.273Z",
-    "sent": false,
-    "to": "contact@miracamp.com",
-    "sendError": "Cloudflare sending is not configured"
-  },
-  {
     "url": "https://www.outfame.com/free-instagram-tools/instagram-downloader",
     "domain": "outfame.com",
     "subject": "One resource for your Instagram tools article",
@@ -172,36 +118,16 @@
     "sendError": "Cloudflare sending is not configured"
   },
   {
-    "url": "https://collabstr.com/instagram-reels-downloader",
-    "domain": "collabstr.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Free Instagram Reels Downloader” while researching Instagram resources. Check whether the page contains an outdated or broken Instagram download reference that InstaFetch could legitimately replace.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:24.118Z",
-    "sent": false
-  },
-  {
-    "url": "https://fastvideosave.net",
-    "domain": "fastvideosave.net",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Instagram Reels Downloader — Save Reels & Videos” while researching Instagram resources. Check whether the page contains an outdated or broken Instagram download reference that InstaFetch could legitimately replace.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:23.931Z",
-    "sent": false
-  },
-  {
-    "url": "https://play.google.com/store/apps/details?id=instagram.video.downloader.story.saver.ig.insaver&hl=en_US",
-    "domain": "play.google.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Video Downloader & Story Saver - Apps on Google Play” while researching Instagram resources. Offer InstaFetch as a practical resource for creators who need a simple way to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:23.772Z",
-    "sent": false
-  },
-  {
     "url": "https://www.shopify.com/blog/instagram-tools",
     "domain": "shopify.com",
     "subject": "Possible resource for your Instagram article",
     "body": "Hi there,\n\nI came across “15 Expert-Approved Instagram Tools For 2026” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
     "createdAt": "2026-08-14T16:00:23.650Z",
-    "sent": false
+    "sent": false,
+    "to": "plus@shopify.com",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T17:08:38.265Z",
+    "sendError": "Cloudflare sending is not configured"
   },
   {
     "url": "https://planable.io/blog/instagram-tools",
@@ -209,31 +135,11 @@
     "subject": "Possible resource for your Instagram article",
     "body": "Hi there,\n\nI came across “21 must-have Instagram tools to scale your business in 2026” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
     "createdAt": "2026-08-14T16:00:23.235Z",
-    "sent": false
-  },
-  {
-    "url": "https://www.youtube.com/watch?v=QjPzTJML1wQ&vl=en",
-    "domain": "youtube.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “How to Download Instagram Reels and Videos!” while researching Instagram resources. Offer InstaFetch as a relevant example where the article already discusses Instagram download workflows.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:22.504Z",
-    "sent": false
-  },
-  {
-    "url": "https://tynmagazine.com/best-instagram-downloaders-in-2026-top-tools-reviewed-compared",
-    "domain": "tynmagazine.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Best Instagram downloaders in 2026 (Top tools reviewed & ...” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:22.442Z",
-    "sent": false
-  },
-  {
-    "url": "https://www.instagram.com/popular/instagram-video-downloader-tool-comparison",
-    "domain": "instagram.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Instagram Video Downloader Tool Comparison” while researching Instagram resources. Offer InstaFetch as a relevant example where the article already discusses Instagram download workflows.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:21.772Z",
-    "sent": false
+    "sent": false,
+    "to": "hello@planable.io",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T17:08:39.016Z",
+    "sendError": "Cloudflare sending is not configured"
   },
   {
     "url": "https://madgicx.com/blog/instagram-management-tools",
@@ -249,15 +155,11 @@
     "subject": "Possible resource for your Instagram article",
     "body": "Hi there,\n\nI came across “15 Instagram marketing tools for your brand in 2026” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
     "createdAt": "2026-08-14T16:00:20.575Z",
-    "sent": false
-  },
-  {
-    "url": "https://www.instagram.com/creators",
-    "domain": "instagram.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Instagram's @Creators (@creators)” while researching Instagram resources. Offer InstaFetch as a relevant example where the article already discusses Instagram download workflows.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:20.298Z",
-    "sent": false
+    "sent": false,
+    "to": "info@sproutsocial.com",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T16:58:02.042Z",
+    "sendError": "Cloudflare sending is not configured"
   },
   {
     "url": "https://bloggingwizard.com/instagram-tools",
@@ -281,7 +183,11 @@
     "subject": "Possible resource for your Instagram article",
     "body": "Hi there,\n\nI came across “Instagram Reel Downloader | Inflact®” while researching Instagram resources. Offer InstaFetch as a relevant example where the article already discusses Instagram download workflows.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
     "createdAt": "2026-08-14T16:00:17.209Z",
-    "sent": false
+    "sent": false,
+    "to": "hello@inflact.com",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T17:09:05.321Z",
+    "sendError": "Cloudflare sending is not configured"
   },
   {
     "url": "https://snapinsta.to/en45/instagram-reels-downloader",
@@ -300,22 +206,6 @@
     "sent": false
   },
   {
-    "url": "https://creators.instagram.com/create-engaging-content",
-    "domain": "creators.instagram.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Create Engaging Content” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:15.934Z",
-    "sent": false
-  },
-  {
-    "url": "https://pixpretty.tenorshare.ai/social-media/instagram-video-downloader-list-review.html",
-    "domain": "pixpretty.tenorshare.ai",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “12 Instagram Post & Video Downloader Tested: Best Picks 2026” while researching Instagram resources. Offer InstaFetch as a relevant example where the article already discusses Instagram download workflows.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:15.722Z",
-    "sent": false
-  },
-  {
     "url": "https://www.hootsuite.com/social-media-tools",
     "domain": "hootsuite.com",
     "subject": "Possible resource for your Instagram article",
@@ -331,23 +221,11 @@
     "subject": "Possible resource for your Instagram article",
     "body": "Hi there,\n\nI came across “Easy Instagram Marketing Strategies That Work” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
     "createdAt": "2026-08-14T16:00:14.730Z",
-    "sent": false
-  },
-  {
-    "url": "https://creators.instagram.com/how-to-grow",
-    "domain": "creators.instagram.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “How to Grow - Instagram for Creators” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:14.232Z",
-    "sent": false
-  },
-  {
-    "url": "https://creators.instagram.com/support-resources?locale=en_US",
-    "domain": "creators.instagram.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Creators Support Resources | Instagram for Creators” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:13.501Z",
-    "sent": false
+    "sent": false,
+    "to": "marketing@emplifi.io",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T17:09:15.660Z",
+    "sendError": "Cloudflare sending is not configured"
   },
   {
     "url": "https://www.dreamgrow.com/instagram-tools",
@@ -355,7 +233,11 @@
     "subject": "Possible resource for your Instagram article",
     "body": "Hi there,\n\nI came across “The 13 Best Instagram Tools (My Personal Fast Growth Stack)” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
     "createdAt": "2026-08-14T16:00:12.351Z",
-    "sent": false
+    "sent": false,
+    "to": "editors@dreamgrow.com",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T17:09:19.479Z",
+    "sendError": "Cloudflare sending is not configured"
   },
   {
     "url": "https://sproutsocial.com/insights/creator-tools",
@@ -376,24 +258,6 @@
     "sent": false
   },
   {
-    "url": "https://github.com/instaloader/instaloader",
-    "domain": "github.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “GitHub - instaloader/instaloader: Download pictures (or videos) along with their captions and other metadata from Instagram. · GitHub” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:10.759Z",
-    "sent": false,
-    "to": "privacy@github.com",
-    "sendError": "Cloudflare sending is not configured"
-  },
-  {
-    "url": "https://chromewebstore.google.com/detail/turbo-downloader-for-inst/cpgaheeihidjmolbakklolchdplenjai?hl=en",
-    "domain": "chromewebstore.google.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Turbo Downloader for Instagram - Chrome Web Store” while researching Instagram resources. Offer InstaFetch as a relevant example where the article already discusses Instagram download workflows.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:10.559Z",
-    "sent": false
-  },
-  {
     "url": "https://buffer.com/resources/best-social-media-management-tools",
     "domain": "buffer.com",
     "subject": "Possible resource for your Instagram article",
@@ -402,32 +266,6 @@
     "sent": false,
     "to": "hello@buffer.com",
     "sendError": "Cloudflare sending is not configured"
-  },
-  {
-    "url": "https://www.hubspot.com/instagram-marketing",
-    "domain": "hubspot.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Instagram Marketing: The Ultimate Guide” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:09.859Z",
-    "sent": false,
-    "to": "billing@hubspot.com",
-    "sendError": "Cloudflare sending is not configured"
-  },
-  {
-    "url": "https://creators.instagram.com/blog",
-    "domain": "creators.instagram.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Find the Best Tips and Tricks from Instagram” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:08.628Z",
-    "sent": false
-  },
-  {
-    "url": "https://creators.facebook.com/blog/instagram-creator-guide",
-    "domain": "creators.facebook.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Instagram Creator Guide | Meta For ...” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:07.520Z",
-    "sent": false
   },
   {
     "url": "https://keepcalmandchiffon.com/blog/best-apps",
@@ -466,14 +304,6 @@
     "sent": false
   },
   {
-    "url": "https://videoconverter.wondershare.com/video-converters/instagram-feed-downloader.html",
-    "domain": "videoconverter.wondershare.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Top 10 Instagram Feed Downloaders 2026: Safe & Fast Tools” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:03.796Z",
-    "sent": false
-  },
-  {
     "url": "https://curator.io/blog/instagram-marketing-tools",
     "domain": "curator.io",
     "subject": "Possible resource for your Instagram article",
@@ -482,23 +312,5 @@
     "sent": false,
     "to": "support@curator.io",
     "sendError": "Cloudflare sending is not configured"
-  },
-  {
-    "url": "https://opsmatters.com/posts/best-instagram-downloaders-2026-complete-comparison-guide",
-    "domain": "opsmatters.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Best Instagram Downloaders in 2026 (Complete Comparison Guide) | OpsMatters” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:02.900Z",
-    "sent": false,
-    "to": "enquiries@opsmatters.com",
-    "sendError": "Cloudflare sending is not configured"
-  },
-  {
-    "url": "https://chromewebstore.google.com/detail/reel-downloader-for-insta/clbmpindgjghmmjnimonbacdodbdnnkj",
-    "domain": "chromewebstore.google.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Reel Downloader for Instagram - FastReel - Chrome Web Store” while researching Instagram resources. Offer InstaFetch as a relevant example where the article already discusses Instagram download workflows.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:02.683Z",
-    "sent": false
   }
 ]

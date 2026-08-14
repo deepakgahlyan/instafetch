@@ -2,6 +2,9 @@ name: InstaFetch SEO Agent
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - develop
   schedule:
     - cron: "17 6 * * *"
 
@@ -48,8 +51,6 @@ jobs:
 
           git commit -m "Update SEO agent intelligence"
 
-          # The develop branch may receive unrelated commits while discovery runs.
-          # Rebase the generated commit onto the latest remote branch before pushing.
           for attempt in 1 2 3; do
             git fetch origin develop
             git rebase origin/develop || {

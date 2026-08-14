@@ -1,27 +1,28 @@
 {
-  "generatedAt": "2026-08-14T16:44:01.107Z",
-  "totalOpportunities": 57,
+  "generatedAt": "2026-08-14T16:51:10.152Z",
+  "totalOpportunities": 68,
   "qualified": 49,
-  "outreachDrafts": 49,
+  "outreachDrafts": 50,
   "sent": 0,
   "linked": 0,
+  "submissionQueue": 0,
   "byOpportunityType": {
-    "editorial-mention": {
-      "opportunities": 11,
+    "resource-page": {
+      "opportunities": 36,
       "linked": 0,
-      "avgQuality": 79,
+      "avgQuality": 78,
       "linkRate": 0
     },
-    "resource-page": {
-      "opportunities": 35,
+    "editorial-mention": {
+      "opportunities": 12,
       "linked": 0,
-      "avgQuality": 80,
+      "avgQuality": 75,
       "linkRate": 0
     },
     "unknown": {
-      "opportunities": 8,
+      "opportunities": 18,
       "linked": 0,
-      "avgQuality": 66,
+      "avgQuality": 64,
       "linkRate": 0
     },
     "creator-resource": {
@@ -31,9 +32,9 @@
       "linkRate": 0
     },
     "broken-link-candidate": {
-      "opportunities": 2,
+      "opportunities": 1,
       "linked": 0,
-      "avgQuality": 67,
+      "avgQuality": 65,
       "linkRate": 0
     }
   },

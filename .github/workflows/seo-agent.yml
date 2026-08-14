@@ -16,7 +16,7 @@ env:
   OUTREACH_FROM: "hello@instafetch.app"
   OUTREACH_REPLY_TO: "hello@instafetch.app"
   OUTREACH_DAILY_LIMIT: "3"
-  SEO_AGENT_SEND_EMAILS: "false"
+  SEO_AGENT_SEND_EMAILS: "true"
 
 concurrency:
   group: instafetch-seo-agent

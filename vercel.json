@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/seo-agent/discover",
+      "schedule": "0 6 * * *"
+    }
+  ]
+}

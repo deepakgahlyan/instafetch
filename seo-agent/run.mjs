@@ -1,17 +1,18 @@
-const SITE = "https://www.instafetch.app";
+import { readFile, writeFile } from "node:fs/promises";
+
 const API_URL = "https://api.tavily.com/search";
 const MAX_RESULTS_PER_QUERY = 6;
 const MAX_STORED = 500;
 
 const QUERIES = [
-  'Instagram downloader tools',
-  'Instagram Reels downloader tools',
-  'best Instagram tools for creators',
-  'Instagram creator resources',
-  'Instagram marketing tools',
-  'social media tools Instagram',
-  'Instagram downloader comparison',
-  'how to download Instagram Reels',
+  "Instagram downloader tools",
+  "Instagram Reels downloader tools",
+  "best Instagram tools for creators",
+  "Instagram creator resources",
+  "Instagram marketing tools",
+  "social media tools Instagram",
+  "Instagram downloader comparison",
+  "how to download Instagram Reels",
 ];
 
 const SPAM_WORDS = [
@@ -42,8 +43,9 @@ function scoreCandidate(item) {
   const ownSite = domain === "instafetch.app";
   const quality = Math.round(relevance * 0.5 + editorial * 0.35 + (100 - spamRisk) * 0.15);
 
-  let status = "rejected";
-  if (!ownSite && spamRisk < 25 && relevance >= 55 && quality >= 65) status = "qualified";
+  const status = !ownSite && spamRisk < 25 && relevance >= 55 && quality >= 65
+    ? "qualified"
+    : "rejected";
 
   return {
     url: item.url,
@@ -87,7 +89,13 @@ async function search(query) {
 
 async function main() {
   const existingPath = "seo-agent/data/opportunities.json";
-  const existing = JSON.parse(await Bun.file(existingPath).text().catch(() => "[]"));
+  let existing = [];
+  try {
+    existing = JSON.parse(await readFile(existingPath, "utf8"));
+  } catch {
+    existing = [];
+  }
+
   const byUrl = new Map(existing.map((item) => [item.url, item]));
 
   for (const query of QUERIES) {
@@ -111,11 +119,10 @@ async function main() {
     .sort((a, b) => b.qualityScore - a.qualityScore)
     .slice(0, MAX_STORED);
 
-  await Bun.write(existingPath, JSON.stringify(opportunities, null, 2) + "\n");
+  await writeFile(existingPath, JSON.stringify(opportunities, null, 2) + "\n");
 
   const qualified = opportunities.filter((item) => item.status === "qualified");
   console.log(`Stored ${opportunities.length} opportunities; ${qualified.length} currently qualified.`);
-  console.log("Top qualified opportunities:");
   for (const item of qualified.slice(0, 10)) {
     console.log(`- ${item.qualityScore}/100 ${item.domain} ${item.url}`);
   }

@@ -13,9 +13,16 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-15T18:33:50.095Z",
-    "sent": false,
+    "sent": true,
     "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-15T18:34:29.216Z"
+    "contactCheckedAt": "2026-08-15T18:34:29.216Z",
+    "sentAt": "2026-08-15T18:38:36.201Z",
+    "delivery": {
+      "message_id": "<nN4z3923bigGLKSgsosnSMdE41EsaGd2UcH5@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://popularpays.com/blog/instagram-content-creator",
@@ -31,9 +38,16 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-15T18:33:50.095Z",
-    "sent": false,
+    "sent": true,
     "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-15T18:34:30.913Z"
+    "contactCheckedAt": "2026-08-15T18:34:30.913Z",
+    "sentAt": "2026-08-15T18:38:36.869Z",
+    "delivery": {
+      "message_id": "<NRWh6TDqYeIJgK2LhAyrMuEZ8NPnuGpEis7O@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://www.hubspot.com/instagram-marketing",
@@ -49,9 +63,16 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-15T07:02:34.047Z",
-    "sent": false,
+    "sent": true,
     "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-15T07:03:11.849Z"
+    "contactCheckedAt": "2026-08-15T07:03:11.849Z",
+    "sentAt": "2026-08-15T18:38:34.932Z",
+    "delivery": {
+      "message_id": "<LezRR6X9SlKNYul0GwEv4xvM3tDiw6EMAD8C@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://publer.com/tools/instagram-reel-downloader",
@@ -67,9 +88,16 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-15T07:02:34.047Z",
-    "sent": false,
+    "sent": true,
     "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-15T07:03:20.016Z"
+    "contactCheckedAt": "2026-08-15T07:03:20.016Z",
+    "sentAt": "2026-08-15T18:38:35.633Z",
+    "delivery": {
+      "message_id": "<swdexbIulZ9ZczUw5w8gYHMr6QQ40dJJ9iUc@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://videoconverter.wondershare.com/video-converters/instagram-feed-downloader.html",
@@ -101,9 +129,16 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T17:59:27.958Z",
-    "sent": false,
+    "sent": true,
     "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-14T18:00:04.058Z"
+    "contactCheckedAt": "2026-08-14T18:00:04.058Z",
+    "sentAt": "2026-08-15T18:38:33.729Z",
+    "delivery": {
+      "message_id": "<bscbxPX2vTIRrf7JZQlRToITwxsYfyUtwKP9@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://www.hootsuite.com/social-media-tools",
@@ -119,9 +154,16 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T17:59:27.958Z",
-    "sent": false,
+    "sent": true,
     "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-14T18:00:06.763Z"
+    "contactCheckedAt": "2026-08-14T18:00:06.763Z",
+    "sentAt": "2026-08-15T18:38:34.283Z",
+    "delivery": {
+      "message_id": "<2QeFyUY7gidIVtaYGIw1mZqYfTr9q4g4Pq08@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://opsmatters.com/posts/best-instagram-downloaders-2026-complete-comparison-guide",
@@ -137,10 +179,16 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T17:11:14.755Z",
-    "sent": false,
+    "sent": true,
     "contactSource": "public-site-or-search",
     "contactCheckedAt": "2026-08-14T17:11:41.267Z",
-    "sendError": "Cloudflare sending is not configured"
+    "sentAt": "2026-08-15T18:38:33.167Z",
+    "delivery": {
+      "message_id": "<9eITNdKXAN5YaE2slH3vQs45GnKbx7LrrY7d@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://cocosolution.com/en/blog/social-media-tools",
@@ -171,11 +219,17 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T16:44:00.258Z",
-    "sent": false,
+    "sent": true,
     "to": "hello@socialpilot.co",
     "contactSource": "public-site-or-search",
     "contactCheckedAt": "2026-08-14T17:08:25.763Z",
-    "sendError": "Cloudflare sending is not configured"
+    "sentAt": "2026-08-15T18:38:32.534Z",
+    "delivery": {
+      "message_id": "<w98MWllRKCwRCl7faxHh8g4bZaFF6VVYC3zd@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://www.mariahmagazine.com/instagram-tools-resource-list",
@@ -190,11 +244,17 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T16:43:59.018Z",
-    "sent": false,
+    "sent": true,
     "to": "mariah@mariahmagazine.com",
     "contactSource": "public-site-or-search",
     "contactCheckedAt": "2026-08-14T17:08:29.982Z",
-    "sendError": "Cloudflare sending is not configured"
+    "sentAt": "2026-08-15T18:38:31.981Z",
+    "delivery": {
+      "message_id": "<z0TitQlfiVrrt1SkebMH1TN8GwzrgUkKZvK7@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://alextooby.com/instagram-tools",
@@ -209,7 +269,17 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T16:43:55.093Z",
-    "sent": false
+    "sent": true,
+    "to": "hello@alextooby.com",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-15T18:37:10.888Z",
+    "sentAt": "2026-08-15T18:38:31.297Z",
+    "delivery": {
+      "message_id": "<xE7A8oobe0xn3HyvJ5r4a6clNZXO4MsZJNeQ@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://downreels.com/en1",
@@ -224,9 +294,15 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T16:43:53.301Z",
-    "sent": false,
+    "sent": true,
     "to": "contact@downreels.com",
-    "sendError": "Cloudflare sending is not configured"
+    "sentAt": "2026-08-15T18:38:30.688Z",
+    "delivery": {
+      "message_id": "<zSz684ciUoAbKCrZYPEZvgVfE7i9Lo06HzkH@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://anonsaver.com/en1",
@@ -256,9 +332,15 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-14T16:43:52.067Z",
-    "sent": false,
+    "sent": true,
     "to": "support@outfame.com",
-    "sendError": "Cloudflare sending is not configured"
+    "sentAt": "2026-08-15T18:38:30.093Z",
+    "delivery": {
+      "message_id": "<OzmnlDYMNYbUH46DZeA0DJqR3RYZhhz9CF6u@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://www.shopify.com/blog/instagram-tools",

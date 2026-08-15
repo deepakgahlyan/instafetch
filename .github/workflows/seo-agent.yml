@@ -15,7 +15,7 @@ env:
   CLOUDFLARE_ACCOUNT_ID: "5e3f1d814dee7c9581bec76a505b6946"
   OUTREACH_FROM: "hello@instafetch.app"
   OUTREACH_REPLY_TO: "hello@instafetch.app"
-  OUTREACH_DAILY_LIMIT: "3"
+  OUTREACH_DAILY_LIMIT: "200"
   SEO_AGENT_SEND_EMAILS: "true"
 
 concurrency:

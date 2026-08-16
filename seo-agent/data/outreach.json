@@ -1,5 +1,46 @@
 [
   {
+    "url": "https://blog.coupler.io/instagram-marketing-tools",
+    "domain": "blog.coupler.io",
+    "to": null,
+    "subject": "A small suggestion for your Instagram guide",
+    "body": "Hello,\n\nI was reading “Best Instagram Marketing Tools for Growth in 2026 | Coupler.io Blog” and thought one small addition might be useful.\n\nIf you are revisiting the article, InstaFetch could be a relevant addition for readers looking for a straightforward web-based option: https://www.instafetch.app.\n\nIf it doesn't fit the article, no worries at all.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "blog.coupler.io",
+      "articleTitle": "Best Instagram Marketing Tools for Growth in 2026 | Coupler.io Blog",
+      "opportunityType": "resource-page",
+      "variationSeed": 1906674200,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-08-16T06:36:44.757Z",
+    "sent": false
+  },
+  {
+    "url": "https://curator.io/blog/instagram-marketing-tools",
+    "domain": "curator.io",
+    "to": "support@curator.io",
+    "subject": "Possible addition for your Instagram resource list",
+    "body": "Hi there,\n\nI came across “28 Types of Instagram Marketing Tools (With Top Options for ...” while looking through Instagram resources and noticed the section on related tools.\n\nOffer InstaFetch as an additional free tool for readers who need to save supported public Instagram media. InstaFetch is a simple browser-based option for supported public Instagram media: https://www.instafetch.app.\n\nFeel free to take a look and decide whether it adds anything useful for your readers.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "curator.io",
+      "articleTitle": "28 Types of Instagram Marketing Tools (With Top Options for ...",
+      "opportunityType": "resource-page",
+      "variationSeed": 835019301,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-08-16T06:36:44.757Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-16T06:37:53.171Z",
+    "sentAt": "2026-08-16T06:38:30.720Z",
+    "delivery": {
+      "message_id": "<OGRpwc1hgcCuSmANAbxDu8lutGnAmYnEsOrJ@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
+  },
+  {
     "url": "https://creatorflow.so/tools",
     "domain": "creatorflow.so",
     "to": "hello@creatorflow.so",
@@ -355,24 +396,6 @@
     "sentAt": "2026-08-15T18:34:38.363Z",
     "delivery": {
       "message_id": "<2mUNEDqhvmSuuHjQPo4ZFia0x1Vp06iD0DLS@instafetch.app>",
-      "delivered": [],
-      "queued": [],
-      "permanent_bounces": []
-    }
-  },
-  {
-    "url": "https://planable.io/blog/instagram-tools",
-    "domain": "planable.io",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “21 must-have Instagram tools to scale your business in 2026” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:23.235Z",
-    "sent": true,
-    "to": "hello@planable.io",
-    "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-14T17:08:39.016Z",
-    "sentAt": "2026-08-15T18:34:37.479Z",
-    "delivery": {
-      "message_id": "<mkYRZCcxKXCJyuU6ylKlvPwD3VmD4YoOmT2Q@instafetch.app>",
       "delivered": [],
       "queued": [],
       "permanent_bounces": []

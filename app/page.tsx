@@ -223,8 +223,9 @@ export default function Home() {
         </section>
 
         {/* Featured badges */}
-        <section className="mx-auto max-w-4xl px-6 pb-12">
+        <section className="mx-auto max-w-5xl px-6 pb-12">
           <div className="flex flex-wrap items-center justify-center gap-6">
+            {/* Smol Launch */}
             <a
               href="https://smollaunch.com"
               target="_blank"
@@ -239,6 +240,7 @@ export default function Home() {
               />
             </a>
 
+            {/* SaaSCity */}
             <a
               href="https://saascity.io"
               target="_blank"
@@ -250,6 +252,21 @@ export default function Home() {
                 loading="lazy"
                 width="150"
                 height="54"
+              />
+            </a>
+
+            {/* TheSaaSDir */}
+            <a
+              href="https://thesaasdir.com/product/instafetch?ref=badge"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://thesaasdir.com/badge/instafetch.svg"
+                alt="Featured on TheSaaSDir"
+                loading="lazy"
+                width="182"
+                height="46"
               />
             </a>
           </div>

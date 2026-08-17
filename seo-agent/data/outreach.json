@@ -198,31 +198,6 @@
     }
   },
   {
-    "url": "https://www.hootsuite.com/social-media-tools",
-    "domain": "hootsuite.com",
-    "to": "first.last@hootsuite.com",
-    "subject": "A small suggestion for your Instagram guide",
-    "body": "Hi,\n\nYour “Best Free Social Media Tools for Growth & Engagement” caught my attention because it already covers tools in this space.\n\nThe reason I’m reaching out is that InstaFetch could give readers another simple option alongside the tools you already mention: https://www.instafetch.app.\n\nNo pressure if it isn't a match for the page.\n\nThanks,\nInstaFetch",
-    "personalization": {
-      "targetDomain": "hootsuite.com",
-      "articleTitle": "Best Free Social Media Tools for Growth & Engagement",
-      "opportunityType": "resource-page",
-      "variationSeed": 1496202578,
-      "generatedFromTarget": true
-    },
-    "createdAt": "2026-08-14T17:59:27.958Z",
-    "sent": true,
-    "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-14T18:00:06.763Z",
-    "sentAt": "2026-08-15T18:38:34.283Z",
-    "delivery": {
-      "message_id": "<2QeFyUY7gidIVtaYGIw1mZqYfTr9q4g4Pq08@instafetch.app>",
-      "delivered": [],
-      "queued": [],
-      "permanent_bounces": []
-    }
-  },
-  {
     "url": "https://opsmatters.com/posts/best-instagram-downloaders-2026-complete-comparison-guide",
     "domain": "opsmatters.com",
     "to": "enquiries@opsmatters.com",
@@ -423,7 +398,17 @@
     "subject": "Possible resource for your Instagram article",
     "body": "Hi there,\n\nI came across “15 Best Instagram Management Tools for E-commerce” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
     "createdAt": "2026-08-14T16:00:21.687Z",
-    "sent": false
+    "sent": true,
+    "to": "support@madgicx.com",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-17T08:01:38.575Z",
+    "sentAt": "2026-08-17T08:01:48.016Z",
+    "delivery": {
+      "message_id": "<OtjhZXSxzzbJpTOoCYmmPCMq9EIRMN9DS1cX@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://sproutsocial.com/insights/instagram-marketing-tools",

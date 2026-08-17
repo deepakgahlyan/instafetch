@@ -5,8 +5,8 @@ const OUTREACH_PATH = `${DATA_DIR}/outreach.json`;
 const CONTACTS_PATH = `${DATA_DIR}/contacts.json`;
 const OPPORTUNITIES_PATH = `${DATA_DIR}/opportunities.json`;
 const TAVILY_API_URL = "https://api.tavily.com/search";
-const MAX_CONTACT_LOOKUPS = 12;
-const MAX_SENDS = Number(process.env.OUTREACH_DAILY_LIMIT || 3);
+const MAX_CONTACT_LOOKUPS = Number(process.env.OUTREACH_CONTACT_LOOKUP_LIMIT || 200);
+const MAX_SENDS = Number(process.env.OUTREACH_DAILY_LIMIT || 200);
 const FROM = process.env.OUTREACH_FROM || "hello@instafetch.app";
 const REPLY_TO = process.env.OUTREACH_REPLY_TO || FROM;
 
@@ -65,9 +65,20 @@ async function main() {
   const opportunities = await readJson(OPPORTUNITIES_PATH, []);
   const outreach = await readJson(OUTREACH_PATH, []);
   const byUrl = new Map(outreach.map((x) => [x.url, x]));
-  const targets = opportunities.filter((x) => x.status === "qualified" && x.opportunityType !== "directory-submission").slice(0, MAX_CONTACT_LOOKUPS);
 
+  // Never contact the same root domain twice. A sent outreach on any page of a domain blocks all other drafts for that domain.
+  const contactedDomains = new Set(outreach.filter((x) => x.sent).map((x) => x.domain).filter(Boolean));
+  const contactedEmails = new Set(outreach.filter((x) => x.sent && x.to).map((x) => x.to.toLowerCase()));
+
+  const targets = opportunities
+    .filter((x) => x.status === "qualified" && x.opportunityType !== "directory-submission")
+    .filter((x) => !contactedDomains.has(x.domain))
+    .slice(0, MAX_CONTACT_LOOKUPS);
+
+  const lookedUpDomains = new Set();
   for (const item of targets) {
+    if (lookedUpDomains.has(item.domain)) continue;
+    lookedUpDomains.add(item.domain);
     const draft = byUrl.get(item.url);
     if (!draft || draft.sent || draft.to) continue;
     const contact = await findPublicContact(item.domain);
@@ -80,7 +91,13 @@ async function main() {
   }
 
   let sent = 0;
-  for (const draft of [...byUrl.values()].filter((x) => x.to && !x.sent).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))) {
+  const sentDomains = new Set(contactedDomains);
+  const sentEmails = new Set(contactedEmails);
+  const queue = [...byUrl.values()]
+    .filter((x) => x.to && !x.sent && !sentDomains.has(x.domain) && !sentEmails.has(x.to.toLowerCase()))
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+  for (const draft of queue) {
     if (sent >= MAX_SENDS) break;
     try {
       const result = await sendEmail(draft.to, draft.subject, draft.body);
@@ -89,6 +106,8 @@ async function main() {
       draft.delivery = result;
       delete draft.sendError;
       sent++;
+      sentDomains.add(draft.domain);
+      sentEmails.add(draft.to.toLowerCase());
       console.log(`Sent personalized outreach to ${draft.to} (${draft.domain})`);
     } catch (error) {
       draft.sendError = error instanceof Error ? error.message : "unknown error";
@@ -97,6 +116,7 @@ async function main() {
   }
 
   await writeJson(OUTREACH_PATH, [...byUrl.values()].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 500));
+  console.log(`Eligible unsent drafts: ${queue.length}`);
   console.log(`Emails sent this run: ${sent}`);
 }
 

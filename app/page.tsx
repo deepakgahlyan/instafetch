@@ -239,6 +239,20 @@ export default function Home() {
                 height="60"
               />
             </a>
+            {/* Launchory */}
+<a
+  href="https://www.launchory.app/startups/instafetch?ref=badge"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <img
+    src="https://www.launchory.app/api/badge/instafetch?theme=dark"
+    alt="Featured on Launchory"
+    loading="lazy"
+    width="240"
+    height="54"
+  />
+</a>
 
             {/* SaaSCity */}
             <a

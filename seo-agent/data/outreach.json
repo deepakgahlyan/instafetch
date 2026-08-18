@@ -1,5 +1,30 @@
 [
   {
+    "url": "https://curator.io/blog/instagram-marketing-tools",
+    "domain": "curator.io",
+    "to": "support@curator.io",
+    "subject": "Possible addition for your Instagram resource list",
+    "body": "Hi there,\n\nI came across “28 Types of Instagram Marketing Tools (With Top Options for ...” while looking through Instagram resources and noticed the section on related tools.\n\nOffer InstaFetch as an additional free tool for readers who need to save supported public Instagram media. InstaFetch is a simple browser-based option for supported public Instagram media: https://www.instafetch.app.\n\nFeel free to take a look and decide whether it adds anything useful for your readers.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "curator.io",
+      "articleTitle": "28 Types of Instagram Marketing Tools (With Top Options for ...",
+      "opportunityType": "resource-page",
+      "variationSeed": 835019301,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-08-18T07:09:58.445Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-18T07:10:26.684Z",
+    "sentAt": "2026-08-18T07:10:39.449Z",
+    "delivery": {
+      "message_id": "<mRtSuScBzISYMYFWqqdAV7jAnlaeKPWC1gpJ@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
+  },
+  {
     "url": "https://videoconverter.wondershare.com/ai-image-tips/instagram-photo-downloader.html",
     "domain": "videoconverter.wondershare.com",
     "to": null,
@@ -55,31 +80,6 @@
     },
     "createdAt": "2026-08-16T06:36:44.757Z",
     "sent": false
-  },
-  {
-    "url": "https://creatorflow.so/tools",
-    "domain": "creatorflow.so",
-    "to": "hello@creatorflow.so",
-    "subject": "Possible addition for your Instagram resource list",
-    "body": "Hello,\n\nYour “40+ Free Instagram Tools for Creators | CreatorFlow” caught my attention because it already covers tools in this space.\n\nThe reason I’m reaching out is that InstaFetch could give readers another simple option alongside the tools you already mention: https://www.instafetch.app.\n\nNo pressure if it isn't a match for the page.\n\nThanks,\nInstaFetch",
-    "personalization": {
-      "targetDomain": "creatorflow.so",
-      "articleTitle": "40+ Free Instagram Tools for Creators | CreatorFlow",
-      "opportunityType": "resource-page",
-      "variationSeed": 351414228,
-      "generatedFromTarget": true
-    },
-    "createdAt": "2026-08-15T18:33:50.095Z",
-    "sent": true,
-    "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-15T18:34:29.216Z",
-    "sentAt": "2026-08-15T18:38:36.201Z",
-    "delivery": {
-      "message_id": "<nN4z3923bigGLKSgsosnSMdE41EsaGd2UcH5@instafetch.app>",
-      "delivered": [],
-      "queued": [],
-      "permanent_bounces": []
-    }
   },
   {
     "url": "https://popularpays.com/blog/instagram-content-creator",
@@ -510,7 +510,17 @@
     "subject": "Possible resource for your Instagram article",
     "body": "Hi there,\n\nI came across “10 Best Content Creation Tools for Instagram Influencers in 2025” while researching Instagram resources. Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
     "createdAt": "2026-08-14T16:00:11.265Z",
-    "sent": false
+    "sent": true,
+    "to": "hello@influencermarketinghub.com",
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-18T07:10:20.088Z",
+    "sentAt": "2026-08-18T07:10:38.715Z",
+    "delivery": {
+      "message_id": "<0DS07mhc7AjV8AA2m4ixKqyhzWKJ1cfuPZBx@instafetch.app>",
+      "delivered": [],
+      "queued": [],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://buffer.com/resources/best-social-media-management-tools",

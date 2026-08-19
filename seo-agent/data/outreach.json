@@ -41,31 +41,6 @@
     "sent": false
   },
   {
-    "url": "https://www.dreamgrow.com/instagram-tools",
-    "domain": "dreamgrow.com",
-    "to": "editors@dreamgrow.com",
-    "subject": "Resource suggestion for your Instagram article",
-    "body": "Hello,\n\nI was reading “The 13 Best Instagram Tools (My Personal Fast Growth Stack) - Dreamgrow” and thought one small addition might be useful.\n\nThe reason I’m reaching out is that InstaFetch could give readers another simple option alongside the tools you already mention: https://www.instafetch.app.\n\nFeel free to take a look and decide whether it adds anything useful for your readers.\n\nThanks,\nInstaFetch",
-    "personalization": {
-      "targetDomain": "dreamgrow.com",
-      "articleTitle": "The 13 Best Instagram Tools (My Personal Fast Growth Stack) - Dreamgrow",
-      "opportunityType": "resource-page",
-      "variationSeed": 2084542640,
-      "generatedFromTarget": true
-    },
-    "createdAt": "2026-08-17T07:20:53.319Z",
-    "sent": true,
-    "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-14T17:09:19.479Z",
-    "sentAt": "2026-08-17T07:21:30.878Z",
-    "delivery": {
-      "message_id": "<w7wPWCuMbeq3GMbeFgOFiAjaqcaFoCAQ1OGv@instafetch.app>",
-      "delivered": [],
-      "queued": [],
-      "permanent_bounces": []
-    }
-  },
-  {
     "url": "https://blog.coupler.io/instagram-marketing-tools",
     "domain": "blog.coupler.io",
     "to": null,

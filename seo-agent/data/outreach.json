@@ -1,5 +1,48 @@
 [
   {
+    "url": "https://www.dreamgrow.com/instagram-tools",
+    "domain": "dreamgrow.com",
+    "to": "editors@dreamgrow.com",
+    "subject": "Resource suggestion for your Instagram article",
+    "body": "Hello,\n\nI was reading “The 13 Best Instagram Tools (My Personal Fast Growth Stack) - Dreamgrow” and thought one small addition might be useful.\n\nThe reason I’m reaching out is that InstaFetch could give readers another simple option alongside the tools you already mention: https://www.instafetch.app.\n\nFeel free to take a look and decide whether it adds anything useful for your readers.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "dreamgrow.com",
+      "articleTitle": "The 13 Best Instagram Tools (My Personal Fast Growth Stack) - Dreamgrow",
+      "opportunityType": "resource-page",
+      "variationSeed": 2084542640,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-08-20T07:11:59.411Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T17:09:19.479Z",
+    "sentAt": "2026-08-20T07:12:42.519Z",
+    "delivery": {
+      "message_id": "<jUM29MmMohcNQA8zT10n3dXteMIq3Kk8cNwL@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "editors@dreamgrow.com"
+      ],
+      "permanent_bounces": []
+    }
+  },
+  {
+    "url": "https://blog.hootsuite.com/instagram-tools",
+    "domain": "blog.hootsuite.com",
+    "to": null,
+    "subject": "Possible addition for your Instagram resource list",
+    "body": "Hi,\n\nYour “37 powerful Instagram tools marketers should use” caught my attention because it already covers tools in this space.\n\nThe reason I’m reaching out is that InstaFetch could give readers another simple option alongside the tools you already mention: https://www.instafetch.app.\n\nFeel free to take a look and decide whether it adds anything useful for your readers.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "blog.hootsuite.com",
+      "articleTitle": "37 powerful Instagram tools marketers should use",
+      "opportunityType": "resource-page",
+      "variationSeed": 1346562358,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-08-20T07:11:59.411Z",
+    "sent": false
+  },
+  {
     "url": "https://influenceflow.io/resources/instagram-creator-tools-the-complete-2026-guide-to-growing-your-influence",
     "domain": "influenceflow.io",
     "to": "support@influenceflow.io",
@@ -76,31 +119,6 @@
     "sentAt": "2026-08-15T18:38:36.869Z",
     "delivery": {
       "message_id": "<NRWh6TDqYeIJgK2LhAyrMuEZ8NPnuGpEis7O@instafetch.app>",
-      "delivered": [],
-      "queued": [],
-      "permanent_bounces": []
-    }
-  },
-  {
-    "url": "https://www.hubspot.com/instagram-marketing",
-    "domain": "hubspot.com",
-    "to": "billing@hubspot.com",
-    "subject": "Resource suggestion for your Instagram article",
-    "body": "Hi,\n\nYour “Instagram Marketing: The Ultimate Guide” caught my attention because it already covers tools in this space.\n\nOffer InstaFetch as an additional free tool for readers who need to save supported public Instagram media. InstaFetch is a simple browser-based option for supported public Instagram media: https://www.instafetch.app.\n\nNo pressure if it isn't a match for the page.\n\nThanks,\nInstaFetch",
-    "personalization": {
-      "targetDomain": "hubspot.com",
-      "articleTitle": "Instagram Marketing: The Ultimate Guide",
-      "opportunityType": "resource-page",
-      "variationSeed": 1329137858,
-      "generatedFromTarget": true
-    },
-    "createdAt": "2026-08-15T07:02:34.047Z",
-    "sent": true,
-    "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-15T07:03:11.849Z",
-    "sentAt": "2026-08-15T18:38:34.932Z",
-    "delivery": {
-      "message_id": "<LezRR6X9SlKNYul0GwEv4xvM3tDiw6EMAD8C@instafetch.app>",
       "delivered": [],
       "queued": [],
       "permanent_bounces": []

@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-08-25T07:14:12.107Z",
-  "totalOpportunities": 130,
-  "qualified": 90,
-  "outreachDrafts": 36,
+  "generatedAt": "2026-08-26T07:14:23.920Z",
+  "totalOpportunities": 132,
+  "qualified": 95,
+  "outreachDrafts": 37,
   "sent": 23,
   "linked": 0,
   "submissionQueue": 8,
   "byOpportunityType": {
     "resource-page": {
-      "opportunities": 84,
+      "opportunities": 87,
       "linked": 0,
       "avgQuality": 76,
       "linkRate": 0
@@ -20,15 +20,15 @@
       "linkRate": 0
     },
     "editorial-mention": {
-      "opportunities": 18,
+      "opportunities": 19,
       "linked": 0,
       "avgQuality": 67,
       "linkRate": 0
     },
     "broken-link-candidate": {
-      "opportunities": 5,
+      "opportunities": 3,
       "linked": 0,
-      "avgQuality": 57,
+      "avgQuality": 56,
       "linkRate": 0
     },
     "creator-resource": {

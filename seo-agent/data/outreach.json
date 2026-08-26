@@ -1,5 +1,32 @@
 [
   {
+    "url": "https://creatorflow.so/tools",
+    "domain": "creatorflow.so",
+    "to": "hello@creatorflow.so",
+    "subject": "Possible addition for your Instagram resource list",
+    "body": "Hi there,\n\nYour “40+ Free Instagram Tools for Creators - CreatorFlow” caught my attention because it already covers tools in this space.\n\nOffer InstaFetch as an additional free tool for readers who need to save supported public Instagram media. InstaFetch is a simple browser-based option for supported public Instagram media: https://www.instafetch.app.\n\nNo pressure if it isn't a match for the page.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "creatorflow.so",
+      "articleTitle": "40+ Free Instagram Tools for Creators - CreatorFlow",
+      "opportunityType": "resource-page",
+      "variationSeed": 1693318213,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-08-26T07:13:53.098Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-15T18:34:29.216Z",
+    "sentAt": "2026-08-26T07:14:41.522Z",
+    "delivery": {
+      "message_id": "<umVw03X5PvZD5WwWw7Wq9CWui6dauadyXAJ0@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "hello@creatorflow.so"
+      ],
+      "permanent_bounces": []
+    }
+  },
+  {
     "url": "https://whoerip.com/blog/best-instagram-reels-downloaders",
     "domain": "whoerip.com",
     "to": "partners@whoerip.com",
@@ -72,7 +99,7 @@
   {
     "url": "https://robinreach.com/free-tools/instagram-reel-downloader",
     "domain": "robinreach.com",
-    "to": null,
+    "to": "support@robinreach.com",
     "subject": "A possible addition to “Free Instagram Reel Downloader - Download Reels Without Watermark”",
     "body": "Hello,\n\nI was looking at your Instagram resources and came across “Free Instagram Reel Downloader - Download Reels Without Watermark | RobinReach”.\n\nIf you are revisiting the article, InstaFetch could be a relevant addition for readers looking for a straightforward web-based option: https://www.instafetch.app.\n\nIf it doesn't fit the article, no worries at all.\n\nThanks,\nInstaFetch",
     "personalization": {
@@ -83,7 +110,18 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-24T06:33:03.473Z",
-    "sent": false
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-26T07:14:27.274Z",
+    "sentAt": "2026-08-26T07:14:40.903Z",
+    "delivery": {
+      "message_id": "<b3iZPFmsUYU3N7wnULh6CTKWslpK5mct4mZh@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "support@robinreach.com"
+      ],
+      "permanent_bounces": []
+    }
   },
   {
     "url": "https://digitalmarketinginstitute.com/blog/11-social-media-content-tools-every-content-creator-needs1",

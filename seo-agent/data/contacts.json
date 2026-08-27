@@ -192,58 +192,10 @@
     "source": "public-site-or-search"
   },
   {
-    "domain": "gwaa.net",
-    "email": null,
-    "checkedAt": "2026-08-26T07:13:55.319Z",
-    "source": null
-  },
-  {
-    "domain": "blog.coupler.io",
-    "email": null,
-    "checkedAt": "2026-08-26T07:14:25.769Z",
-    "source": null
-  },
-  {
-    "domain": "videoconverter.wondershare.com",
-    "email": null,
-    "checkedAt": "2026-08-26T07:14:26.077Z",
-    "source": null
-  },
-  {
-    "domain": "keepcalmandchiffon.com",
-    "email": null,
-    "checkedAt": "2026-08-26T07:14:26.874Z",
-    "source": null
-  },
-  {
     "domain": "robinreach.com",
     "email": "support@robinreach.com",
     "checkedAt": "2026-08-26T07:14:27.274Z",
     "source": "public-site-or-search"
-  },
-  {
-    "domain": "bloggingwizard.com",
-    "email": null,
-    "checkedAt": "2026-08-26T07:14:30.640Z",
-    "source": null
-  },
-  {
-    "domain": "blog.hootsuite.com",
-    "email": null,
-    "checkedAt": "2026-08-26T07:14:31.997Z",
-    "source": null
-  },
-  {
-    "domain": "anonsaver.com",
-    "email": null,
-    "checkedAt": "2026-08-26T07:14:33.950Z",
-    "source": null
-  },
-  {
-    "domain": "toolzin.com",
-    "email": null,
-    "checkedAt": "2026-08-26T07:14:34.344Z",
-    "source": null
   },
   {
     "domain": "cocosolution.com",
@@ -252,9 +204,57 @@
     "source": null
   },
   {
+    "domain": "gwaa.net",
+    "email": null,
+    "checkedAt": "2026-08-27T17:43:25.317Z",
+    "source": null
+  },
+  {
+    "domain": "bloggingwizard.com",
+    "email": "john@bloggingwizard.com",
+    "checkedAt": "2026-08-27T17:43:44.796Z",
+    "source": "public-site-or-search"
+  },
+  {
+    "domain": "blog.coupler.io",
+    "email": null,
+    "checkedAt": "2026-08-27T17:44:19.241Z",
+    "source": null
+  },
+  {
+    "domain": "videoconverter.wondershare.com",
+    "email": null,
+    "checkedAt": "2026-08-27T17:44:20.019Z",
+    "source": null
+  },
+  {
+    "domain": "blog.hootsuite.com",
+    "email": null,
+    "checkedAt": "2026-08-27T17:44:20.797Z",
+    "source": null
+  },
+  {
+    "domain": "anonsaver.com",
+    "email": null,
+    "checkedAt": "2026-08-27T17:44:22.399Z",
+    "source": null
+  },
+  {
+    "domain": "toolzin.com",
+    "email": null,
+    "checkedAt": "2026-08-27T17:44:22.624Z",
+    "source": null
+  },
+  {
+    "domain": "keepcalmandchiffon.com",
+    "email": null,
+    "checkedAt": "2026-08-27T17:44:57.729Z",
+    "source": null
+  },
+  {
     "domain": "snapinsta.to",
     "email": null,
-    "checkedAt": "2026-08-26T07:14:38.240Z",
+    "checkedAt": "2026-08-27T17:44:57.909Z",
     "source": null
   }
 ]

@@ -1,27 +1,27 @@
 [
   {
-    "url": "https://creatorflow.so/tools",
-    "domain": "creatorflow.so",
-    "to": "hello@creatorflow.so",
-    "subject": "Possible addition for your Instagram resource list",
-    "body": "Hi there,\n\nYour “40+ Free Instagram Tools for Creators - CreatorFlow” caught my attention because it already covers tools in this space.\n\nOffer InstaFetch as an additional free tool for readers who need to save supported public Instagram media. InstaFetch is a simple browser-based option for supported public Instagram media: https://www.instafetch.app.\n\nNo pressure if it isn't a match for the page.\n\nThanks,\nInstaFetch",
+    "url": "https://curator.io/blog/instagram-marketing-tools",
+    "domain": "curator.io",
+    "to": "support@curator.io",
+    "subject": "One resource for your Instagram tools article",
+    "body": "Hi,\n\nYour “28 Types of Instagram Marketing Tools (With Top Options for Each) – Curator Social Media Aggregator” caught my attention because it already covers tools in this space.\n\nInstaFetch is another browser-based option for supported public Instagram media, and it may be worth considering if you update the list: https://www.instafetch.app.\n\nIf it doesn't fit the article, no worries at all.\n\nThanks,\nInstaFetch",
     "personalization": {
-      "targetDomain": "creatorflow.so",
-      "articleTitle": "40+ Free Instagram Tools for Creators - CreatorFlow",
+      "targetDomain": "curator.io",
+      "articleTitle": "28 Types of Instagram Marketing Tools (With Top Options for Each) – Curator Social Media Aggregator",
       "opportunityType": "resource-page",
-      "variationSeed": 1693318213,
+      "variationSeed": 2085747978,
       "generatedFromTarget": true
     },
-    "createdAt": "2026-08-26T07:13:53.098Z",
+    "createdAt": "2026-08-30T12:01:25.492Z",
     "sent": true,
     "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-15T18:34:29.216Z",
-    "sentAt": "2026-08-26T07:14:41.522Z",
+    "contactCheckedAt": "2026-08-30T12:01:50.490Z",
+    "sentAt": "2026-08-30T12:01:55.660Z",
     "delivery": {
-      "message_id": "<umVw03X5PvZD5WwWw7Wq9CWui6dauadyXAJ0@instafetch.app>",
+      "message_id": "<JPxBD3mc5EW5oo74kqp0i1PBQzegs404jeyD@instafetch.app>",
       "delivered": [],
       "queued": [
-        "hello@creatorflow.so"
+        "support@curator.io"
       ],
       "permanent_bounces": []
     }

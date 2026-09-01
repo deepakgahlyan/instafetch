@@ -1,5 +1,75 @@
 [
   {
+    "url": "https://gramfetchr.com/en1",
+    "domain": "gramfetchr.com",
+    "to": "contact@gramfetchr.com",
+    "subject": "A small suggestion for your Instagram guide",
+    "body": "Hello there,\n\nYour “Best Instagram Downloader – Download Reels & Photos for Free” caught my attention because it already covers tools in this space.\n\nOffer InstaFetch as an additional free tool for readers who need to save supported public Instagram media. InstaFetch is a simple browser-based option for supported public Instagram media: https://www.instafetch.app.\n\nNo pressure if it isn't a match for the page.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "gramfetchr.com",
+      "articleTitle": "Best Instagram Downloader – Download Reels & Photos for Free",
+      "opportunityType": "resource-page",
+      "variationSeed": 511677123,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-09-01T11:46:55.196Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-09-01T11:47:15.509Z",
+    "sentAt": "2026-09-01T11:47:29.933Z",
+    "delivery": {
+      "message_id": "<dwrKCwWCZDA1crTZ9u7bxngoyIvIqy2snwa3@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "contact@gramfetchr.com"
+      ],
+      "permanent_bounces": []
+    }
+  },
+  {
+    "url": "https://rekreate.ai/instagramDownloader",
+    "domain": "rekreate.ai",
+    "to": null,
+    "subject": "A possible addition to “Free Instagram Video Downloader - Download Photos, Reels & Storie”",
+    "body": "Hello,\n\nI came across “Free Instagram Video Downloader - Download Photos, Reels & Stories Online” while looking through Instagram resources and noticed the section on related tools.\n\nOffer InstaFetch as an additional free tool for readers who need to save supported public Instagram media. InstaFetch is a simple browser-based option for supported public Instagram media: https://www.instafetch.app.\n\nI’ll leave it with you in case it is useful for a future update.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "rekreate.ai",
+      "articleTitle": "Free Instagram Video Downloader - Download Photos, Reels & Stories Online",
+      "opportunityType": "resource-page",
+      "variationSeed": 1111704416,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-09-01T11:46:55.196Z",
+    "sent": false
+  },
+  {
+    "url": "https://ourcodeworld.com/articles/read/2899/6-best-instagram-downloaders-in-2026-a-comprehensive-comparison",
+    "domain": "ourcodeworld.com",
+    "to": "dev@ourcodeworld.com",
+    "subject": "Possible addition for your Instagram resource list",
+    "body": "Hello,\n\nI found “6 Best Instagram Downloaders in 2026: A Comprehensive Comparison | Our Code World” while researching Instagram tools and wanted to pass along a resource that may fit the page.\n\nInstaFetch is another browser-based option for supported public Instagram media, and it may be worth considering if you update the list: https://www.instafetch.app.\n\nIf it doesn't fit the article, no worries at all.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "ourcodeworld.com",
+      "articleTitle": "6 Best Instagram Downloaders in 2026: A Comprehensive Comparison | Our Code World",
+      "opportunityType": "resource-page",
+      "variationSeed": 1382180872,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-09-01T11:46:55.196Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-09-01T11:47:20.035Z",
+    "sentAt": "2026-09-01T11:47:30.675Z",
+    "delivery": {
+      "message_id": "<U35RDgPfBYOD0yTRnMkMs0QVnrQnuphvwSLQ@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "dev@ourcodeworld.com"
+      ],
+      "permanent_bounces": []
+    }
+  },
+  {
     "url": "https://inflact.com/instagram-downloader/photo",
     "domain": "inflact.com",
     "to": "hello@inflact.com",
@@ -370,31 +440,6 @@
     "sentAt": "2026-08-15T18:38:33.167Z",
     "delivery": {
       "message_id": "<9eITNdKXAN5YaE2slH3vQs45GnKbx7LrrY7d@instafetch.app>",
-      "delivered": [],
-      "queued": [],
-      "permanent_bounces": []
-    }
-  },
-  {
-    "url": "https://www.socialpilot.co/instagram-tools",
-    "domain": "socialpilot.co",
-    "subject": "A small suggestion for your Instagram guide",
-    "body": "Hi there,\n\nI found “19 Instagram Tools Your Competitors Don't Want You to Know - SocialPilot” while researching Instagram tools and wanted to pass along a resource that may fit the page.\n\nOffer InstaFetch as an additional free tool for readers who need to save supported public Instagram media. InstaFetch is a simple browser-based option for supported public Instagram media: https://www.instafetch.app.\n\nIf it doesn't fit the article, no worries at all.\n\nThanks,\nInstaFetch",
-    "personalization": {
-      "targetDomain": "socialpilot.co",
-      "articleTitle": "19 Instagram Tools Your Competitors Don't Want You to Know - SocialPilot",
-      "opportunityType": "resource-page",
-      "variationSeed": 2127847297,
-      "generatedFromTarget": true
-    },
-    "createdAt": "2026-08-14T16:44:00.258Z",
-    "sent": true,
-    "to": "hello@socialpilot.co",
-    "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-14T17:08:25.763Z",
-    "sentAt": "2026-08-15T18:38:32.534Z",
-    "delivery": {
-      "message_id": "<w98MWllRKCwRCl7faxHh8g4bZaFF6VVYC3zd@instafetch.app>",
       "delivered": [],
       "queued": [],
       "permanent_bounces": []

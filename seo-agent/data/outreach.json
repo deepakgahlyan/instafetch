@@ -1,5 +1,33 @@
 [
   {
+    "url": "https://creatorflow.so/blog/ai-marketing-tools-instagram-creators",
+    "domain": "creatorflow.so",
+    "to": "hello@creatorflow.so",
+    "subject": "A small suggestion for your Instagram guide",
+    "body": "Hi,\n\nYour “AI Marketing Tools for Instagram Creators (2026 Guide)” caught my attention because it already covers tools in this space.\n\nOffer InstaFetch as an additional free tool for readers who need to save supported public Instagram media. InstaFetch is a simple browser-based option for supported public Instagram media: https://www.instafetch.app.\n\nIf it doesn't fit the article, no worries at all.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "creatorflow.so",
+      "articleTitle": "AI Marketing Tools for Instagram Creators (2026 Guide)",
+      "opportunityType": "resource-page",
+      "variationSeed": 276778498,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-09-08T11:28:01.038Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-15T18:34:29.216Z",
+    "sentAt": "2026-09-08T11:28:26.925Z",
+    "delivery": {
+      "message_id": "<MRgRJIcuHwJwuktiWeTGQeUjncmeDAdPFlcn@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "hello@creatorflow.so"
+      ],
+      "permanent_bounces": [],
+      "suppressed_recipients": []
+    }
+  },
+  {
     "url": "https://gramfetchr.com/en1",
     "domain": "gramfetchr.com",
     "to": "contact@gramfetchr.com",

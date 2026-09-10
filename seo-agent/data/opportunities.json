@@ -25,7 +25,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:47:54.709Z"
+      "checkedAt": "2026-09-10T02:51:07.066Z"
     }
   },
   {
@@ -54,7 +54,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:47:56.044Z"
+      "checkedAt": "2026-09-10T02:51:08.685Z"
     }
   },
   {
@@ -83,7 +83,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:47:56.187Z"
+      "checkedAt": "2026-09-10T02:51:08.795Z"
     }
   },
   {
@@ -112,7 +112,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:47:56.222Z"
+      "checkedAt": "2026-09-10T02:51:08.868Z"
     }
   },
   {
@@ -141,7 +141,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:47:57.582Z"
+      "checkedAt": "2026-09-10T02:51:09.206Z"
     }
   },
   {
@@ -166,7 +166,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:47:58.200Z"
+      "checkedAt": "2026-09-10T02:51:09.905Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -199,7 +199,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:47:58.532Z"
+      "checkedAt": "2026-09-10T02:51:10.528Z"
     }
   },
   {
@@ -229,7 +229,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:47:58.583Z"
+      "checkedAt": "2026-09-10T02:51:10.642Z"
     }
   },
   {
@@ -258,7 +258,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:47:59.995Z"
+      "checkedAt": "2026-09-10T02:51:12.576Z"
     }
   },
   {
@@ -283,7 +283,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:00.460Z"
+      "checkedAt": "2026-09-10T02:51:13.524Z"
     },
     "linkabilityScore": 89,
     "authorityScore": 55,
@@ -300,9 +300,9 @@
     "spamRisk": 5,
     "qualityScore": 84,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:53.504Z",
+    "discoveredAt": "2026-09-10T02:51:06.890Z",
     "firstDiscoveredAt": "2026-08-14T15:59:54.425Z",
-    "lastSeenAt": "2026-09-10T02:47:53.504Z",
+    "lastSeenAt": "2026-09-10T02:51:06.890Z",
     "queries": [
       "Instagram marketing tools",
       "social media tools Instagram",
@@ -315,7 +315,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:00.755Z"
+      "checkedAt": "2026-09-10T02:51:13.663Z"
     },
     "directoryCandidate": true,
     "linkabilityScore": 90,
@@ -348,7 +348,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:02.776Z"
+      "checkedAt": "2026-09-10T02:51:14.928Z"
     }
   },
   {
@@ -361,9 +361,9 @@
     "spamRisk": 5,
     "qualityScore": 84,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:47.424Z",
+    "discoveredAt": "2026-09-10T02:51:05.858Z",
     "firstDiscoveredAt": "2026-08-14T16:43:51.211Z",
-    "lastSeenAt": "2026-09-10T02:47:47.424Z",
+    "lastSeenAt": "2026-09-10T02:51:05.858Z",
     "queries": [
       "Instagram downloader tools",
       "Instagram downloader comparison"
@@ -374,7 +374,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:03.067Z"
+      "checkedAt": "2026-09-10T02:51:15.158Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -391,9 +391,9 @@
     "spamRisk": 5,
     "qualityScore": 83,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:47.424Z",
+    "discoveredAt": "2026-09-10T02:51:05.858Z",
     "firstDiscoveredAt": "2026-08-14T15:59:57.039Z",
-    "lastSeenAt": "2026-09-10T02:47:47.424Z",
+    "lastSeenAt": "2026-09-10T02:51:05.858Z",
     "queries": [
       "Instagram downloader comparison"
     ],
@@ -403,43 +403,12 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:03.263Z"
+      "checkedAt": "2026-09-10T02:51:15.365Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
     "authorityScore": 65,
     "action": "draft-outreach"
-  },
-  {
-    "url": "https://buffer.com/resources/free-instagram-tools",
-    "domain": "buffer.com",
-    "title": "24 Free Instagram Tools to Grow Your Following",
-    "snippet": "1. Adobe Express: Formerly known as Adobe Spark, Adobe Express is a content creator’s dream, offering thousands of free templates for social graphics, reels, stories, and more. It’s especially helpful for quick actions like background removal, video trimming, or adding animations. Best for: Seamless integration with the Adobe ecosystem. [...] 1. Linktree: The OG link-in-bio tool, Linktree is simple, reliable, and used by millions of creators. Even on the free plan, you can add unlimited links, pick a theme, and view basic analytics on click performance. Best for: If you want a no-fuss solution, this one’s solid. [...] You don't have to tackle it alone — and you certainly don't have to spend a fortune. The right tools can save you hours every week and help you show up more consistently without the burnout.\n\nIn this article, I’ve rounded up 24 free Instagram tools for creators, marketers, and small businesses. Every tool here has a solid free plan or trial that's actually worth your time. And yes, there are plenty of AI-powered options to streamline your workflow.",
-    "relevanceScore": 81,
-    "linkabilityScore": 89,
-    "editorialScore": 85,
-    "authorityScore": 65,
-    "spamRisk": 5,
-    "qualityScore": 83,
-    "status": "qualified",
-    "action": "draft-outreach",
-    "opportunityType": "resource-page",
-    "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
-    "directoryCandidate": false,
-    "discoveredAt": "2026-09-07T12:43:00.865Z",
-    "firstDiscoveredAt": "2026-08-16T06:35:19.505Z",
-    "lastSeenAt": "2026-09-07T12:43:00.865Z",
-    "queries": [
-      "Instagram tools directory submit",
-      "Instagram tools resource page",
-      "Instagram creator blog tools"
-    ],
-    "backlink": {
-      "reachable": true,
-      "linked": false,
-      "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:03.485Z"
-    }
   },
   {
     "url": "https://creatorflow.so/creator-tools",
@@ -468,7 +437,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:03.702Z"
+      "checkedAt": "2026-09-10T02:51:15.641Z"
     }
   },
   {
@@ -493,7 +462,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:03.749Z"
+      "checkedAt": "2026-09-10T02:51:15.826Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -526,7 +495,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:04.298Z"
+      "checkedAt": "2026-09-10T02:51:16.539Z"
     }
   },
   {
@@ -555,7 +524,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:04.708Z"
+      "checkedAt": "2026-09-10T02:51:17.129Z"
     }
   },
   {
@@ -574,9 +543,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:54.595Z",
+    "discoveredAt": "2026-09-10T02:51:06.971Z",
     "firstDiscoveredAt": "2026-09-05T10:42:15.285Z",
-    "lastSeenAt": "2026-09-10T02:47:54.595Z",
+    "lastSeenAt": "2026-09-10T02:51:06.971Z",
     "queries": [
       "social media tools directory add tool"
     ],
@@ -584,40 +553,8 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:04.749Z"
+      "checkedAt": "2026-09-10T02:51:17.179Z"
     }
-  },
-  {
-    "url": "https://planable.io/blog/instagram-tools",
-    "domain": "planable.io",
-    "title": "21 best Instagram tools for agencies, brands & creators in 2026",
-    "snippet": "+ Create\n  + Plan\n  + Collaborate\n  + Approve\n  + Schedule\n  + Analyze\n  + Engage\n  + Facebook\n  + Google Business Profile\n  + TikTok\n  + Youtube\n  + Instagram\n  + Pinterest\n  + Linkedin\n  + Threads\n  + X (Twitter)\n  + and any other content\n Pricing\n Resources\n\n  \n  + Blog\n  + Freebies\n  + Webinars\n  + Guides\n  + Pricing calculator for social media\n  + Agency profit margins report 2026\n  + Help Center\n  + Latest Features\n  + Status\n\nTry for free\n\nBook a demo\n\n\n\nYoutube [...] for IG Stories and Reels video editing Fliki - AI tool for video generation Lensa: for quick face retouching IG tools for analytics and monitoring Planable Analytics: best for integrated Instagram insights Keyhole: for monitoring hashtags & IG campaigns Display Purposes: for the IG hashtag generation Reputation: for brand monitoring on Instagram Awario: for advanced social media listening IG tools for influencer and UGC campaigns Modash: for discovering Instagram influencers TINT: for gathering [...] Pricing:Hootsuite has a free trial and paid plans available from $99/month.\n\n## Instagram tools for content creation and editing\n\n### 6. Planable AI: best for caption generation and rewrites\n\nPlanable’s AI helps you create on-point, punchy copy for your Instagram captions. It’s the ultimate way to overcome writer’s block and craft a compelling caption that complements your visual content. Never be scared of the blank page again!\n\nPlanable AI feature for rewriting Instagram captions",
-    "relevanceScore": 81,
-    "editorialScore": 85,
-    "spamRisk": 5,
-    "qualityScore": 81,
-    "status": "qualified",
-    "discoveredAt": "2026-09-09T11:31:37.683Z",
-    "firstDiscoveredAt": "2026-08-14T15:59:59.471Z",
-    "lastSeenAt": "2026-09-09T11:31:37.683Z",
-    "queries": [
-      "Instagram tools resource page",
-      "Instagram creator blog tools",
-      "Instagram tools directory submit",
-      "social media tools Instagram"
-    ],
-    "opportunityType": "resource-page",
-    "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
-    "backlink": {
-      "reachable": true,
-      "linked": false,
-      "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:05.074Z"
-    },
-    "directoryCandidate": false,
-    "linkabilityScore": 89,
-    "authorityScore": 55,
-    "action": "draft-outreach"
   },
   {
     "url": "https://creatorflow.so/tools",
@@ -635,9 +572,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:52.652Z",
+    "discoveredAt": "2026-09-10T02:51:06.809Z",
     "firstDiscoveredAt": "2026-08-15T18:33:04.949Z",
-    "lastSeenAt": "2026-09-10T02:47:52.652Z",
+    "lastSeenAt": "2026-09-10T02:51:06.809Z",
     "queries": [
       "Instagram creator blog tools",
       "best Instagram tools for creators",
@@ -648,7 +585,38 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:05.222Z"
+      "checkedAt": "2026-09-10T02:51:17.456Z"
+    }
+  },
+  {
+    "url": "https://buffer.com/resources/free-instagram-tools",
+    "domain": "buffer.com",
+    "title": "24 Free Instagram Tools to Grow Your Following",
+    "snippet": "#### Jump to a section:\n\n Instagram content creation tools\n Instagram scheduling tools\n Instagram analytics tools\n Audience research and hashtag tools\n Engagement and community management tools\n Link-in-bio and microsite tools\n Pick one or two tools to get started\n FAQ about free Instagram tools\n More Instagram resources\n\n## Instagram content creation tools [...] Visuals and video: Canva and CapCut are great for free, high-quality Instagram design and reel editing.\n Efficiency: Tools like Buffer or Meta Business Suite can help you schedule content to stay consistent and save you hours on manual posting.\n Data-driven growth: Instagram’s native insights and SparkToro can help to understand audience behavior and niche trends.\n Automation: Tools like ManyChat can handle high volumes of DMs, automatically turning engagement into leads. [...] Meta’s official scheduler lets you plan Instagram posts, reels, carousels, and stories with the peace of mind that comes from using a native tool. It’s ad-free and fully integrated with your business or creator account to post right to your Instagram feed. Best for: Those who want direct-to-Instagram scheduling and built-in analytics, with no third-party apps needed.\n\nNext up, let’s get into some free Instagram tools that unlock valuable insights — making data-driven growth simpler than ever.",
+    "relevanceScore": 73,
+    "linkabilityScore": 89,
+    "editorialScore": 85,
+    "authorityScore": 65,
+    "spamRisk": 5,
+    "qualityScore": 80,
+    "status": "qualified",
+    "action": "draft-outreach",
+    "opportunityType": "resource-page",
+    "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
+    "directoryCandidate": false,
+    "discoveredAt": "2026-09-10T02:51:06.727Z",
+    "firstDiscoveredAt": "2026-08-16T06:35:19.505Z",
+    "lastSeenAt": "2026-09-10T02:51:06.727Z",
+    "queries": [
+      "Instagram tools directory submit",
+      "Instagram tools resource page",
+      "Instagram creator blog tools"
+    ],
+    "backlink": {
+      "reachable": true,
+      "linked": false,
+      "httpStatus": 200,
+      "checkedAt": "2026-09-10T02:51:18.424Z"
     }
   },
   {
@@ -677,7 +645,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:05.640Z"
+      "checkedAt": "2026-09-10T02:51:19.276Z"
     }
   },
   {
@@ -690,9 +658,9 @@
     "spamRisk": 5,
     "qualityScore": 80,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:54.595Z",
+    "discoveredAt": "2026-09-10T02:51:06.971Z",
     "firstDiscoveredAt": "2026-08-14T15:59:56.278Z",
-    "lastSeenAt": "2026-09-10T02:47:54.595Z",
+    "lastSeenAt": "2026-09-10T02:51:06.971Z",
     "queries": [
       "social media tools Instagram",
       "social media tools directory add tool"
@@ -703,7 +671,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:05.743Z"
+      "checkedAt": "2026-09-10T02:51:19.571Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -732,11 +700,76 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:05.996Z"
+      "checkedAt": "2026-09-10T02:51:20.159Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
     "authorityScore": 65,
+    "action": "draft-outreach"
+  },
+  {
+    "url": "https://blog.hootsuite.com/instagram-tools",
+    "domain": "blog.hootsuite.com",
+    "title": "37 powerful Instagram tools marketers should use",
+    "snippet": "In other words, Instagram is a critical tool for brands wanting to extend their reach and improve social ROI. Creating an effective and efficient Instagram strategy doesn’t have to be overwhelming.\n\nThese 37 Instagram tools help maximize your Instagram efforts while saving your sanity.\n\n## Instagram scheduling tools\n\n### 1. Hootsuite\n\nHootsuite is one of the best social media management platforms out there — and it has all the Instagram tools a social media manager needs. [...] We mentioned in passing above that Hootsuite Composer includes a built-in AI caption- and hashtag-generating tool called OwlyWriter AI.\n\nWhile you need to be a Hootsuite user to get access to the full tool (which we’ll discuss in more detail later in this post), we’ve also got a free AI hashtag generator that anyone can use. (You’re welcome.)\n\nJust enter your language, a description of your photo or video, and keywords. The tools will suggest hashtags to add to your Instagram post. [...] Up your analytics game with Hootsuite Advanced Analytics. This results-oriented platform provides Instagram growth tools like graphs, tables, and KPI summaries, so you can clearly measure the ROI of your Instagram marketing.\n\nHootsuite Analytics dashboard\n\nPlus, you can compare how your campaigns measure up against competitors with built-in competitive analytics and industry benchmarking.",
+    "relevanceScore": 73,
+    "linkabilityScore": 89,
+    "editorialScore": 85,
+    "authorityScore": 65,
+    "spamRisk": 5,
+    "qualityScore": 80,
+    "status": "qualified",
+    "action": "draft-outreach",
+    "opportunityType": "resource-page",
+    "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
+    "directoryCandidate": false,
+    "discoveredAt": "2026-09-10T02:51:06.727Z",
+    "firstDiscoveredAt": "2026-08-16T06:35:10.214Z",
+    "lastSeenAt": "2026-09-10T02:51:06.727Z",
+    "queries": [
+      "Instagram marketing tools",
+      "Instagram tools directory submit",
+      "Instagram tools resource page",
+      "Instagram creator blog tools",
+      "social media tools Instagram"
+    ],
+    "backlink": {
+      "reachable": true,
+      "linked": false,
+      "httpStatus": 200,
+      "checkedAt": "2026-09-10T02:51:20.889Z"
+    }
+  },
+  {
+    "url": "https://planable.io/blog/instagram-tools",
+    "domain": "planable.io",
+    "title": "21 best Instagram tools for agencies, brands & creators in 2026",
+    "snippet": "for IG Stories and Reels video editing Fliki - AI tool for video generation Lensa: for quick face retouching IG tools for analytics and monitoring Planable Analytics: best for integrated Instagram insights Keyhole: for monitoring hashtags & IG campaigns Display Purposes: for the IG hashtag generation Reputation: for brand monitoring on Instagram Awario: for advanced social media listening IG tools for influencer and UGC campaigns Modash: for discovering Instagram influencers TINT: for gathering [...] Pricing:Hootsuite has a free trial and paid plans available from $99/month.\n\n## Instagram tools for content creation and editing\n\n### 6. Planable AI: best for caption generation and rewrites\n\nPlanable’s AI helps you create on-point, punchy copy for your Instagram captions. It’s the ultimate way to overcome writer’s block and craft a compelling caption that complements your visual content. Never be scared of the blank page again!\n\nPlanable AI feature for rewriting Instagram captions [...] Accessible design tools. Go beyond good design with features like an Accessibility Checker, Color Contrast Checker, and AI-generated alt text to make sure your Instagram content is inclusive and easy for everyone to engage with.\n Drag-and-drop editor. Quickly adjust layouts, swap in new images, or update text with an editor that feels as simple as moving blocks around.",
+    "relevanceScore": 73,
+    "editorialScore": 85,
+    "spamRisk": 5,
+    "qualityScore": 79,
+    "status": "qualified",
+    "discoveredAt": "2026-09-10T02:51:06.727Z",
+    "firstDiscoveredAt": "2026-08-14T15:59:59.471Z",
+    "lastSeenAt": "2026-09-10T02:51:06.727Z",
+    "queries": [
+      "Instagram tools resource page",
+      "Instagram creator blog tools",
+      "Instagram tools directory submit",
+      "social media tools Instagram"
+    ],
+    "opportunityType": "resource-page",
+    "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
+    "backlink": {
+      "reachable": true,
+      "linked": false,
+      "httpStatus": 200,
+      "checkedAt": "2026-09-10T02:51:21.649Z"
+    },
+    "directoryCandidate": false,
+    "linkabilityScore": 89,
+    "authorityScore": 55,
     "action": "draft-outreach"
   },
   {
@@ -761,7 +794,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:06.598Z"
+      "checkedAt": "2026-09-10T02:51:22.719Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -794,7 +827,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:07.080Z"
+      "checkedAt": "2026-09-10T02:51:22.930Z"
     }
   },
   {
@@ -819,7 +852,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:07.461Z"
+      "checkedAt": "2026-09-10T02:51:23.547Z"
     }
   },
   {
@@ -848,7 +881,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:07.570Z"
+      "checkedAt": "2026-09-10T02:51:23.640Z"
     }
   },
   {
@@ -877,7 +910,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:08.036Z"
+      "checkedAt": "2026-09-10T02:51:24.096Z"
     }
   },
   {
@@ -906,7 +939,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:08.187Z"
+      "checkedAt": "2026-09-10T02:51:24.205Z"
     }
   },
   {
@@ -935,7 +968,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:08.314Z"
+      "checkedAt": "2026-09-10T02:51:24.517Z"
     }
   },
   {
@@ -964,7 +997,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:09.082Z"
+      "checkedAt": "2026-09-10T02:51:25.493Z"
     }
   },
   {
@@ -993,7 +1026,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:09.783Z"
+      "checkedAt": "2026-09-10T02:51:26.028Z"
     }
   },
   {
@@ -1022,7 +1055,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:12.044Z"
+      "checkedAt": "2026-09-10T02:51:26.907Z"
     }
   },
   {
@@ -1041,9 +1074,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:44.705Z",
+    "discoveredAt": "2026-09-10T02:51:05.615Z",
     "firstDiscoveredAt": "2026-08-14T17:07:34.903Z",
-    "lastSeenAt": "2026-09-10T02:47:44.705Z",
+    "lastSeenAt": "2026-09-10T02:51:05.615Z",
     "queries": [
       "Instagram creator resources"
     ],
@@ -1051,7 +1084,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:12.614Z"
+      "checkedAt": "2026-09-10T02:51:27.294Z"
     }
   },
   {
@@ -1080,7 +1113,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:13.399Z"
+      "checkedAt": "2026-09-10T02:51:27.579Z"
     }
   },
   {
@@ -1099,9 +1132,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:45.733Z",
+    "discoveredAt": "2026-09-10T02:51:05.695Z",
     "firstDiscoveredAt": "2026-08-20T07:10:32.001Z",
-    "lastSeenAt": "2026-09-10T02:47:45.733Z",
+    "lastSeenAt": "2026-09-10T02:51:05.695Z",
     "queries": [
       "Instagram marketing tools",
       "Instagram creator blog tools"
@@ -1110,7 +1143,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:13.579Z"
+      "checkedAt": "2026-09-10T02:51:27.749Z"
     }
   },
   {
@@ -1139,7 +1172,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:14.043Z"
+      "checkedAt": "2026-09-10T02:51:28.692Z"
     }
   },
   {
@@ -1152,9 +1185,9 @@
     "spamRisk": 5,
     "qualityScore": 79,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:43.647Z",
+    "discoveredAt": "2026-09-10T02:51:04.835Z",
     "firstDiscoveredAt": "2026-08-14T15:59:52.098Z",
-    "lastSeenAt": "2026-09-10T02:47:43.647Z",
+    "lastSeenAt": "2026-09-10T02:51:04.835Z",
     "queries": [
       "best Instagram tools for creators",
       "Instagram creator blog tools"
@@ -1165,7 +1198,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:15.132Z"
+      "checkedAt": "2026-09-10T02:51:30.367Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -1199,7 +1232,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:15.459Z"
+      "checkedAt": "2026-09-10T02:51:30.881Z"
     }
   },
   {
@@ -1228,7 +1261,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:17.156Z"
+      "checkedAt": "2026-09-10T02:51:32.962Z"
     }
   },
   {
@@ -1241,9 +1274,9 @@
     "spamRisk": 5,
     "qualityScore": 79,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:46.488Z",
+    "discoveredAt": "2026-09-10T02:51:05.777Z",
     "firstDiscoveredAt": "2026-08-14T15:59:52.098Z",
-    "lastSeenAt": "2026-09-10T02:47:46.488Z",
+    "lastSeenAt": "2026-09-10T02:51:05.777Z",
     "queries": [
       "best Instagram tools for creators",
       "Instagram marketing tools",
@@ -1258,7 +1291,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:17.996Z"
+      "checkedAt": "2026-09-10T02:51:34.197Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -1291,7 +1324,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:18.179Z"
+      "checkedAt": "2026-09-10T02:51:34.484Z"
     }
   },
   {
@@ -1320,7 +1353,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:18.387Z"
+      "checkedAt": "2026-09-10T02:51:34.565Z"
     }
   },
   {
@@ -1346,7 +1379,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:18.656Z"
+      "checkedAt": "2026-09-10T02:51:34.766Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -1379,7 +1412,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:19.373Z"
+      "checkedAt": "2026-09-10T02:51:35.676Z"
     }
   },
   {
@@ -1404,7 +1437,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:20.405Z"
+      "checkedAt": "2026-09-10T02:51:36.650Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 81,
@@ -1421,9 +1454,9 @@
     "spamRisk": 5,
     "qualityScore": 76,
     "status": "qualified",
-    "discoveredAt": "2026-09-09T11:31:37.682Z",
+    "discoveredAt": "2026-09-10T02:51:06.727Z",
     "firstDiscoveredAt": "2026-08-14T16:43:51.986Z",
-    "lastSeenAt": "2026-09-09T11:31:37.682Z",
+    "lastSeenAt": "2026-09-10T02:51:06.727Z",
     "queries": [
       "Instagram tools resource page"
     ],
@@ -1433,7 +1466,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:23.527Z"
+      "checkedAt": "2026-09-10T02:51:40.882Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -1450,9 +1483,9 @@
     "spamRisk": 5,
     "qualityScore": 76,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:41.683Z",
+    "discoveredAt": "2026-09-10T02:51:04.532Z",
     "firstDiscoveredAt": "2026-08-14T15:59:50.282Z",
-    "lastSeenAt": "2026-09-10T02:47:41.683Z",
+    "lastSeenAt": "2026-09-10T02:51:04.532Z",
     "queries": [
       "Instagram downloader tools",
       "Instagram Reels downloader tools"
@@ -1463,7 +1496,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:23.593Z"
+      "checkedAt": "2026-09-10T02:51:41.026Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 81,
@@ -1480,9 +1513,9 @@
     "spamRisk": 5,
     "qualityScore": 76,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:45.733Z",
+    "discoveredAt": "2026-09-10T02:51:05.695Z",
     "firstDiscoveredAt": "2026-08-14T15:59:54.425Z",
-    "lastSeenAt": "2026-09-10T02:47:45.733Z",
+    "lastSeenAt": "2026-09-10T02:51:05.695Z",
     "queries": [
       "Instagram marketing tools"
     ],
@@ -1492,7 +1525,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:25.062Z"
+      "checkedAt": "2026-09-10T02:51:41.295Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -1525,7 +1558,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:25.886Z"
+      "checkedAt": "2026-09-10T02:51:41.512Z"
     }
   },
   {
@@ -1556,7 +1589,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:26.205Z"
+      "checkedAt": "2026-09-10T02:51:41.599Z"
     }
   },
   {
@@ -1585,7 +1618,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:27.065Z"
+      "checkedAt": "2026-09-10T02:51:42.037Z"
     }
   },
   {
@@ -1614,7 +1647,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:27.171Z"
+      "checkedAt": "2026-09-10T02:51:42.157Z"
     }
   },
   {
@@ -1643,7 +1676,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:27.375Z"
+      "checkedAt": "2026-09-10T02:51:42.368Z"
     }
   },
   {
@@ -1672,7 +1705,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:27.498Z"
+      "checkedAt": "2026-09-10T02:51:42.468Z"
     }
   },
   {
@@ -1701,7 +1734,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:27.635Z"
+      "checkedAt": "2026-09-10T02:51:42.582Z"
     }
   },
   {
@@ -1730,7 +1763,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:27.822Z"
+      "checkedAt": "2026-09-10T02:51:42.655Z"
     }
   },
   {
@@ -1743,9 +1776,9 @@
     "spamRisk": 5,
     "qualityScore": 76,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:43.647Z",
+    "discoveredAt": "2026-09-10T02:51:04.835Z",
     "firstDiscoveredAt": "2026-08-14T15:59:52.098Z",
-    "lastSeenAt": "2026-09-10T02:47:43.647Z",
+    "lastSeenAt": "2026-09-10T02:51:04.835Z",
     "queries": [
       "best Instagram tools for creators"
     ],
@@ -1755,7 +1788,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:29.531Z"
+      "checkedAt": "2026-09-10T02:51:42.989Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -1788,7 +1821,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:29.894Z"
+      "checkedAt": "2026-09-10T02:51:43.458Z"
     }
   },
   {
@@ -1807,9 +1840,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:54.595Z",
+    "discoveredAt": "2026-09-10T02:51:06.971Z",
     "firstDiscoveredAt": "2026-08-14T17:58:53.431Z",
-    "lastSeenAt": "2026-09-10T02:47:54.595Z",
+    "lastSeenAt": "2026-09-10T02:51:06.971Z",
     "queries": [
       "social media tools directory add tool",
       "social media tools Instagram",
@@ -1819,7 +1852,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:30.085Z"
+      "checkedAt": "2026-09-10T02:51:44.050Z"
     }
   },
   {
@@ -1848,7 +1881,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:30.201Z"
+      "checkedAt": "2026-09-10T02:51:44.103Z"
     }
   },
   {
@@ -1877,7 +1910,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:30.281Z"
+      "checkedAt": "2026-09-10T02:51:44.297Z"
     }
   },
   {
@@ -1906,7 +1939,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:31.062Z"
+      "checkedAt": "2026-09-10T02:51:45.779Z"
     }
   },
   {
@@ -1925,9 +1958,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:52.652Z",
+    "discoveredAt": "2026-09-10T02:51:06.809Z",
     "firstDiscoveredAt": "2026-08-18T08:16:50.913Z",
-    "lastSeenAt": "2026-09-10T02:47:52.652Z",
+    "lastSeenAt": "2026-09-10T02:51:06.809Z",
     "queries": [
       "best Instagram tools for creators",
       "Instagram creator blog tools",
@@ -1937,7 +1970,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:31.191Z"
+      "checkedAt": "2026-09-10T02:51:45.881Z"
     }
   },
   {
@@ -1956,9 +1989,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:47.424Z",
+    "discoveredAt": "2026-09-10T02:51:05.858Z",
     "firstDiscoveredAt": "2026-09-06T11:04:10.983Z",
-    "lastSeenAt": "2026-09-10T02:47:47.424Z",
+    "lastSeenAt": "2026-09-10T02:51:05.858Z",
     "queries": [
       "Instagram downloader comparison"
     ],
@@ -1966,7 +1999,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:31.246Z"
+      "checkedAt": "2026-09-10T02:51:45.901Z"
     }
   },
   {
@@ -1985,9 +2018,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:43.647Z",
+    "discoveredAt": "2026-09-10T02:51:04.835Z",
     "firstDiscoveredAt": "2026-08-15T18:32:54.391Z",
-    "lastSeenAt": "2026-09-10T02:47:43.647Z",
+    "lastSeenAt": "2026-09-10T02:51:04.835Z",
     "queries": [
       "best Instagram tools for creators"
     ],
@@ -1995,7 +2028,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:33.883Z"
+      "checkedAt": "2026-09-10T02:51:47.115Z"
     }
   },
   {
@@ -2020,14 +2053,14 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:34.254Z"
+      "checkedAt": "2026-09-10T02:51:47.879Z"
     }
   },
   {
     "url": "https://popularpays.com/blog/instagram-content-creator",
     "domain": "popularpays.com",
-    "title": "The Ultimate Guide to Instagram Content Creators (+ Examples and Tools) | Popular Pays Blog",
-    "snippet": "This method works specifically with the Instagram desktop app. Start by visiting the Instagram profiles of brands you love and identify the influencers that those brands work with. Then, visit those influencers’ profiles and narrow down your picks based on those that stand out to you.Next, click the drop down menu beside the Follow button and look at the profiles in the Suggested list. Keep repeating the process until you narrow your choices down to your favorite influencers. [...] You can also be a content creator — for your brand’s Instagram business account. This is most likely the account you’ll use to contact these content creators, so you want to be sure your profile is appealing and professional. With the right tools in your arsenal it’s easy to create attractive, valuable content that your audience will love. There are plenty of content creation tools on the market, but here are our top five:\n\n### From Popular Pays [...] Step #1: Tap the magnifying glass icon at the bottom of the app.\n Step #2: Type one of the hashtags into the search bar. Let’s use #guitarplayer. When you do this, other hashtag suggestions will pop up. We’re using the first suggestion from the list for this example.\n Step #3: Click on a post that interests you and view the creator’s profile.",
+    "title": "The Ultimate Guide to Instagram Content Creators ...",
+    "snippet": "You can also be a content creator — for your brand’s Instagram business account. This is most likely the account you’ll use to contact these content creators, so you want to be sure your profile is appealing and professional. With the right tools in your arsenal it’s easy to create attractive, valuable content that your audience will love. There are plenty of content creation tools on the market, but here are our top five:\n\n### From Popular Pays [...] This method works specifically with the Instagram desktop app. Start by visiting the Instagram profiles of brands you love and identify the influencers that those brands work with. Then, visit those influencers’ profiles and narrow down your picks based on those that stand out to you.Next, click the drop down menu beside the Follow button and look at the profiles in the Suggested list. Keep repeating the process until you narrow your choices down to your favorite influencers. [...] 1. Search our opt-in network of over 90,000 creators by content capabilities, interests, location, and more.\n2. Save and organize creators based on your preferences to custom lists for easy discoverability\n\n### 5. Reach Out to Influencers on Your Shortlist",
     "relevanceScore": 57,
     "linkabilityScore": 89,
     "editorialScore": 85,
@@ -2039,9 +2072,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:44.705Z",
+    "discoveredAt": "2026-09-10T02:51:05.615Z",
     "firstDiscoveredAt": "2026-08-15T18:33:04.949Z",
-    "lastSeenAt": "2026-09-10T02:47:44.705Z",
+    "lastSeenAt": "2026-09-10T02:51:05.615Z",
     "queries": [
       "Instagram creator blog tools",
       "Instagram creator resources"
@@ -2050,7 +2083,7 @@
       "reachable": false,
       "linked": false,
       "error": "fetch failed",
-      "checkedAt": "2026-09-10T02:48:34.401Z"
+      "checkedAt": "2026-09-10T02:51:47.981Z"
     }
   },
   {
@@ -2063,9 +2096,9 @@
     "spamRisk": 5,
     "qualityScore": 74,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:52.652Z",
+    "discoveredAt": "2026-09-10T02:51:06.809Z",
     "firstDiscoveredAt": "2026-08-14T15:59:52.098Z",
-    "lastSeenAt": "2026-09-10T02:47:52.652Z",
+    "lastSeenAt": "2026-09-10T02:51:06.809Z",
     "queries": [
       "best Instagram tools for creators",
       "Instagram creator blog tools"
@@ -2076,7 +2109,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:34.573Z"
+      "checkedAt": "2026-09-10T02:51:48.385Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -2110,7 +2143,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:34.741Z"
+      "checkedAt": "2026-09-10T02:51:48.510Z"
     }
   },
   {
@@ -2123,9 +2156,9 @@
     "spamRisk": 5,
     "qualityScore": 74,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:46.488Z",
+    "discoveredAt": "2026-09-10T02:51:05.777Z",
     "firstDiscoveredAt": "2026-08-14T15:59:54.425Z",
-    "lastSeenAt": "2026-09-10T02:47:46.488Z",
+    "lastSeenAt": "2026-09-10T02:51:05.777Z",
     "queries": [
       "Instagram marketing tools",
       "social media tools Instagram",
@@ -2137,7 +2170,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:34.826Z"
+      "checkedAt": "2026-09-10T02:51:48.777Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -2167,7 +2200,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:34.996Z"
+      "checkedAt": "2026-09-10T02:51:49.029Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 81,
@@ -2198,7 +2231,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:35.089Z"
+      "checkedAt": "2026-09-10T02:51:49.111Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -2227,7 +2260,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:35.347Z"
+      "checkedAt": "2026-09-10T02:51:49.564Z"
     },
     "linkabilityScore": 89,
     "authorityScore": 55,
@@ -2260,7 +2293,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:35.406Z"
+      "checkedAt": "2026-09-10T02:51:49.671Z"
     }
   },
   {
@@ -2289,7 +2322,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:36.769Z"
+      "checkedAt": "2026-09-10T02:51:50.578Z"
     }
   },
   {
@@ -2318,7 +2351,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:36.917Z"
+      "checkedAt": "2026-09-10T02:51:50.728Z"
     }
   },
   {
@@ -2347,7 +2380,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:38.011Z"
+      "checkedAt": "2026-09-10T02:51:52.298Z"
     }
   },
   {
@@ -2376,7 +2409,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:38.253Z"
+      "checkedAt": "2026-09-10T02:51:52.564Z"
     }
   },
   {
@@ -2405,7 +2438,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:38.361Z"
+      "checkedAt": "2026-09-10T02:51:52.756Z"
     }
   },
   {
@@ -2435,7 +2468,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:38.467Z"
+      "checkedAt": "2026-09-10T02:51:52.854Z"
     }
   },
   {
@@ -2464,7 +2497,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:40.563Z"
+      "checkedAt": "2026-09-10T02:51:56.253Z"
     }
   },
   {
@@ -2493,7 +2526,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:40.600Z"
+      "checkedAt": "2026-09-10T02:51:56.311Z"
     }
   },
   {
@@ -2522,7 +2555,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 429,
-      "checkedAt": "2026-09-10T02:48:40.680Z"
+      "checkedAt": "2026-09-10T02:51:56.423Z"
     }
   },
   {
@@ -2535,9 +2568,9 @@
     "spamRisk": 5,
     "qualityScore": 74,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:54.595Z",
+    "discoveredAt": "2026-09-10T02:51:06.971Z",
     "firstDiscoveredAt": "2026-08-14T16:50:38.899Z",
-    "lastSeenAt": "2026-09-10T02:47:54.595Z",
+    "lastSeenAt": "2026-09-10T02:51:06.971Z",
     "queries": [
       "social media tools directory add tool"
     ],
@@ -2548,7 +2581,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:42.428Z"
+      "checkedAt": "2026-09-10T02:51:58.422Z"
     },
     "linkabilityScore": 89,
     "authorityScore": 55,
@@ -2579,7 +2612,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:43.212Z"
+      "checkedAt": "2026-09-10T02:51:59.162Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -2612,7 +2645,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:43.785Z"
+      "checkedAt": "2026-09-10T02:51:59.972Z"
     }
   },
   {
@@ -2641,7 +2674,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:44.468Z"
+      "checkedAt": "2026-09-10T02:52:00.365Z"
     }
   },
   {
@@ -2670,7 +2703,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:47.015Z"
+      "checkedAt": "2026-09-10T02:52:02.408Z"
     }
   },
   {
@@ -2689,9 +2722,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:45.733Z",
+    "discoveredAt": "2026-09-10T02:51:05.695Z",
     "firstDiscoveredAt": "2026-09-05T10:42:06.386Z",
-    "lastSeenAt": "2026-09-10T02:47:45.733Z",
+    "lastSeenAt": "2026-09-10T02:51:05.695Z",
     "queries": [
       "Instagram marketing tools"
     ],
@@ -2699,7 +2732,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:47.289Z"
+      "checkedAt": "2026-09-10T02:52:07.209Z"
     }
   },
   {
@@ -2728,7 +2761,7 @@
       "reachable": false,
       "linked": false,
       "error": "fetch failed",
-      "checkedAt": "2026-09-10T02:48:47.346Z"
+      "checkedAt": "2026-09-10T02:52:07.375Z"
     }
   },
   {
@@ -2757,7 +2790,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:48.439Z"
+      "checkedAt": "2026-09-10T02:52:08.025Z"
     }
   },
   {
@@ -2776,9 +2809,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:46.488Z",
+    "discoveredAt": "2026-09-10T02:51:05.777Z",
     "firstDiscoveredAt": "2026-09-08T11:26:04.821Z",
-    "lastSeenAt": "2026-09-10T02:47:46.488Z",
+    "lastSeenAt": "2026-09-10T02:51:05.777Z",
     "queries": [
       "social media tools Instagram"
     ],
@@ -2786,7 +2819,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:50.080Z"
+      "checkedAt": "2026-09-10T02:52:10.334Z"
     }
   },
   {
@@ -2815,40 +2848,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:50.421Z"
-    }
-  },
-  {
-    "url": "https://blog.hootsuite.com/instagram-tools",
-    "domain": "blog.hootsuite.com",
-    "title": "37 powerful Instagram tools marketers should use",
-    "snippet": "In other words, Instagram is a critical tool for brands wanting to extend their reach and improve social ROI. Creating an effective and efficient Instagram strategy doesn’t have to be overwhelming.\n\nThese 37 Instagram tools help maximize your Instagram efforts while saving your sanity.\n\n## Instagram scheduling tools\n\n### 1. Hootsuite\n\nHootsuite is one of the best social media management platforms out there — and it has all the Instagram tools a social media manager needs. [...] Change automation triggers automatically boost posts that meet your minimum requirements\n\n### 16. Hootsuite Social Advertising\n\nSocial media managers understand the value of running paid and organic campaigns in harmony with each other to help achieve business goals.\n\nHootsuite’s Social Advertising allows you to plan and publish ads on Instagram alongside your organic content, giving you the ability to make data-driven decisions about your campaign strategy all in one place. [...] ### 3. Buffer\n\nBuffer offers good Instagram scheduling tools, especially for those who are more focused on scheduling than on analytics. Its built-in engagement tools (available on paid plans) consolidate Instagram comments (but not DMs) so you can respond to the public conversations that require your attention.\n\nSee how Buffer compares to Hootsuite.\n\n### 4. Sprout Social",
-    "relevanceScore": 49,
-    "linkabilityScore": 89,
-    "editorialScore": 85,
-    "authorityScore": 65,
-    "spamRisk": 5,
-    "qualityScore": 73,
-    "status": "review",
-    "action": "discard-or-review",
-    "opportunityType": "resource-page",
-    "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
-    "directoryCandidate": false,
-    "discoveredAt": "2026-09-07T12:42:56.025Z",
-    "firstDiscoveredAt": "2026-08-16T06:35:10.214Z",
-    "lastSeenAt": "2026-09-07T12:42:56.025Z",
-    "queries": [
-      "Instagram marketing tools",
-      "Instagram tools directory submit",
-      "Instagram tools resource page",
-      "Instagram creator blog tools",
-      "social media tools Instagram"
-    ],
-    "backlink": {
-      "reachable": true,
-      "linked": false,
-      "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:50.709Z"
+      "checkedAt": "2026-09-10T02:52:10.416Z"
     }
   },
   {
@@ -2877,7 +2877,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:51.683Z"
+      "checkedAt": "2026-09-10T02:52:11.750Z"
     }
   },
   {
@@ -2906,7 +2906,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:52.280Z"
+      "checkedAt": "2026-09-10T02:52:12.026Z"
     }
   },
   {
@@ -2925,9 +2925,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-09T11:31:37.683Z",
+    "discoveredAt": "2026-09-10T02:51:06.727Z",
     "firstDiscoveredAt": "2026-08-15T18:32:56.053Z",
-    "lastSeenAt": "2026-09-09T11:31:37.683Z",
+    "lastSeenAt": "2026-09-10T02:51:06.727Z",
     "queries": [
       "Instagram creator resources",
       "Instagram tools resource page"
@@ -2936,7 +2936,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:52.497Z"
+      "checkedAt": "2026-09-10T02:52:12.287Z"
     }
   },
   {
@@ -2949,9 +2949,9 @@
     "spamRisk": 5,
     "qualityScore": 72,
     "status": "review",
-    "discoveredAt": "2026-09-10T02:47:46.488Z",
+    "discoveredAt": "2026-09-10T02:51:05.777Z",
     "firstDiscoveredAt": "2026-08-14T15:59:52.098Z",
-    "lastSeenAt": "2026-09-10T02:47:46.488Z",
+    "lastSeenAt": "2026-09-10T02:51:05.777Z",
     "queries": [
       "best Instagram tools for creators",
       "social media tools Instagram",
@@ -2963,7 +2963,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:53.010Z"
+      "checkedAt": "2026-09-10T02:52:13.313Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 89,
@@ -2986,9 +2986,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:47.424Z",
+    "discoveredAt": "2026-09-10T02:51:05.858Z",
     "firstDiscoveredAt": "2026-08-21T07:11:41.411Z",
-    "lastSeenAt": "2026-09-10T02:47:47.424Z",
+    "lastSeenAt": "2026-09-10T02:51:05.858Z",
     "queries": [
       "Instagram downloader comparison"
     ],
@@ -2996,7 +2996,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:53.393Z"
+      "checkedAt": "2026-09-10T02:52:13.475Z"
     }
   },
   {
@@ -3025,7 +3025,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:53.617Z"
+      "checkedAt": "2026-09-10T02:52:13.918Z"
     }
   },
   {
@@ -3054,7 +3054,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:54.171Z"
+      "checkedAt": "2026-09-10T02:52:14.471Z"
     }
   },
   {
@@ -3083,7 +3083,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:54.460Z"
+      "checkedAt": "2026-09-10T02:52:14.583Z"
     }
   },
   {
@@ -3112,7 +3112,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:55.871Z"
+      "checkedAt": "2026-09-10T02:52:15.037Z"
     }
   },
   {
@@ -3141,7 +3141,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:56.755Z"
+      "checkedAt": "2026-09-10T02:52:15.710Z"
     }
   },
   {
@@ -3170,7 +3170,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:57.662Z"
+      "checkedAt": "2026-09-10T02:52:17.906Z"
     }
   },
   {
@@ -3199,7 +3199,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:57.767Z"
+      "checkedAt": "2026-09-10T02:52:18.002Z"
     }
   },
   {
@@ -3228,7 +3228,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:57.890Z"
+      "checkedAt": "2026-09-10T02:52:18.066Z"
     }
   },
   {
@@ -3241,9 +3241,9 @@
     "spamRisk": 5,
     "qualityScore": 71,
     "status": "qualified",
-    "discoveredAt": "2026-09-09T11:31:37.682Z",
+    "discoveredAt": "2026-09-10T02:51:06.727Z",
     "firstDiscoveredAt": "2026-08-14T15:59:59.471Z",
-    "lastSeenAt": "2026-09-09T11:31:37.682Z",
+    "lastSeenAt": "2026-09-10T02:51:06.727Z",
     "queries": [
       "Instagram tools resource page",
       "Instagram tools directory submit",
@@ -3255,7 +3255,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:58.910Z"
+      "checkedAt": "2026-09-10T02:52:19.250Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 81,
@@ -3284,7 +3284,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:48:59.046Z"
+      "checkedAt": "2026-09-10T02:52:19.360Z"
     },
     "linkabilityScore": 81,
     "authorityScore": 55,
@@ -3317,7 +3317,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:59.227Z"
+      "checkedAt": "2026-09-10T02:52:19.719Z"
     }
   },
   {
@@ -3346,7 +3346,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:48:59.842Z"
+      "checkedAt": "2026-09-10T02:52:20.900Z"
     }
   },
   {
@@ -3365,9 +3365,9 @@
     "opportunityType": "editorial-mention",
     "pitchAngle": "Offer InstaFetch as a relevant example where the article already discusses Instagram download workflows.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:45.733Z",
+    "discoveredAt": "2026-09-10T02:51:05.695Z",
     "firstDiscoveredAt": "2026-08-14T17:07:36.911Z",
-    "lastSeenAt": "2026-09-10T02:47:45.733Z",
+    "lastSeenAt": "2026-09-10T02:51:05.695Z",
     "queries": [
       "Instagram marketing tools"
     ],
@@ -3375,7 +3375,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:01.916Z"
+      "checkedAt": "2026-09-10T02:52:21.399Z"
     }
   },
   {
@@ -3388,9 +3388,9 @@
     "spamRisk": 5,
     "qualityScore": 71,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:42.759Z",
+    "discoveredAt": "2026-09-10T02:51:04.752Z",
     "firstDiscoveredAt": "2026-08-14T15:59:51.299Z",
-    "lastSeenAt": "2026-09-10T02:47:42.759Z",
+    "lastSeenAt": "2026-09-10T02:51:04.752Z",
     "queries": [
       "Instagram Reels downloader tools",
       "how to download Instagram Reels"
@@ -3401,7 +3401,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:01.995Z"
+      "checkedAt": "2026-09-10T02:52:21.437Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 81,
@@ -3434,7 +3434,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:02.795Z"
+      "checkedAt": "2026-09-10T02:52:21.775Z"
     }
   },
   {
@@ -3463,7 +3463,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:02.940Z"
+      "checkedAt": "2026-09-10T02:52:22.485Z"
     }
   },
   {
@@ -3488,7 +3488,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:03.046Z"
+      "checkedAt": "2026-09-10T02:52:22.684Z"
     },
     "linkabilityScore": 71,
     "authorityScore": 55,
@@ -3521,7 +3521,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:03.116Z"
+      "checkedAt": "2026-09-10T02:52:22.931Z"
     }
   },
   {
@@ -3550,7 +3550,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:03.225Z"
+      "checkedAt": "2026-09-10T02:52:23.031Z"
     }
   },
   {
@@ -3579,7 +3579,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:03.841Z"
+      "checkedAt": "2026-09-10T02:52:23.622Z"
     }
   },
   {
@@ -3608,7 +3608,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:03.979Z"
+      "checkedAt": "2026-09-10T02:52:23.710Z"
     }
   },
   {
@@ -3637,7 +3637,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:04.162Z"
+      "checkedAt": "2026-09-10T02:52:23.821Z"
     }
   },
   {
@@ -3666,7 +3666,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:04.205Z"
+      "checkedAt": "2026-09-10T02:52:23.959Z"
     }
   },
   {
@@ -3685,9 +3685,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:54.595Z",
+    "discoveredAt": "2026-09-10T02:51:06.971Z",
     "firstDiscoveredAt": "2026-08-14T17:22:34.249Z",
-    "lastSeenAt": "2026-09-10T02:47:54.595Z",
+    "lastSeenAt": "2026-09-10T02:51:06.971Z",
     "queries": [
       "social media tools directory add tool"
     ],
@@ -3695,7 +3695,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:04.296Z"
+      "checkedAt": "2026-09-10T02:52:24.132Z"
     }
   },
   {
@@ -3725,7 +3725,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:04.484Z"
+      "checkedAt": "2026-09-10T02:52:24.435Z"
     }
   },
   {
@@ -3754,7 +3754,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:04.974Z"
+      "checkedAt": "2026-09-10T02:52:24.937Z"
     }
   },
   {
@@ -3773,9 +3773,9 @@
     "opportunityType": "resource-page",
     "pitchAngle": "Offer InstaFetch as an additional free tool for readers who need to save supported public Instagram media.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:46.488Z",
+    "discoveredAt": "2026-09-10T02:51:05.777Z",
     "firstDiscoveredAt": "2026-08-17T07:19:56.682Z",
-    "lastSeenAt": "2026-09-10T02:47:46.488Z",
+    "lastSeenAt": "2026-09-10T02:51:05.777Z",
     "queries": [
       "social media tools Instagram"
     ],
@@ -3783,7 +3783,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:05.451Z"
+      "checkedAt": "2026-09-10T02:52:25.433Z"
     }
   },
   {
@@ -3812,7 +3812,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:05.488Z"
+      "checkedAt": "2026-09-10T02:52:26.310Z"
     }
   },
   {
@@ -3841,7 +3841,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:07.277Z"
+      "checkedAt": "2026-09-10T02:52:27.488Z"
     }
   },
   {
@@ -3870,7 +3870,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:07.307Z"
+      "checkedAt": "2026-09-10T02:52:27.513Z"
     }
   },
   {
@@ -3899,7 +3899,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:07.597Z"
+      "checkedAt": "2026-09-10T02:52:27.860Z"
     }
   },
   {
@@ -3928,7 +3928,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:07.829Z"
+      "checkedAt": "2026-09-10T02:52:27.995Z"
     }
   },
   {
@@ -3941,9 +3941,9 @@
     "spamRisk": 5,
     "qualityScore": 68,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:42.759Z",
+    "discoveredAt": "2026-09-10T02:51:04.753Z",
     "firstDiscoveredAt": "2026-08-14T15:59:51.300Z",
-    "lastSeenAt": "2026-09-10T02:47:42.759Z",
+    "lastSeenAt": "2026-09-10T02:51:04.753Z",
     "queries": [
       "Instagram Reels downloader tools",
       "how to download Instagram Reels"
@@ -3954,7 +3954,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:08.394Z"
+      "checkedAt": "2026-09-10T02:52:28.647Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 71,
@@ -3987,7 +3987,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 404,
-      "checkedAt": "2026-09-10T02:49:08.673Z"
+      "checkedAt": "2026-09-10T02:52:29.093Z"
     }
   },
   {
@@ -4016,7 +4016,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:08.865Z"
+      "checkedAt": "2026-09-10T02:52:29.141Z"
     }
   },
   {
@@ -4045,7 +4045,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:09.315Z"
+      "checkedAt": "2026-09-10T02:52:30.118Z"
     }
   },
   {
@@ -4074,7 +4074,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:09.344Z"
+      "checkedAt": "2026-09-10T02:52:30.321Z"
     }
   },
   {
@@ -4103,7 +4103,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:12.480Z"
+      "checkedAt": "2026-09-10T02:52:35.840Z"
     }
   },
   {
@@ -4122,9 +4122,9 @@
     "opportunityType": "editorial-mention",
     "pitchAngle": "Offer InstaFetch as a relevant example where the article already discusses Instagram download workflows.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:48.656Z",
+    "discoveredAt": "2026-09-10T02:51:05.940Z",
     "firstDiscoveredAt": "2026-08-22T07:03:18.529Z",
-    "lastSeenAt": "2026-09-10T02:47:48.656Z",
+    "lastSeenAt": "2026-09-10T02:51:05.940Z",
     "queries": [
       "how to download Instagram Reels",
       "Instagram Reels downloader tools"
@@ -4133,7 +4133,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:12.703Z"
+      "checkedAt": "2026-09-10T02:52:36.399Z"
     }
   },
   {
@@ -4162,7 +4162,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:12.828Z"
+      "checkedAt": "2026-09-10T02:52:36.485Z"
     }
   },
   {
@@ -4191,7 +4191,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:12.891Z"
+      "checkedAt": "2026-09-10T02:52:36.581Z"
     }
   },
   {
@@ -4220,7 +4220,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:13.237Z"
+      "checkedAt": "2026-09-10T02:52:36.892Z"
     }
   },
   {
@@ -4249,7 +4249,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:14.191Z"
+      "checkedAt": "2026-09-10T02:52:37.814Z"
     }
   },
   {
@@ -4278,7 +4278,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:14.279Z"
+      "checkedAt": "2026-09-10T02:52:37.936Z"
     }
   },
   {
@@ -4307,7 +4307,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:14.811Z"
+      "checkedAt": "2026-09-10T02:52:38.541Z"
     }
   },
   {
@@ -4336,7 +4336,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:14.859Z"
+      "checkedAt": "2026-09-10T02:52:38.587Z"
     }
   },
   {
@@ -4365,7 +4365,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:14.898Z"
+      "checkedAt": "2026-09-10T02:52:38.642Z"
     }
   },
   {
@@ -4394,7 +4394,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:15.051Z"
+      "checkedAt": "2026-09-10T02:52:38.865Z"
     }
   },
   {
@@ -4423,7 +4423,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:15.154Z"
+      "checkedAt": "2026-09-10T02:52:39.166Z"
     }
   },
   {
@@ -4442,9 +4442,9 @@
     "opportunityType": "directory-submission",
     "pitchAngle": "Submit InstaFetch only if the directory has a genuine editorial or curated listing process and the tool is relevant to its category.",
     "directoryCandidate": true,
-    "discoveredAt": "2026-09-10T02:47:53.504Z",
+    "discoveredAt": "2026-09-10T02:51:06.890Z",
     "firstDiscoveredAt": "2026-08-14T17:22:33.264Z",
-    "lastSeenAt": "2026-09-10T02:47:53.504Z",
+    "lastSeenAt": "2026-09-10T02:51:06.890Z",
     "queries": [
       "Instagram tools directory submit"
     ],
@@ -4452,7 +4452,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:15.328Z"
+      "checkedAt": "2026-09-10T02:52:39.569Z"
     }
   },
   {
@@ -4481,7 +4481,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:15.345Z"
+      "checkedAt": "2026-09-10T02:52:39.592Z"
     }
   },
   {
@@ -4510,7 +4510,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:15.398Z"
+      "checkedAt": "2026-09-10T02:52:39.664Z"
     }
   },
   {
@@ -4523,9 +4523,9 @@
     "spamRisk": 5,
     "qualityScore": 65,
     "status": "qualified",
-    "discoveredAt": "2026-09-10T02:47:48.656Z",
+    "discoveredAt": "2026-09-10T02:51:05.940Z",
     "firstDiscoveredAt": "2026-08-14T15:59:51.300Z",
-    "lastSeenAt": "2026-09-10T02:47:48.656Z",
+    "lastSeenAt": "2026-09-10T02:51:05.940Z",
     "queries": [
       "Instagram Reels downloader tools",
       "how to download Instagram Reels"
@@ -4536,7 +4536,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:15.419Z"
+      "checkedAt": "2026-09-10T02:52:39.735Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 63,
@@ -4566,10 +4566,10 @@
       "social media tools directory add tool"
     ],
     "backlink": {
-      "reachable": false,
+      "reachable": true,
       "linked": false,
-      "error": "fetch failed",
-      "checkedAt": "2026-09-10T02:49:17.172Z"
+      "httpStatus": 200,
+      "checkedAt": "2026-09-10T02:52:43.830Z"
     }
   },
   {
@@ -4598,7 +4598,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:21.751Z"
+      "checkedAt": "2026-09-10T02:52:48.664Z"
     }
   },
   {
@@ -4627,7 +4627,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:22.681Z"
+      "checkedAt": "2026-09-10T02:52:48.833Z"
     }
   },
   {
@@ -4656,7 +4656,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:22.822Z"
+      "checkedAt": "2026-09-10T02:52:49.224Z"
     }
   },
   {
@@ -4685,7 +4685,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:23.337Z"
+      "checkedAt": "2026-09-10T02:52:49.557Z"
     }
   },
   {
@@ -4714,7 +4714,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:23.516Z"
+      "checkedAt": "2026-09-10T02:52:49.770Z"
     }
   },
   {
@@ -4733,9 +4733,9 @@
     "opportunityType": "directory-submission",
     "pitchAngle": "Submit InstaFetch only if the directory has a genuine editorial or curated listing process and the tool is relevant to its category.",
     "directoryCandidate": true,
-    "discoveredAt": "2026-09-10T02:47:53.504Z",
+    "discoveredAt": "2026-09-10T02:51:06.890Z",
     "firstDiscoveredAt": "2026-08-19T07:09:22.821Z",
-    "lastSeenAt": "2026-09-10T02:47:53.504Z",
+    "lastSeenAt": "2026-09-10T02:51:06.890Z",
     "queries": [
       "Instagram tools directory submit"
     ],
@@ -4743,7 +4743,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:23.624Z"
+      "checkedAt": "2026-09-10T02:52:50.062Z"
     }
   },
   {
@@ -4768,7 +4768,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:24.075Z"
+      "checkedAt": "2026-09-10T02:52:50.772Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 63,
@@ -4801,7 +4801,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:24.235Z"
+      "checkedAt": "2026-09-10T02:52:50.884Z"
     }
   },
   {
@@ -4830,7 +4830,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:24.341Z"
+      "checkedAt": "2026-09-10T02:52:51.025Z"
     }
   },
   {
@@ -4849,9 +4849,9 @@
     "opportunityType": "directory-submission",
     "pitchAngle": "Submit InstaFetch only if the directory has a genuine editorial or curated listing process and the tool is relevant to its category.",
     "directoryCandidate": true,
-    "discoveredAt": "2026-09-10T02:47:53.504Z",
+    "discoveredAt": "2026-09-10T02:51:06.890Z",
     "firstDiscoveredAt": "2026-08-15T07:01:49.745Z",
-    "lastSeenAt": "2026-09-10T02:47:53.504Z",
+    "lastSeenAt": "2026-09-10T02:51:06.890Z",
     "queries": [
       "Instagram tools directory submit"
     ],
@@ -4859,7 +4859,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:25.068Z"
+      "checkedAt": "2026-09-10T02:52:52.304Z"
     }
   },
   {
@@ -4888,7 +4888,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:28.287Z"
+      "checkedAt": "2026-09-10T02:52:54.872Z"
     }
   },
   {
@@ -4917,7 +4917,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:28.415Z"
+      "checkedAt": "2026-09-10T02:52:55.114Z"
     }
   },
   {
@@ -4946,7 +4946,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:28.450Z"
+      "checkedAt": "2026-09-10T02:52:55.269Z"
     }
   },
   {
@@ -4975,7 +4975,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:28.874Z"
+      "checkedAt": "2026-09-10T02:52:56.064Z"
     }
   },
   {
@@ -5004,7 +5004,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:29.071Z"
+      "checkedAt": "2026-09-10T02:52:56.354Z"
     }
   },
   {
@@ -5017,9 +5017,9 @@
     "spamRisk": 5,
     "qualityScore": 58,
     "status": "review",
-    "discoveredAt": "2026-09-10T02:47:42.759Z",
+    "discoveredAt": "2026-09-10T02:51:04.753Z",
     "firstDiscoveredAt": "2026-08-14T15:59:51.300Z",
-    "lastSeenAt": "2026-09-10T02:47:42.759Z",
+    "lastSeenAt": "2026-09-10T02:51:04.753Z",
     "queries": [
       "Instagram Reels downloader tools",
       "how to download Instagram Reels"
@@ -5030,7 +5030,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:29.141Z"
+      "checkedAt": "2026-09-10T02:52:56.446Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 48,
@@ -5063,7 +5063,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:29.618Z"
+      "checkedAt": "2026-09-10T02:52:56.612Z"
     }
   },
   {
@@ -5092,7 +5092,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:30.255Z"
+      "checkedAt": "2026-09-10T02:52:57.282Z"
     }
   },
   {
@@ -5111,9 +5111,9 @@
     "opportunityType": "broken-link-candidate",
     "pitchAngle": "Check whether the page contains an outdated or broken Instagram download reference that InstaFetch could legitimately replace.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:41.684Z",
+    "discoveredAt": "2026-09-10T02:51:04.533Z",
     "firstDiscoveredAt": "2026-08-31T13:48:32.571Z",
-    "lastSeenAt": "2026-09-10T02:47:41.684Z",
+    "lastSeenAt": "2026-09-10T02:51:04.533Z",
     "queries": [
       "Instagram downloader tools"
     ],
@@ -5121,7 +5121,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:30.413Z"
+      "checkedAt": "2026-09-10T02:52:57.760Z"
     }
   },
   {
@@ -5134,9 +5134,9 @@
     "spamRisk": 5,
     "qualityScore": 55,
     "status": "review",
-    "discoveredAt": "2026-09-10T02:47:48.656Z",
+    "discoveredAt": "2026-09-10T02:51:05.939Z",
     "firstDiscoveredAt": "2026-08-14T15:59:51.300Z",
-    "lastSeenAt": "2026-09-10T02:47:48.656Z",
+    "lastSeenAt": "2026-09-10T02:51:05.939Z",
     "queries": [
       "Instagram Reels downloader tools",
       "how to download Instagram Reels"
@@ -5147,7 +5147,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:30.479Z"
+      "checkedAt": "2026-09-10T02:52:57.847Z"
     },
     "directoryCandidate": false,
     "linkabilityScore": 48,
@@ -5170,9 +5170,9 @@
     "opportunityType": "broken-link-candidate",
     "pitchAngle": "Check whether the page contains an outdated or broken Instagram download reference that InstaFetch could legitimately replace.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:41.684Z",
+    "discoveredAt": "2026-09-10T02:51:04.533Z",
     "firstDiscoveredAt": "2026-08-18T07:08:50.651Z",
-    "lastSeenAt": "2026-09-10T02:47:41.684Z",
+    "lastSeenAt": "2026-09-10T02:51:04.533Z",
     "queries": [
       "Instagram downloader tools"
     ],
@@ -5180,7 +5180,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:30.838Z"
+      "checkedAt": "2026-09-10T02:52:58.517Z"
     }
   },
   {
@@ -5209,7 +5209,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:30.983Z"
+      "checkedAt": "2026-09-10T02:52:58.564Z"
     }
   },
   {
@@ -5238,7 +5238,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:31.183Z"
+      "checkedAt": "2026-09-10T02:52:58.639Z"
     }
   },
   {
@@ -5267,7 +5267,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:31.354Z"
+      "checkedAt": "2026-09-10T02:52:59.138Z"
     }
   },
   {
@@ -5296,7 +5296,7 @@
       "reachable": false,
       "linked": false,
       "httpStatus": 403,
-      "checkedAt": "2026-09-10T02:49:31.377Z"
+      "checkedAt": "2026-09-10T02:52:59.172Z"
     }
   },
   {
@@ -5315,9 +5315,9 @@
     "opportunityType": "broken-link-candidate",
     "pitchAngle": "Check whether the page contains an outdated or broken Instagram download reference that InstaFetch could legitimately replace.",
     "directoryCandidate": false,
-    "discoveredAt": "2026-09-10T02:47:41.684Z",
+    "discoveredAt": "2026-09-10T02:51:04.533Z",
     "firstDiscoveredAt": "2026-09-08T11:26:00.429Z",
-    "lastSeenAt": "2026-09-10T02:47:41.684Z",
+    "lastSeenAt": "2026-09-10T02:51:04.533Z",
     "queries": [
       "Instagram downloader tools"
     ],
@@ -5325,7 +5325,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:31.474Z"
+      "checkedAt": "2026-09-10T02:52:59.386Z"
     }
   },
   {
@@ -5354,7 +5354,7 @@
       "reachable": true,
       "linked": false,
       "httpStatus": 200,
-      "checkedAt": "2026-09-10T02:49:31.550Z"
+      "checkedAt": "2026-09-10T02:52:59.461Z"
     }
   }
 ]

@@ -1,11 +1,10 @@
-import { unstable_cache } from "next/cache";
-
 export interface MediaItem {
   url?: string;
   download_url?: string;
   thumbnail?: string;
   type?: string;
   caption?: string;
+  source_url?: string;
 }
 
 interface ApifyItem {
@@ -14,6 +13,7 @@ interface ApifyItem {
   download_url?: string;
   thumbnail_url?: string;
   caption?: string;
+  source_url?: string;
 }
 
 async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
@@ -23,59 +23,90 @@ async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
     throw new Error("APIFY_API_TOKEN is not configured.");
   }
 
-  const response = await fetch(
-    "https://api.apify.com/v2/acts/maximedupre~instagram-downloader-api/run-sync-get-dataset-items",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        urls: [url],
-        commentsPreviewLimit: 0,
-      }),
-      cache: "no-store",
-      signal: AbortSignal.timeout(20000),
+  let lastError = "Instagram extraction failed.";
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const response = await fetch(
+        "https://api.apify.com/v2/acts/maximedupre~instagram-downloader-api/run-sync-get-dataset-items",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            discoveryMethod: "urls",
+            urls: [url],
+          }),
+          cache: "no-store",
+          signal: AbortSignal.timeout(45000),
+        }
+      );
+
+      if (!response.ok) {
+        const responseText = await response.text();
+        console.error(
+          `APIFY ERROR (attempt ${attempt}):`,
+          response.status,
+          responseText
+        );
+        lastError = `Instagram extraction failed (${response.status}).`;
+
+        if (attempt < 2 && (response.status === 408 || response.status === 429 || response.status >= 500)) {
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          continue;
+        }
+
+        throw new Error(lastError);
+      }
+
+      const results: ApifyItem[] = await response.json();
+
+      if (!Array.isArray(results) || results.length === 0) {
+        throw new Error("No downloadable media was found.");
+      }
+
+      const media: MediaItem[] = results
+        .filter((item) => item.download_url)
+        .sort(
+          (a, b) =>
+            (a.media_index ?? 0) - (b.media_index ?? 0)
+        )
+        .map((item) => ({
+          url: item.download_url,
+          download_url: item.download_url,
+          thumbnail: item.thumbnail_url,
+          type:
+            item.media_type === "video"
+              ? "video"
+              : "image",
+          caption: item.caption || "",
+          source_url: item.source_url || url,
+        }));
+
+      if (!media.length) {
+        throw new Error("No downloadable media was found.");
+      }
+
+      return media;
+    } catch (error) {
+      if (error instanceof Error && error.message === "No downloadable media was found.") {
+        throw error;
+      }
+
+      lastError = error instanceof Error ? error.message : String(error);
+
+      if (attempt < 2) {
+        console.warn(`Instagram extraction retry ${attempt + 1}:`, lastError);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        continue;
+      }
     }
-  );
-
-  if (!response.ok) {
-    const responseText = await response.text();
-    console.error("APIFY ERROR:", response.status, responseText);
-    throw new Error(`Instagram extraction failed (${response.status}).`);
   }
 
-  const results: ApifyItem[] = await response.json();
-
-  if (!Array.isArray(results) || results.length === 0) {
-    throw new Error("No downloadable media was found.");
-  }
-
-  const media: MediaItem[] = results
-    .filter((item) => item.download_url)
-    .sort(
-      (a, b) =>
-        (a.media_index ?? 0) - (b.media_index ?? 0)
-    )
-    .map((item) => ({
-      // Keep the CDN URL so the browser can preview/stream media directly.
-      url: item.download_url,
-      download_url: item.download_url,
-      thumbnail: item.thumbnail_url,
-      type:
-        item.media_type === "video"
-          ? "video"
-          : "image",
-      caption: item.caption || "",
-    }));
-
-  if (!media.length) {
-    throw new Error("No downloadable media was found.");
-  }
-
-  return media;
+  throw new Error(lastError);
 }
 
 function normalizeInstagramUrl(url: string): string {
@@ -92,16 +123,7 @@ export async function extractInstagramMedia(
 ): Promise<MediaItem[]> {
   const normalizedUrl = normalizeInstagramUrl(url);
 
-  // Repeated requests for the same public URL reuse resolved media metadata
-  // for five minutes instead of starting another Apify run.
-  const cachedFetch = unstable_cache(
-    () => fetchInstagramMedia(normalizedUrl),
-    ["instagram-media", normalizedUrl],
-    {
-      revalidate: 300,
-      tags: ["instagram-media"],
-    }
-  );
-
-  return cachedFetch();
+  // Do not cache signed Instagram CDN URLs. They can expire or change within
+  // minutes, which caused downloads to fail after a successful extraction.
+  return fetchInstagramMedia(normalizedUrl);
 }

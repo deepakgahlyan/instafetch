@@ -1,5 +1,61 @@
 [
   {
+    "url": "https://planable.io/blog/instagram-tools",
+    "domain": "planable.io",
+    "to": "hello@planable.io",
+    "subject": "Resource suggestion for your Instagram article",
+    "body": "Hello there,\n\nI found “21 best Instagram tools for agencies, brands & creators in 2026” while researching Instagram tools and wanted to pass along a resource that may fit the page.\n\nIf you are revisiting the article, InstaFetch could be a relevant addition for readers looking for a straightforward web-based option: https://www.instafetch.app.\n\nNo pressure if it isn't a match for the page.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "planable.io",
+      "articleTitle": "21 best Instagram tools for agencies, brands & creators in 2026",
+      "opportunityType": "resource-page",
+      "variationSeed": 1302244447,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-09-11T11:31:55.383Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T17:08:39.016Z",
+    "sentAt": "2026-09-11T11:32:31.571Z",
+    "delivery": {
+      "message_id": "<SgURwVm8fh3xAoWq0cXUA9e4F9Xo7ZCPYR5k@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "hello@planable.io"
+      ],
+      "permanent_bounces": [],
+      "suppressed_recipients": []
+    }
+  },
+  {
+    "url": "https://www.socialpilot.co/instagram-tools",
+    "domain": "socialpilot.co",
+    "to": "hello@socialpilot.co",
+    "subject": "Resource suggestion for your Instagram article",
+    "body": "Hello there,\n\nI was looking at your Instagram resources and came across “19 Instagram Tools Your Competitors Don’t Want You to Know”.\n\nIf you are revisiting the article, InstaFetch could be a relevant addition for readers looking for a straightforward web-based option: https://www.instafetch.app.\n\nIf it doesn't fit the article, no worries at all.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "socialpilot.co",
+      "articleTitle": "19 Instagram Tools Your Competitors Don’t Want You to Know",
+      "opportunityType": "resource-page",
+      "variationSeed": 1378589339,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-09-11T11:31:55.383Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-08-14T17:08:25.763Z",
+    "sentAt": "2026-09-11T11:32:32.275Z",
+    "delivery": {
+      "message_id": "<y5nByBu4T6r4jPGCq0FKbPjfv4UHv47NfLOD@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "hello@socialpilot.co"
+      ],
+      "permanent_bounces": [],
+      "suppressed_recipients": []
+    }
+  },
+  {
     "url": "https://creatorflow.so/blog/ai-marketing-tools-instagram-creators",
     "domain": "creatorflow.so",
     "to": "hello@creatorflow.so",
@@ -84,9 +140,19 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-08-31T13:50:16.467Z",
-    "sent": false,
+    "sent": true,
     "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-14T17:09:05.321Z"
+    "contactCheckedAt": "2026-08-14T17:09:05.321Z",
+    "sentAt": "2026-09-11T11:32:30.786Z",
+    "delivery": {
+      "message_id": "<0qoPa1Axk5ZNmnl35e5drHgaDrtOiyVM882m@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "hello@inflact.com"
+      ],
+      "permanent_bounces": [],
+      "suppressed_recipients": []
+    }
   },
   {
     "url": "https://whoerip.com/blog/best-instagram-reels-downloaders",
@@ -537,24 +603,6 @@
       "queued": [
         "john@bloggingwizard.com"
       ],
-      "permanent_bounces": []
-    }
-  },
-  {
-    "url": "https://inflact.com/instagram-downloader/reels",
-    "domain": "inflact.com",
-    "subject": "Possible resource for your Instagram article",
-    "body": "Hi there,\n\nI came across “Instagram Reel Downloader | Inflact®” while researching Instagram resources. Offer InstaFetch as a relevant example where the article already discusses Instagram download workflows.\n\nInstaFetch (https://www.instafetch.app) is a free Instagram downloader focused on a simple user experience. If you think it genuinely fits your readers, feel free to consider it as a resource.\n\nThanks,\nInstaFetch",
-    "createdAt": "2026-08-14T16:00:17.209Z",
-    "sent": true,
-    "to": "hello@inflact.com",
-    "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-14T17:09:05.321Z",
-    "sentAt": "2026-08-15T07:03:23.756Z",
-    "delivery": {
-      "message_id": "<UfoHh5WkJWnMB46faQSoiDlYagAQ4nUJRn0R@instafetch.app>",
-      "delivered": [],
-      "queued": [],
       "permanent_bounces": []
     }
   },

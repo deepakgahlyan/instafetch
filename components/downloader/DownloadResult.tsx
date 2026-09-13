@@ -153,8 +153,10 @@ function MediaCard({
     setError("");
 
     try {
+      // mediaUrl is narrowed to a string above before entering the handler.
+      const downloadUrl = mediaUrl;
       const endpoint =
-        `/api/download/file?url=${encodeURIComponent(mediaUrl)}&index=${index}`;
+        `/api/download/file?url=${encodeURIComponent(downloadUrl)}&index=${index}`;
 
       const response = await fetch(endpoint, {
         method: "GET",

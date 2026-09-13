@@ -1,5 +1,6 @@
 "use client";
 
+import JSZip from "jszip";
 import { useState } from "react";
 
 interface MediaItem {
@@ -10,6 +11,9 @@ interface MediaItem {
   caption?: string;
   source_url?: string;
   filename?: string;
+  width?: number;
+  height?: number;
+  filesize_bytes?: number;
 }
 
 interface DownloadResultProps {
@@ -17,9 +21,70 @@ interface DownloadResultProps {
 }
 
 export default function DownloadResult({ media }: DownloadResultProps) {
+  const [zipping, setZipping] = useState(false);
+  const [zipError, setZipError] = useState("");
+
   if (!media.length) return null;
 
   const caption = media.find((item) => item.caption)?.caption;
+
+  async function downloadAll() {
+    if (media.length === 1) return;
+    setZipping(true);
+    setZipError("");
+
+    try {
+      if (media.length > 20) {
+        throw new Error("This carousel is too large for a browser ZIP. Download the items individually.");
+      }
+
+      const zip = new JSZip();
+
+      for (let index = 0; index < media.length; index++) {
+        const item = media[index];
+        const mediaUrl = item.download_url || item.url;
+        if (!mediaUrl) continue;
+
+        const response = await fetch(
+          `/api/download/file?url=${encodeURIComponent(mediaUrl)}&index=${index}`,
+          { cache: "no-store" }
+        );
+
+        const contentType = response.headers.get("content-type") || "";
+        if (!response.ok || contentType.includes("application/json")) {
+          throw new Error(`Unable to prepare media ${index + 1}.`);
+        }
+
+        const blob = await response.blob();
+        if (!blob.size) throw new Error(`Media ${index + 1} was empty.`);
+
+        const disposition = response.headers.get("content-disposition") || "";
+        const match = disposition.match(/filename="?([^";]+)"?/i);
+        const filename =
+          match?.[1] ||
+          item.filename ||
+          `instafetch-${index + 1}.${item.type === "video" ? "mp4" : "jpg"}`;
+
+        zip.file(filename, blob);
+      }
+
+      const archive = await zip.generateAsync({ type: "blob" });
+      const objectUrl = URL.createObjectURL(archive);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = "instafetch-media.zip";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
+    } catch (error) {
+      setZipError(
+        error instanceof Error ? error.message : "Unable to create ZIP."
+      );
+    } finally {
+      setZipping(false);
+    }
+  }
 
   return (
     <div className="mt-8 w-full max-w-4xl">
@@ -33,6 +98,21 @@ export default function DownloadResult({ media }: DownloadResultProps) {
             <p className="mx-auto mt-4 max-w-3xl whitespace-pre-wrap text-left text-sm leading-6 text-zinc-400">
               {caption}
             </p>
+          )}
+
+          {media.length > 1 && (
+            <button
+              type="button"
+              onClick={downloadAll}
+              disabled={zipping}
+              className="mt-5 rounded-xl border border-zinc-700 bg-zinc-800 px-5 py-3 text-sm font-semibold text-white transition hover:border-zinc-500 hover:bg-zinc-700 disabled:cursor-wait disabled:opacity-60"
+            >
+              {zipping ? "Creating ZIP…" : `Download All (${media.length})`}
+            </button>
+          )}
+
+          {zipError && (
+            <p className="mt-3 text-sm text-red-400">{zipError}</p>
           )}
         </div>
 
@@ -73,8 +153,6 @@ function MediaCard({
     setError("");
 
     try {
-      // Download the exact storage-backed artifact returned by the resolver.
-      // Do not scrape Instagram again on button click.
       const endpoint =
         `/api/download/file?url=${encodeURIComponent(mediaUrl)}&index=${index}`;
 
@@ -92,17 +170,14 @@ function MediaCard({
           const data = await response.json();
           if (data?.error) message = data.error;
         } catch {
-          // Keep the friendly fallback message.
+          // Keep fallback message.
         }
 
         throw new Error(message);
       }
 
       const blob = await response.blob();
-
-      if (!blob.size) {
-        throw new Error("The downloaded file was empty. Please try again.");
-      }
+      if (!blob.size) throw new Error("The downloaded file was empty. Please try again.");
 
       const disposition = response.headers.get("content-disposition") || "";
       const match = disposition.match(/filename="?([^";]+)"?/i);
@@ -118,7 +193,6 @@ function MediaCard({
       document.body.appendChild(link);
       link.click();
       link.remove();
-
       setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
     } catch (err) {
       setError(
@@ -157,6 +231,7 @@ function MediaCard({
           </p>
           <p className="mt-1 text-xs text-zinc-500">
             {total > 1 ? `Media ${index + 1} of ${total}` : "Media 1"}
+            {item.width && item.height ? ` · ${item.width}×${item.height}` : ""}
           </p>
         </div>
 

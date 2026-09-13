@@ -7,13 +7,18 @@ export interface MediaItem {
   source_url?: string;
 }
 
-interface ApifyItem {
-  media_type?: "photo" | "video" | string;
-  media_index?: number;
-  download_url?: string;
-  thumbnail_url?: string;
+interface ResolverItem {
+  url?: string;
+  type?: string;
+  quality?: string;
+  thumb?: string;
   caption?: string;
-  source_url?: string;
+}
+
+interface ResolverResponse {
+  status?: string;
+  platform?: string;
+  result?: ResolverItem[];
 }
 
 async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
@@ -23,67 +28,57 @@ async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
     throw new Error("APIFY_API_TOKEN is not configured.");
   }
 
+  const endpoint = new URL(
+    "https://elis--instagram-downloader-api.apify.actor/api/v1/download"
+  );
+  endpoint.searchParams.set("url", url);
+
   let lastError = "Instagram extraction failed.";
 
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      const response = await fetch(
-        "https://api.apify.com/v2/acts/maximedupre~instagram-downloader-api/run-sync-get-dataset-items",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            discoveryMethod: "urls",
-            urls: [url],
-          }),
-          cache: "no-store",
-          signal: AbortSignal.timeout(45000),
-        }
-      );
+      const response = await fetch(endpoint.toString(), {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        cache: "no-store",
+        signal: AbortSignal.timeout(25000),
+      });
 
-      if (!response.ok) {
-        const responseText = await response.text();
-        console.error(
-          `APIFY ERROR (attempt ${attempt}):`,
-          response.status,
-          responseText
-        );
+      const text = await response.text();
+      let data: ResolverResponse | null = null;
+
+      try {
+        data = JSON.parse(text) as ResolverResponse;
+      } catch {
+        data = null;
+      }
+
+      if (!response.ok || !data) {
         lastError = `Instagram extraction failed (${response.status}).`;
+        console.error("RESOLVER ERROR:", response.status, text.slice(0, 500));
 
-        if (attempt < 2 && (response.status === 408 || response.status === 429 || response.status >= 500)) {
-          await new Promise((resolve) => setTimeout(resolve, 1000));
+        if (attempt < 2) {
+          await new Promise((resolve) => setTimeout(resolve, 500));
           continue;
         }
 
         throw new Error(lastError);
       }
 
-      const results: ApifyItem[] = await response.json();
-
-      if (!Array.isArray(results) || results.length === 0) {
-        throw new Error("No downloadable media was found.");
-      }
+      const results = Array.isArray(data.result) ? data.result : [];
 
       const media: MediaItem[] = results
-        .filter((item) => item.download_url)
-        .sort(
-          (a, b) =>
-            (a.media_index ?? 0) - (b.media_index ?? 0)
-        )
+        .filter((item) => item.url)
         .map((item) => ({
-          url: item.download_url,
-          download_url: item.download_url,
-          thumbnail: item.thumbnail_url,
-          type:
-            item.media_type === "video"
-              ? "video"
-              : "image",
+          url: item.url,
+          download_url: item.url,
+          thumbnail: item.thumb,
+          type: item.type === "video" ? "video" : "image",
           caption: item.caption || "",
-          source_url: item.source_url || url,
+          source_url: url,
         }));
 
       if (!media.length) {
@@ -92,7 +87,10 @@ async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
 
       return media;
     } catch (error) {
-      if (error instanceof Error && error.message === "No downloadable media was found.") {
+      if (
+        error instanceof Error &&
+        error.message === "No downloadable media was found."
+      ) {
         throw error;
       }
 
@@ -100,7 +98,7 @@ async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
 
       if (attempt < 2) {
         console.warn(`Instagram extraction retry ${attempt + 1}:`, lastError);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 500));
         continue;
       }
     }
@@ -121,9 +119,6 @@ function normalizeInstagramUrl(url: string): string {
 export async function extractInstagramMedia(
   url: string
 ): Promise<MediaItem[]> {
-  const normalizedUrl = normalizeInstagramUrl(url);
-
-  // Do not cache signed Instagram CDN URLs. They can expire or change within
-  // minutes, which caused downloads to fail after a successful extraction.
-  return fetchInstagramMedia(normalizedUrl);
+  // Never cache resolver/CDN URLs. They are temporary signed URLs.
+  return fetchInstagramMedia(normalizeInstagramUrl(url));
 }

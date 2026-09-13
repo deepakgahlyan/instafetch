@@ -9,6 +9,7 @@ interface MediaItem {
   type?: string;
   caption?: string;
   source_url?: string;
+  filename?: string;
 }
 
 interface DownloadResultProps {
@@ -68,19 +69,14 @@ function MediaCard({
   const isVideo = item.type === "video";
 
   async function handleDownload() {
-    if (!item.source_url) {
-      setError("Download source is unavailable. Please fetch the post again.");
-      return;
-    }
-
     setDownloading(true);
     setError("");
 
     try {
-      // Use fetch() instead of an <a> navigation. If the server returns a
-      // JSON error, the browser must NOT save that JSON as a .json file.
+      // Download the exact storage-backed artifact returned by the resolver.
+      // Do not scrape Instagram again on button click.
       const endpoint =
-        `/api/download/file?source=${encodeURIComponent(item.source_url)}&index=${index}`;
+        `/api/download/file?url=${encodeURIComponent(mediaUrl)}&index=${index}`;
 
       const response = await fetch(endpoint, {
         method: "GET",
@@ -110,7 +106,10 @@ function MediaCard({
 
       const disposition = response.headers.get("content-disposition") || "";
       const match = disposition.match(/filename="?([^";]+)"?/i);
-      const filename = match?.[1] || `instafetch-media-${index + 1}.${isVideo ? "mp4" : "jpg"}`;
+      const filename =
+        match?.[1] ||
+        item.filename ||
+        `instafetch-media-${index + 1}.${isVideo ? "mp4" : "jpg"}`;
 
       const objectUrl = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -122,7 +121,9 @@ function MediaCard({
 
       setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Download failed. Please try again.");
+      setError(
+        err instanceof Error ? err.message : "Download failed. Please try again."
+      );
     } finally {
       setDownloading(false);
     }

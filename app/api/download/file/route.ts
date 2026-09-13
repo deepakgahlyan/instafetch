@@ -18,7 +18,7 @@ function getExtension(contentType: string, url: string): string {
     const match = pathname.match(/\.([a-zA-Z0-9]+)$/);
     if (match?.[1]) return match[1].toLowerCase();
   } catch {
-    // Ignore invalid extension lookup.
+    // Ignore extension lookup failures.
   }
 
   return "bin";
@@ -27,6 +27,7 @@ function getExtension(contentType: string, url: string): string {
 function isAllowedHost(hostname: string): boolean {
   const host = hostname.toLowerCase();
   const allowedHosts = [
+    "api.apify.com",
     "cdninstagram.com",
     "instagram.com",
     "fbcdn.net",
@@ -39,43 +40,19 @@ function isAllowedHost(hostname: string): boolean {
   );
 }
 
-async function fetchMedia(mediaUrl: string, sourceUrl?: string): Promise<Response> {
-  const headers: Record<string, string> = {
-    "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36",
-    Accept: "*/*",
-    Referer: "https://www.instagram.com/",
-  };
-
-  let response = await fetch(mediaUrl, {
+async function fetchMedia(mediaUrl: string): Promise<Response> {
+  return fetch(mediaUrl, {
     method: "GET",
-    headers,
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36",
+      Accept: "*/*",
+      Referer: "https://www.instagram.com/",
+    },
     redirect: "follow",
     cache: "no-store",
-    signal: AbortSignal.timeout(60000),
+    signal: AbortSignal.timeout(90000),
   });
-
-  // Instagram CDN URLs are signed and may expire. If the first fetch fails,
-  // resolve the original Instagram URL again and retry with a fresh CDN URL.
-  if (!response.ok && sourceUrl) {
-    console.warn("Stale Instagram CDN URL; resolving a fresh media URL.");
-    const freshMedia = await extractInstagramMedia(sourceUrl);
-
-    if (freshMedia.length) {
-      const freshUrl = freshMedia[0]?.download_url || freshMedia[0]?.url;
-      if (freshUrl && freshUrl !== mediaUrl) {
-        response = await fetch(freshUrl, {
-          method: "GET",
-          headers,
-          redirect: "follow",
-          cache: "no-store",
-          signal: AbortSignal.timeout(60000),
-        });
-      }
-    }
-  }
-
-  return response;
 }
 
 export async function GET(request: Request) {
@@ -83,14 +60,14 @@ export async function GET(request: Request) {
     const requestUrl = new URL(request.url);
     let mediaUrl = requestUrl.searchParams.get("url");
     const sourceUrl = requestUrl.searchParams.get("source");
-    const requestedIndex = Number.parseInt(
-      requestUrl.searchParams.get("index") || "0",
-      10
+    const requestedIndex = Math.max(
+      0,
+      Number.parseInt(requestUrl.searchParams.get("index") || "0", 10) || 0
     );
 
-    // Preferred path: re-run extraction from the original Instagram URL so
-    // the download always uses a fresh signed CDN URL.
-    if (sourceUrl) {
+    // Normal downloads use the storage URL returned during the initial fetch.
+    // We deliberately do NOT scrape Instagram again on every click.
+    if (!mediaUrl && sourceUrl) {
       let parsedSource: URL;
       try {
         parsedSource = new URL(sourceUrl);
@@ -104,8 +81,7 @@ export async function GET(request: Request) {
       const sourceHost = parsedSource.hostname.toLowerCase();
       if (
         parsedSource.protocol !== "https:" ||
-        (sourceHost !== "instagram.com" &&
-          sourceHost !== "www.instagram.com")
+        (sourceHost !== "instagram.com" && sourceHost !== "www.instagram.com")
       ) {
         return NextResponse.json(
           { error: "Invalid Instagram source URL." },
@@ -135,14 +111,7 @@ export async function GET(request: Request) {
       );
     }
 
-    if (parsedUrl.protocol !== "https:") {
-      return NextResponse.json(
-        { error: "Invalid download source." },
-        { status: 400 }
-      );
-    }
-
-    if (!isAllowedHost(parsedUrl.hostname)) {
+    if (parsedUrl.protocol !== "https:" || !isAllowedHost(parsedUrl.hostname)) {
       console.error("Rejected media host:", parsedUrl.hostname);
       return NextResponse.json(
         { error: "Invalid download source." },
@@ -150,16 +119,31 @@ export async function GET(request: Request) {
       );
     }
 
-    console.log("Downloading media from:", parsedUrl.hostname);
-
-    const response = await fetchMedia(mediaUrl, sourceUrl || undefined);
+    const response = await fetchMedia(mediaUrl);
 
     if (!response.ok) {
       console.error(
         "Media fetch failed:",
         response.status,
-        response.statusText
+        response.statusText,
+        parsedUrl.hostname
       );
+
+      // Compatibility fallback for old clients that only send an Instagram
+      // source. Storage-backed downloads normally never need this path.
+      if (sourceUrl && parsedUrl.hostname !== "api.apify.com") {
+        const freshMedia = await extractInstagramMedia(sourceUrl);
+        const selected = freshMedia[requestedIndex] || freshMedia[0];
+        const freshUrl = selected?.download_url || selected?.url;
+
+        if (freshUrl && freshUrl !== mediaUrl) {
+          mediaUrl = freshUrl;
+          const retryResponse = await fetchMedia(freshUrl);
+          if (retryResponse.ok) {
+            return buildDownloadResponse(retryResponse, mediaUrl, requestedIndex);
+          }
+        }
+      }
 
       return NextResponse.json(
         { error: "Unable to fetch media. Please try the download again." },
@@ -167,27 +151,7 @@ export async function GET(request: Request) {
       );
     }
 
-    const contentType =
-      response.headers.get("content-type") || "application/octet-stream";
-    const extension = getExtension(contentType, mediaUrl);
-    const filename = `instafetch-media.${extension}`;
-
-    const headers = new Headers();
-    headers.set("Content-Type", contentType);
-    headers.set(
-      "Content-Disposition",
-      `attachment; filename="${filename}"`
-    );
-
-    const contentLength = response.headers.get("content-length");
-    if (contentLength) headers.set("Content-Length", contentLength);
-
-    headers.set("Cache-Control", "no-store");
-
-    return new NextResponse(response.body, {
-      status: 200,
-      headers,
-    });
+    return buildDownloadResponse(response, mediaUrl, requestedIndex);
   } catch (error) {
     console.error("MEDIA DOWNLOAD ERROR:", error);
 
@@ -196,4 +160,32 @@ export async function GET(request: Request) {
       { status: 500 }
     );
   }
+}
+
+function buildDownloadResponse(
+  response: Response,
+  mediaUrl: string,
+  index: number
+): NextResponse {
+  const contentType =
+    response.headers.get("content-type") || "application/octet-stream";
+  const extension = getExtension(contentType, mediaUrl);
+  const filename = `instafetch-media-${index + 1}.${extension}`;
+
+  const headers = new Headers();
+  headers.set("Content-Type", contentType);
+  headers.set(
+    "Content-Disposition",
+    `attachment; filename="${filename}"`
+  );
+  headers.set("Cache-Control", "no-store, private");
+  headers.set("X-Content-Type-Options", "nosniff");
+
+  const contentLength = response.headers.get("content-length");
+  if (contentLength) headers.set("Content-Length", contentLength);
+
+  return new NextResponse(response.body, {
+    status: 200,
+    headers,
+  });
 }

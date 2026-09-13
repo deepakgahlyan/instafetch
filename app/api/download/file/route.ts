@@ -28,6 +28,7 @@ function isAllowedHost(hostname: string): boolean {
   const host = hostname.toLowerCase();
   const allowedHosts = [
     "api.apify.com",
+    "r2.cloudflarestorage.com",
     "cdninstagram.com",
     "instagram.com",
     "fbcdn.net",
@@ -129,18 +130,15 @@ export async function GET(request: Request) {
         parsedUrl.hostname
       );
 
-      // Compatibility fallback for old clients that only send an Instagram
-      // source. Storage-backed downloads normally never need this path.
-      if (sourceUrl && parsedUrl.hostname !== "api.apify.com") {
+      if (sourceUrl && parsedUrl.hostname !== "api.apify.com" && !parsedUrl.hostname.endsWith("r2.cloudflarestorage.com")) {
         const freshMedia = await extractInstagramMedia(sourceUrl);
         const selected = freshMedia[requestedIndex] || freshMedia[0];
         const freshUrl = selected?.download_url || selected?.url;
 
         if (freshUrl && freshUrl !== mediaUrl) {
-          mediaUrl = freshUrl;
           const retryResponse = await fetchMedia(freshUrl);
           if (retryResponse.ok) {
-            return buildDownloadResponse(retryResponse, mediaUrl, requestedIndex);
+            return buildDownloadResponse(retryResponse, freshUrl, requestedIndex);
           }
         }
       }

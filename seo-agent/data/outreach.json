@@ -1,5 +1,33 @@
 [
   {
+    "url": "https://redactai.io/blog/best-tools-for-content-creators",
+    "domain": "redactai.io",
+    "to": "nicolas@redactai.io",
+    "subject": "Possible addition for your Instagram resource list",
+    "body": "Hello there,\n\nYour “The 12 Best Tools for Content Creators to Use in 2026 | RedactAI's blog” caught my attention because it already covers tools in this space.\n\nThe reason I’m reaching out is that InstaFetch could give readers another simple option alongside the tools you already mention: https://www.instafetch.app.\n\nI’ll leave it with you in case it is useful for a future update.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "redactai.io",
+      "articleTitle": "The 12 Best Tools for Content Creators to Use in 2026 | RedactAI's blog",
+      "opportunityType": "resource-page",
+      "variationSeed": 962986743,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-09-13T06:02:37.402Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-09-13T06:02:59.503Z",
+    "sentAt": "2026-09-13T06:03:08.149Z",
+    "delivery": {
+      "message_id": "<kisGXpC69vMLleCgNfNXyvXQrelbNoEsaAQt@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "nicolas@redactai.io"
+      ],
+      "permanent_bounces": [],
+      "suppressed_recipients": []
+    }
+  },
+  {
     "url": "https://planable.io/blog/instagram-tools",
     "domain": "planable.io",
     "to": "hello@planable.io",

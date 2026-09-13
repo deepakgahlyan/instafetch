@@ -1,3 +1,6 @@
+import { createHash } from "node:crypto";
+import { getMediaObjectUrl, putMediaObject, r2Configured } from "@/lib/storage/r2";
+
 export interface MediaItem {
   url?: string;
   download_url?: string;
@@ -48,6 +51,72 @@ function isInstagramUrl(url: string): boolean {
   }
 }
 
+function safeExtension(item: ResolverItem): string {
+  const ext = item.media_meta_data?.ext || (item.type === "video" ? "mp4" : "jpg");
+  return ext.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() || "bin";
+}
+
+async function mirrorToR2(media: MediaItem[], sourceUrl: string): Promise<MediaItem[]> {
+  if (!r2Configured) return media;
+
+  const postHash = createHash("sha256").update(sourceUrl).digest("hex").slice(0, 24);
+
+  const mirrored = await Promise.allSettled(
+    media.map(async (item, index) => {
+      const source = item.download_url || item.url;
+      if (!source) return item;
+
+      const response = await fetch(source, {
+        method: "GET",
+        headers: {
+          Accept: "*/*",
+          "User-Agent": "Mozilla/5.0 (compatible; InstaFetch/1.0)",
+        },
+        cache: "no-store",
+        signal: AbortSignal.timeout(90000),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Media storage fetch failed (${response.status}).`);
+      }
+
+      const body = await response.arrayBuffer();
+      const contentType =
+        response.headers.get("content-type") ||
+        (item.type === "video" ? "video/mp4" : "image/jpeg");
+      const extension = item.filename?.split(".").pop() || (item.type === "video" ? "mp4" : "jpg");
+      const key = `instagram/${postHash}/${String(index + 1).padStart(2, "0")}-${createHash("sha256").update(source).digest("hex").slice(0, 16)}.${extension}`;
+
+      await putMediaObject({
+        key,
+        body,
+        contentType,
+        contentLength: body.byteLength,
+      });
+
+      const filename = item.filename || `instafetch-${index + 1}.${safeExtension({ type: item.type, media_meta_data: { ext: extension } })}`;
+      const signedUrl = await getMediaObjectUrl(key, filename, contentType);
+
+      return {
+        ...item,
+        url: signedUrl,
+        download_url: signedUrl,
+        filesize_bytes: body.byteLength,
+      };
+    })
+  );
+
+  const successful = mirrored
+    .filter((result): result is PromiseFulfilledResult<MediaItem> => result.status === "fulfilled")
+    .map((result) => result.value);
+
+  if (!successful.length) {
+    throw new Error("Media was found but could not be prepared for download.");
+  }
+
+  return successful;
+}
+
 async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
   const token = process.env.APIFY_API_TOKEN;
 
@@ -55,9 +124,6 @@ async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
     throw new Error("APIFY_API_TOKEN is not configured.");
   }
 
-  // Storage-backed actor: Instagram CDN URLs are temporary, so the actor
-  // downloads the actual bytes into Apify KV storage and returns stable
-  // storage URLs. This removes the signed-CDN-expiry race from downloads.
   const endpoint =
     "https://api.apify.com/v2/acts/crawlerbros~instagram-downloader-api/run-sync-get-dataset-items";
 
@@ -98,7 +164,6 @@ async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
       }
 
       const results = data as ResolverItem[];
-
       const media = results
         .filter(
           (item) =>
@@ -123,11 +188,12 @@ async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
         );
       }
 
-      return media;
+      return mirrorToR2(media, url);
     } catch (error) {
       if (
         error instanceof Error &&
-        error.message.startsWith("No downloadable public media")
+        (error.message.startsWith("No downloadable public media") ||
+          error.message.startsWith("Media was found but could not be prepared"))
       ) {
         throw error;
       }

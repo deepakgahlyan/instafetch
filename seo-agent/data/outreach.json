@@ -1,5 +1,33 @@
 [
   {
+    "url": "https://brand24.com/blog/best-instagram-tools",
+    "domain": "brand24.com",
+    "to": "help@brand24.com",
+    "subject": "Possible addition for your Instagram resource list",
+    "body": "Hello,\n\nI was looking at your Instagram resources and came across “20 Best Instagram Tools to Improve Your Marketing in 2025 | Brand24”.\n\nThe reason I’m reaching out is that InstaFetch could give readers another simple option alongside the tools you already mention: https://www.instafetch.app.\n\nNo pressure if it isn't a match for the page.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "brand24.com",
+      "articleTitle": "20 Best Instagram Tools to Improve Your Marketing in 2025 | Brand24",
+      "opportunityType": "resource-page",
+      "variationSeed": 857282384,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-09-13T12:01:39.285Z",
+    "sent": true,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-09-13T12:02:12.498Z",
+    "sentAt": "2026-09-13T12:02:22.000Z",
+    "delivery": {
+      "message_id": "<9mZg0MZM8s8AFssCVjKvL31yYTKnOrUhWZ6p@instafetch.app>",
+      "delivered": [],
+      "queued": [
+        "help@brand24.com"
+      ],
+      "permanent_bounces": [],
+      "suppressed_recipients": []
+    }
+  },
+  {
     "url": "https://redactai.io/blog/best-tools-for-content-creators",
     "domain": "redactai.io",
     "to": "nicolas@redactai.io",

@@ -1,5 +1,4 @@
 import { unstable_cache } from "next/cache";
-import { instagram } from "@jerrycoder/instagram-api";
 
 export interface MediaItem {
   url?: string;
@@ -14,42 +13,11 @@ export interface MediaItem {
   filesize_bytes?: number;
 }
 
-interface IgramMedia {
-  src?: unknown;
-  type?: unknown;
-  thumbnail?: unknown;
-  thumb?: unknown;
-}
-
-interface IgramResponse {
-  data?: {
-    medias?: unknown;
-    thumbnail?: unknown;
-    thumb?: unknown;
-    title?: unknown;
-  };
-  status?: unknown;
-  message?: unknown;
-}
-
-interface ResolverPayload {
-  status?: string;
-  data?: unknown;
-  message?: string;
-}
-
-interface ResolverData {
+interface BtchItem {
+  status?: boolean;
+  creator?: string;
+  thumbnail?: string;
   url?: unknown;
-  download_url?: unknown;
-  video_url?: unknown;
-  videoUrl?: unknown;
-  video?: unknown;
-  media_url?: unknown;
-  mediaUrl?: unknown;
-  src?: unknown;
-  thumbnail?: unknown;
-  thumbnail_url?: unknown;
-  type?: unknown;
 }
 
 interface ApifyItem {
@@ -64,9 +32,8 @@ interface ApifyItem {
   };
 }
 
-const IGRAM_TIMEOUT_MS = 5_000;
-const FAST_RESOLVER_TIMEOUT_MS = 5_000;
-const DIRECT_PAGE_TIMEOUT_MS = 4_000;
+const BTCH_TIMEOUT_MS = 7_000;
+const PAGE_TIMEOUT_MS = 4_500;
 const APIFY_TIMEOUT_SECONDS = 12;
 const APIFY_TIMEOUT_MS = APIFY_TIMEOUT_SECONDS * 1_000;
 const MAX_MEDIA_ITEMS = 20;
@@ -75,7 +42,6 @@ function normalizeInstagramUrl(url: string): string {
   const parsed = new URL(url.trim());
   parsed.protocol = "https:";
   parsed.hostname = "www.instagram.com";
-  parsed.search = "";
   parsed.hash = "";
   return parsed.toString();
 }
@@ -174,78 +140,79 @@ function addMedia(
 }
 
 /**
- * Primary extractor copied from a proven open-source downloader pattern:
- * POST the Instagram URL to IGram and consume its explicit data.medias[].src/type.
- * We never scrape arbitrary URLs from the HTML response.
+ * Current backend-first resolver.
+ * The current btch-downloader project documents this exact backend and its
+ * /api/downloader/igdl endpoint for Reels/posts, returning direct media URLs.
  */
-async function fetchIgramMedia(url: string): Promise<MediaItem[]> {
+async function fetchBtchInstagramMedia(url: string): Promise<MediaItem[]> {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), IGRAM_TIMEOUT_MS);
+  const timeoutId = setTimeout(() => controller.abort(), BTCH_TIMEOUT_MS);
 
   try {
-    const response = await fetch("https://igram.world/api/ig/dl", {
-      method: "POST",
+    const endpoint = new URL(
+      "https://backend1.tioo.eu.org/api/downloader/igdl"
+    );
+    endpoint.searchParams.set("url", url);
+
+    const response = await fetch(endpoint.toString(), {
       headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        Accept: "application/json",
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-        Referer: "https://igram.world/",
-        Origin: "https://igram.world",
+        Referer: "https://backend1.tioo.eu.org/",
       },
-      body: new URLSearchParams({ url }).toString(),
       cache: "no-store",
       signal: controller.signal,
     });
 
     if (!response.ok) {
-      throw new Error(`IGram returned ${response.status}.`);
+      throw new Error(`Backend extractor returned ${response.status}.`);
     }
 
-    const payload = (await response.json()) as IgramResponse;
-    const medias = payload?.data?.medias;
+    const payload = (await response.json()) as unknown;
+    const rawItems: unknown[] = Array.isArray(payload)
+      ? payload
+      : payload && typeof payload === "object"
+        ? [payload]
+        : [];
 
-    if (!Array.isArray(medias)) {
-      throw new Error("IGram returned no media list.");
-    }
-
-    const thumbnail =
-      typeof payload?.data?.thumbnail === "string"
-        ? decodeEmbeddedUrl(payload.data.thumbnail)
-        : typeof payload?.data?.thumb === "string"
-          ? decodeEmbeddedUrl(payload.data.thumb)
-          : undefined;
-
-    const reel = isReelSource(url);
     const output: MediaItem[] = [];
     const seen = new Set<string>();
+    const reel = isReelSource(url);
 
-    for (const raw of medias) {
+    for (const raw of rawItems) {
       if (!raw || typeof raw !== "object") continue;
-      const media = raw as IgramMedia;
-      const type = typeof media.type === "string" ? media.type.toLowerCase() : "";
-      const src = typeof media.src === "string" ? media.src : null;
+      const item = raw as BtchItem;
+      if (item.status === false) continue;
 
-      if (!src) continue;
+      const thumbnail =
+        typeof item.thumbnail === "string"
+          ? decodeEmbeddedUrl(item.thumbnail)
+          : undefined;
 
-      const looksVideo = type.includes("video") || isVideoUrl(src);
-      if (reel && !looksVideo) continue;
+      const values = Array.isArray(item.url)
+        ? item.url
+        : [item.url];
 
-      addMedia(output, seen, src, url, type || undefined, thumbnail);
+      for (const value of values) {
+        const looksVideo = typeof value === "string" && isVideoUrl(value);
+        if (reel && !looksVideo) continue;
+        addMedia(output, seen, value, url, reel ? "video" : undefined, thumbnail);
+      }
     }
 
     if (!output.length) {
       throw new Error(
         reel
-          ? "IGram returned no Reel video."
-          : "IGram returned no downloadable media."
+          ? "Backend extractor returned no Reel video."
+          : "Backend extractor returned no downloadable media."
       );
     }
 
-    return output;
+    return output.slice(0, MAX_MEDIA_ITEMS);
   } catch (error) {
     if (error instanceof DOMException && error.name === "AbortError") {
-      throw new Error("IGram extraction timed out.");
+      throw new Error("Backend Instagram extraction timed out.");
     }
     throw error;
   } finally {
@@ -253,96 +220,148 @@ async function fetchIgramMedia(url: string): Promise<MediaItem[]> {
   }
 }
 
-function extractProviderMedia(payload: unknown, sourceUrl: string): MediaItem[] {
-  if (!payload || typeof payload !== "object") return [];
+/**
+ * Parse Instagram's current page-embedded Polaris media object.
+ * This avoids deprecated GraphQL doc_ids and works with public pages when the
+ * media object is included in the initial HTML response.
+ */
+function extractEmbeddedMedia(html: string, sourceUrl: string): MediaItem[] {
+  const marker = "xdt_api__v1__media__shortcode__web_info";
+  const markerIndex = html.indexOf(marker);
+  if (markerIndex < 0) return [];
 
-  const root = payload as ResolverPayload;
-  if (root.status && root.status !== "success") return [];
+  const valueStart = html.indexOf("{", markerIndex);
+  if (valueStart < 0) return [];
 
-  const data =
-    root.data && typeof root.data === "object"
-      ? (root.data as ResolverData)
-      : null;
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  let end = -1;
 
-  if (!data) return [];
+  for (let i = valueStart; i < html.length; i += 1) {
+    const char = html[i];
 
-  const thumbnail =
-    typeof data.thumbnail === "string"
-      ? decodeEmbeddedUrl(data.thumbnail)
-      : typeof data.thumbnail_url === "string"
-        ? decodeEmbeddedUrl(data.thumbnail_url)
-        : undefined;
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+      } else if (char === "\\") {
+        escaped = true;
+      } else if (char === '"') {
+        inString = false;
+      }
+      continue;
+    }
+
+    if (char === '"') {
+      inString = true;
+      continue;
+    }
+
+    if (char === "{") depth += 1;
+    if (char === "}") {
+      depth -= 1;
+      if (depth === 0) {
+        end = i + 1;
+        break;
+      }
+    }
+  }
+
+  if (end <= valueStart) return [];
+
+  const candidate = html.slice(valueStart, end);
+  const variants = [
+    candidate,
+    candidate.replace(/\\"/g, '"').replace(/\\\//g, "/"),
+  ];
+
+  let parsed: unknown = null;
+  for (const variant of variants) {
+    try {
+      parsed = JSON.parse(variant);
+      break;
+    } catch {
+      // Try the next encoding form.
+    }
+  }
+
+  if (!parsed || typeof parsed !== "object") return [];
+
+  const record = parsed as {
+    items?: unknown;
+    thumbnail?: unknown;
+  };
+  const items = Array.isArray(record.items) ? record.items : [];
+  const first = items[0];
+  if (!first || typeof first !== "object") return [];
 
   const output: MediaItem[] = [];
   const seen = new Set<string>();
-  const fields: Array<[unknown, string]> = [
-    [data.video_url, "video"],
-    [data.videoUrl, "video"],
-    [data.video, "video"],
-    [data.download_url, "download"],
-    [data.media_url, "media"],
-    [data.mediaUrl, "media"],
-    [data.url, typeof data.type === "string" ? data.type : "media"],
-    [data.src, "media"],
-  ];
 
-  for (const [value, hint] of fields) {
-    addMedia(output, seen, value, sourceUrl, hint, thumbnail);
-    if (isReelSource(sourceUrl) && output.length) break;
+  const readMedia = (item: unknown): void => {
+    if (!item || typeof item !== "object") return;
+    const media = item as {
+      video_versions?: unknown;
+      image_versions2?: { candidates?: unknown };
+      thumbnail?: unknown;
+    };
+
+    const thumbnail =
+      typeof media.thumbnail === "string"
+        ? decodeEmbeddedUrl(media.thumbnail)
+        : undefined;
+
+    const videoVersions = Array.isArray(media.video_versions)
+      ? media.video_versions
+      : [];
+
+    const bestVideo = videoVersions.find(
+      (entry): entry is { url: string } =>
+        Boolean(
+          entry &&
+            typeof entry === "object" &&
+            typeof (entry as { url?: unknown }).url === "string"
+        )
+    );
+
+    if (bestVideo) {
+      addMedia(output, seen, bestVideo.url, sourceUrl, "video", thumbnail);
+      return;
+    }
+
+    const candidates =
+      media.image_versions2 && Array.isArray(media.image_versions2.candidates)
+        ? media.image_versions2.candidates
+        : [];
+
+    const bestImage = candidates.find(
+      (entry): entry is { url: string } =>
+        Boolean(
+          entry &&
+            typeof entry === "object" &&
+            typeof (entry as { url?: unknown }).url === "string"
+        )
+    );
+
+    if (bestImage) {
+      addMedia(output, seen, bestImage.url, sourceUrl, "image", thumbnail);
+    }
+  };
+
+  const carousel = (first as { carousel_media?: unknown }).carousel_media;
+  if (Array.isArray(carousel) && carousel.length) {
+    for (const item of carousel.slice(0, MAX_MEDIA_ITEMS)) readMedia(item);
+  } else {
+    readMedia(first);
   }
 
   return output.slice(0, MAX_MEDIA_ITEMS);
 }
 
-async function fetchFastResolver(url: string): Promise<MediaItem[]> {
-  const payload = await Promise.race([
-    instagram(url),
-    new Promise<never>((_, reject) => {
-      setTimeout(
-        () => reject(new Error("Fast resolver timed out.")),
-        FAST_RESOLVER_TIMEOUT_MS
-      );
-    }),
-  ]);
-
-  const media = extractProviderMedia(payload, url);
-  if (!media.length) throw new Error("Fast resolver returned no usable media.");
-
-  const reel = isReelSource(url);
-  if (reel) {
-    const videos = media.filter((item) => item.type === "video");
-    if (!videos.length) throw new Error("Fast resolver returned no Reel video.");
-    return videos.slice(0, MAX_MEDIA_ITEMS);
-  }
-
-  return media;
-}
-
-function extractMetaUrl(html: string, property: string): string | null {
-  const escaped = property.replace(/[-:]/g, "\\$&");
-  const patterns = [
-    new RegExp(
-      `<meta[^>]+property=[\"']${escaped}[\"'][^>]+content=[\"']([^\"']+)[\"']`,
-      "i"
-    ),
-    new RegExp(
-      `<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+property=[\"']${escaped}[\"']`,
-      "i"
-    ),
-  ];
-
-  for (const pattern of patterns) {
-    const match = html.match(pattern);
-    if (match?.[1]) return decodeEmbeddedUrl(match[1]);
-  }
-
-  return null;
-}
-
 async function fetchInstagramPage(url: string): Promise<MediaItem[]> {
   const response = await fetch(url, {
     headers: {
-      Accept: "text/html,application/xhtml+xml",
+      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       "Accept-Language": "en-US,en;q=0.9",
       Referer: "https://www.instagram.com/",
       "User-Agent":
@@ -350,53 +369,21 @@ async function fetchInstagramPage(url: string): Promise<MediaItem[]> {
     },
     redirect: "follow",
     cache: "no-store",
-    signal: AbortSignal.timeout(DIRECT_PAGE_TIMEOUT_MS),
+    signal: AbortSignal.timeout(PAGE_TIMEOUT_MS),
   });
 
   if (!response.ok) throw new Error(`Instagram page returned ${response.status}.`);
 
   const html = await response.text();
-  const video =
-    extractMetaUrl(html, "og:video:secure_url") || extractMetaUrl(html, "og:video");
-  const image = extractMetaUrl(html, "og:image");
+  const embedded = extractEmbeddedMedia(html, url);
 
-  if (isReelSource(url)) {
-    if (!video || !isHttpsUrl(video)) {
-      throw new Error("Instagram page did not expose a Reel video.");
+  if (embedded.length) {
+    if (isReelSource(url)) {
+      const videos = embedded.filter((item) => item.type === "video");
+      if (videos.length) return videos;
+    } else {
+      return embedded;
     }
-
-    return [
-      {
-        url: video,
-        download_url: video,
-        type: "video",
-        source_url: url,
-        thumbnail: image || undefined,
-      },
-    ];
-  }
-
-  if (video && isHttpsUrl(video)) {
-    return [
-      {
-        url: video,
-        download_url: video,
-        type: "video",
-        source_url: url,
-        thumbnail: image || undefined,
-      },
-    ];
-  }
-
-  if (image && isHttpsUrl(image)) {
-    return [
-      {
-        url: image,
-        download_url: image,
-        type: "image",
-        source_url: url,
-      },
-    ];
   }
 
   throw new Error("Instagram page did not expose downloadable media.");
@@ -480,19 +467,10 @@ async function uncachedExtractInstagramMedia(url: string): Promise<MediaItem[]> 
   if (!isSupportedPath(url)) return fetchApifyMedia(url);
 
   try {
-    return await fetchIgramMedia(url);
+    return await fetchBtchInstagramMedia(url);
   } catch (error) {
     console.warn(
-      "IGram failed; trying lightweight resolver:",
-      error instanceof Error ? error.message : error
-    );
-  }
-
-  try {
-    return await fetchFastResolver(url);
-  } catch (error) {
-    console.warn(
-      "Lightweight Instagram resolver failed; trying direct page:",
+      "Current backend extractor failed:",
       error instanceof Error ? error.message : error
     );
   }
@@ -501,7 +479,7 @@ async function uncachedExtractInstagramMedia(url: string): Promise<MediaItem[]> 
     return await fetchInstagramPage(url);
   } catch (error) {
     console.warn(
-      "Instagram direct page failed; using Apify fallback:",
+      "Embedded Instagram media extraction failed:",
       error instanceof Error ? error.message : error
     );
   }

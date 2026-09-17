@@ -141,8 +141,9 @@ function addMedia(
 
 /**
  * Current backend-first resolver.
- * The current btch-downloader project documents this exact backend and its
- * /api/downloader/igdl endpoint for Reels/posts, returning direct media URLs.
+ * The current btch-downloader project documents this backend and its
+ * /api/downloader/igdl endpoint for Instagram Reels/posts, returning direct
+ * media URLs.
  */
 async function fetchBtchInstagramMedia(url: string): Promise<MediaItem[]> {
   const controller = new AbortController();
@@ -195,8 +196,8 @@ async function fetchBtchInstagramMedia(url: string): Promise<MediaItem[]> {
         : [item.url];
 
       for (const value of values) {
-        const looksVideo = typeof value === "string" && isVideoUrl(value);
-        if (reel && !looksVideo) continue;
+        // The backend's Reel result is already typed by the endpoint. Do not
+        // require a .mp4 suffix because signed CDN URLs commonly omit it.
         addMedia(output, seen, value, url, reel ? "video" : undefined, thumbnail);
       }
     }
@@ -289,7 +290,6 @@ function extractEmbeddedMedia(html: string, sourceUrl: string): MediaItem[] {
 
   const record = parsed as {
     items?: unknown;
-    thumbnail?: unknown;
   };
   const items = Array.isArray(record.items) ? record.items : [];
   const first = items[0];
@@ -496,7 +496,7 @@ export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
 
   const cachedExtractor = unstable_cache(
     () => uncachedExtractInstagramMedia(normalized),
-    ["instagram-media-v12", normalized],
+    ["instagram-media-v13", normalized],
     { revalidate: 120 }
   );
 

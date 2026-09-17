@@ -178,6 +178,17 @@ function extractMetaUrl(html: string, property: string): string | null {
   return null;
 }
 
+function collectRegexMediaUrls(
+  html: string,
+  pattern: RegExp,
+  target: Set<string>
+): void {
+  for (const match of html.matchAll(pattern)) {
+    const value = decodeEmbeddedUrl(match[1] || "");
+    if (isCandidateMediaUrl(value)) target.add(value);
+  }
+}
+
 async function fetchInstagramPage(url: string): Promise<MediaItem[]> {
   const response = await fetch(url, {
     headers: {
@@ -200,44 +211,34 @@ async function fetchInstagramPage(url: string): Promise<MediaItem[]> {
   const videoCandidates = new Set<string>();
   const imageCandidates = new Set<string>();
 
-  const ogVideo = extractMetaUrl(html, "og:video:secure_url") || extractMetaUrl(html, "og:video");
+  const ogVideo =
+    extractMetaUrl(html, "og:video:secure_url") ||
+    extractMetaUrl(html, "og:video");
   const ogImage = extractMetaUrl(html, "og:image");
 
   if (ogVideo && isCandidateMediaUrl(ogVideo)) videoCandidates.add(ogVideo);
   if (ogImage && isCandidateMediaUrl(ogImage)) imageCandidates.add(ogImage);
 
-  const videoPatterns = [
+  collectRegexMediaUrls(
+    html,
     /[\"'](?:video_url|playback_url|contentUrl)[\"']\s*:\s*[\"']([^\"']+)[\"']/gi,
-    /[\"']video_versions[\"']\s*:\s*\[([\s\S]{0,120000})\]/gi,
-  ];
+    videoCandidates
+  );
 
-  for (const pattern of videoPatterns) {
-    for (const match of html.matchAll(pattern)) {
-      const chunk = match[1] || "";
-      const urls = chunk.match(/https?:\\?\\?\/\\?\\?\/[^\"'\\s]+/g) || [];
-      for (const raw of urls) {
-        const value = decodeEmbeddedUrl(raw).replace(/\\\\/g, "");
-        if (isCandidateMediaUrl(value)) videoCandidates.add(value);
-      }
-
-      const direct = decodeEmbeddedUrl(chunk);
-      if (isCandidateMediaUrl(direct)) videoCandidates.add(direct);
-    }
-  }
-
-  const directUrlPattern = /[\"'](https?:\\?\/\\?\/[^\"']+(?:\.mp4|video)[^\"']*)[\"']/gi;
-  for (const match of html.matchAll(directUrlPattern)) {
-    const value = decodeEmbeddedUrl(match[1]).replace(/\\\\/g, "");
-    if (isCandidateMediaUrl(value)) videoCandidates.add(value);
-  }
-
-  const imagePatterns = [
+  collectRegexMediaUrls(
+    html,
     /[\"'](?:display_url|thumbnail_src|image_url)[\"']\s*:\s*[\"']([^\"']+)[\"']/gi,
-  ];
-  for (const pattern of imagePatterns) {
-    for (const match of html.matchAll(pattern)) {
-      const value = decodeEmbeddedUrl(match[1]);
-      if (isCandidateMediaUrl(value)) imageCandidates.add(value);
+    imageCandidates
+  );
+
+  const allHttpsUrls = html.match(/https?:\/\/[^\"'\s<>]+/g) || [];
+  for (const raw of allHttpsUrls) {
+    const value = decodeEmbeddedUrl(raw);
+    if (!isCandidateMediaUrl(value)) continue;
+    if (/\.(mp4|m4v|mov|webm)(?:$|[?#])/i.test(value)) {
+      videoCandidates.add(value);
+    } else {
+      imageCandidates.add(value);
     }
   }
 
@@ -251,6 +252,7 @@ async function fetchInstagramPage(url: string): Promise<MediaItem[]> {
       thumbnail: ogImage || undefined,
     });
   }
+
   for (const value of imageCandidates) {
     if (!media.some((item) => item.download_url === value)) {
       media.push({
@@ -394,7 +396,7 @@ export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
 
   const cachedExtractor = unstable_cache(
     () => uncachedExtractInstagramMedia(normalized),
-    ["instagram-media-v5", normalized],
+    ["instagram-media-v6", normalized],
     { revalidate: 120 }
   );
 

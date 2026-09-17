@@ -23,6 +23,8 @@ const stages = [
   "Preparing your download",
 ];
 
+const REQUEST_TIMEOUT_MS = 25_000;
+
 export default function HeroInput() {
   const [url, setUrl] = useState("");
   const [media, setMedia] = useState<MediaItem[]>([]);
@@ -56,7 +58,7 @@ export default function HeroInput() {
     setLoading(true);
 
     const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 60_000);
+    const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
     try {
       const response = await fetch("/api/download", {
@@ -109,7 +111,7 @@ export default function HeroInput() {
     } catch (error) {
       const errorMessage =
         error instanceof DOMException && error.name === "AbortError"
-          ? "The request took too long. Check that the post is public and try again."
+          ? "Instagram is taking too long to respond. Please try again with a public post or Reel."
           : "Unable to connect. Please try again.";
 
       setMessage(errorMessage);

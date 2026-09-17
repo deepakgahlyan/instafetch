@@ -27,11 +27,22 @@ function firstPartyEndpoints(): string[] {
   const configured = process.env.INSTAGRAM_API_URL?.trim();
   if (configured) endpoints.push(configured.replace(/\/+$/, ""));
 
+  // On Vercel the FastAPI resolver is deployed in the same project, so the
+  // production frontend does not depend on a separate backend URL.
+  if (process.env.VERCEL === "1") {
+    const vercelHost =
+      process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() ||
+      process.env.VERCEL_URL?.trim();
+    if (vercelHost) {
+      endpoints.push(`https://${vercelHost.replace(/^https?:\/\//, "")}/api/instagram`);
+    }
+  }
+
   if (process.env.NODE_ENV !== "production" && !endpoints.includes("http://127.0.0.1:8787")) {
     endpoints.push("http://127.0.0.1:8787");
   }
 
-  return endpoints;
+  return [...new Set(endpoints)];
 }
 
 async function resolveWithFirstPartyApi(url: string): Promise<MediaItem[] | null> {

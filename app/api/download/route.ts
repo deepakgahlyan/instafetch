@@ -4,12 +4,11 @@ import { resolveInstagramDirect, type MediaItem } from "@/lib/instagram/direct";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 const FIRST_PARTY_TIMEOUT_MS = 16_000;
-const DIRECT_FALLBACK_TIMEOUT_MS = 6_000;
+const DIRECT_FALLBACK_TIMEOUT_MS = 10_000;
 
 function getClientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) return forwarded.split(",")[0].trim();
-
   return request.headers.get("x-real-ip") || "unknown";
 }
 
@@ -21,46 +20,69 @@ function isSupportedPath(url: URL): boolean {
   );
 }
 
-async function resolveWithFirstPartyApi(url: string): Promise<MediaItem[] | null> {
+function firstPartyEndpoints(): string[] {
+  const endpoints: string[] = [];
   const configured = process.env.INSTAGRAM_API_URL?.trim();
-  if (!configured) return null;
+  if (configured) endpoints.push(configured.replace(/\/+$/, ""));
 
-  const base = configured.replace(/\/+$/, "");
-  const endpoint = new URL(`${base}/v1/resolve`);
-  endpoint.searchParams.set("url", url);
-
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), FIRST_PARTY_TIMEOUT_MS);
-
-  try {
-    const headers: HeadersInit = { Accept: "application/json" };
-    const apiKey = process.env.INSTAGRAM_API_KEY?.trim();
-    if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
-
-    const response = await fetch(endpoint.toString(), {
-      method: "GET",
-      headers,
-      cache: "no-store",
-      signal: controller.signal,
-    });
-
-    if (!response.ok) {
-      throw new Error(`First-party API returned ${response.status}.`);
-    }
-
-    const data = (await response.json()) as {
-      success?: boolean;
-      media?: MediaItem[];
-    };
-
-    if (!data.success || !Array.isArray(data.media) || data.media.length === 0) {
-      throw new Error("First-party API returned no media.");
-    }
-
-    return data.media;
-  } finally {
-    clearTimeout(timer);
+  // Local development should work without requiring a .env.local entry.
+  if (process.env.NODE_ENV !== "production" && !endpoints.includes("http://127.0.0.1:8787")) {
+    endpoints.push("http://127.0.0.1:8787");
   }
+
+  return endpoints;
+}
+
+async function resolveWithFirstPartyApi(url: string): Promise<MediaItem[] | null> {
+  const endpoints = firstPartyEndpoints();
+  if (!endpoints.length) return null;
+
+  for (const base of endpoints) {
+    const endpoint = new URL(`${base}/v1/resolve`);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), FIRST_PARTY_TIMEOUT_MS);
+
+    try {
+      const headers: HeadersInit = {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      };
+      const apiKey = process.env.INSTAGRAM_API_KEY?.trim();
+      if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+
+      const response = await fetch(endpoint.toString(), {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ url }),
+        cache: "no-store",
+        signal: controller.signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(`First-party API returned ${response.status}.`);
+      }
+
+      const data = (await response.json()) as {
+        success?: boolean;
+        media?: MediaItem[];
+      };
+
+      if (!data.success || !Array.isArray(data.media) || data.media.length === 0) {
+        throw new Error("First-party API returned no media.");
+      }
+
+      return data.media;
+    } catch (error) {
+      console.warn("First-party Instagram endpoint failed", {
+        endpoint: base,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  return null;
 }
 
 async function resolveDirectFallback(url: string): Promise<MediaItem[]> {
@@ -70,11 +92,11 @@ async function resolveDirectFallback(url: string): Promise<MediaItem[]> {
   try {
     return await Promise.race([
       resolveInstagramDirect(url),
-      new Promise<MediaItem[]>((_, reject) =>
+      new Promise<MediaItem[]>((_, reject) => {
         controller.signal.addEventListener("abort", () => {
           reject(new Error("Direct Instagram fallback timed out."));
-        }),
-      ),
+        });
+      }),
     ]);
   } finally {
     clearTimeout(timer);
@@ -147,35 +169,40 @@ export async function POST(request: Request) {
     let media: MediaItem[] | null = null;
     let source = "direct-fallback";
 
-    try {
-      media = await resolveWithFirstPartyApi(parsedUrl.toString());
-      if (media) {
-        source = "first-party-api";
-        console.info("First-party Instagram API completed", {
-          requestId,
-          mediaCount: media.length,
-          durationMs: Date.now() - startedAt,
-        });
-      }
-    } catch (error) {
-      console.warn("First-party Instagram API failed; using direct fallback", {
-        requestId,
-        error: error instanceof Error ? error.message : String(error),
-      });
-    }
+    media = await resolveWithFirstPartyApi(parsedUrl.toString());
+    if (media) source = "first-party-api";
 
     if (!media) {
-      media = await resolveDirectFallback(parsedUrl.toString());
+      try {
+        media = await resolveDirectFallback(parsedUrl.toString());
+      } catch (error) {
+        console.error("INSTAGRAM DIRECT FALLBACK ERROR", {
+          requestId,
+          error: error instanceof Error ? error.message : String(error),
+        });
+      }
     }
 
     const durationMs = Date.now() - startedAt;
 
-    if (!media.length) {
+    if (!media?.length) {
       return NextResponse.json(
-        { error: "No downloadable public media was found." },
-        { status: 404, headers: { "X-Request-Id": requestId } },
+        {
+          error:
+            "Instagram could not expose this public media right now. The extractor received no usable media URL.",
+          requestId,
+        },
+        { status: 502, headers: { "X-Request-Id": requestId } },
       );
     }
+
+    console.info("INSTAGRAM RESULT", {
+      requestId,
+      source,
+      mediaCount: media.length,
+      hasCaption: media.some((item) => Boolean(item.caption)),
+      durationMs,
+    });
 
     return NextResponse.json(
       {
@@ -204,8 +231,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        error:
-          "We could not prepare that Instagram media. Check that the post is public and try again.",
+        error: "We could not prepare that Instagram media. Check that the post is public and try again.",
         requestId,
       },
       {

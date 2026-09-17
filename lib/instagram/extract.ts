@@ -14,6 +14,24 @@ export interface MediaItem {
   filesize_bytes?: number;
 }
 
+interface IgramMedia {
+  src?: unknown;
+  type?: unknown;
+  thumbnail?: unknown;
+  thumb?: unknown;
+}
+
+interface IgramResponse {
+  data?: {
+    medias?: unknown;
+    thumbnail?: unknown;
+    thumb?: unknown;
+    title?: unknown;
+  };
+  status?: unknown;
+  message?: unknown;
+}
+
 interface ResolverPayload {
   status?: string;
   data?: unknown;
@@ -43,12 +61,12 @@ interface ApifyItem {
     width?: number;
     height?: number;
     filesize_bytes?: number;
-    ext?: string;
   };
 }
 
-const FAST_RESOLVER_TIMEOUT_MS = 6_000;
-const DIRECT_PAGE_TIMEOUT_MS = 4_500;
+const IGRAM_TIMEOUT_MS = 5_000;
+const FAST_RESOLVER_TIMEOUT_MS = 5_000;
+const DIRECT_PAGE_TIMEOUT_MS = 4_000;
 const APIFY_TIMEOUT_SECONDS = 12;
 const APIFY_TIMEOUT_MS = APIFY_TIMEOUT_SECONDS * 1_000;
 const MAX_MEDIA_ITEMS = 20;
@@ -99,44 +117,6 @@ function isReelSource(url: string): boolean {
   }
 }
 
-function isKnownMediaHost(hostname: string): boolean {
-  const host = hostname.toLowerCase();
-  return (
-    host === "snapcdn.app" ||
-    host.endsWith(".snapcdn.app") ||
-    host.endsWith("cdninstagram.com") ||
-    host.endsWith("fbcdn.net") ||
-    host.endsWith("fbsbx.com") ||
-    host === "jerrycoder.oggyapi.workers.dev"
-  );
-}
-
-function isMediaExtension(url: string): boolean {
-  try {
-    return /\.(mp4|m4v|mov|webm|jpg|jpeg|png|webp|gif)(?:$|[?#])/i.test(
-      new URL(url).pathname
-    );
-  } catch {
-    return false;
-  }
-}
-
-function isCandidateMediaUrl(value: string, trustProviderUrl = false): boolean {
-  try {
-    const parsed = new URL(value);
-    if (parsed.protocol !== "https:") return false;
-
-    const host = parsed.hostname.toLowerCase();
-    if (host === "instagram.com" || host === "www.instagram.com") return false;
-
-    if (trustProviderUrl) return true;
-
-    return isKnownMediaHost(host) || isMediaExtension(value);
-  } catch {
-    return false;
-  }
-}
-
 function decodeEmbeddedUrl(value: string): string {
   return value
     .replace(/\\u0026/gi, "&")
@@ -148,23 +128,20 @@ function decodeEmbeddedUrl(value: string): string {
     .trim();
 }
 
-function inferMediaType(
-  url: string,
-  hint: unknown,
-  sourceUrl: string
-): "video" | "image" {
-  if (isReelSource(sourceUrl)) return "video";
-
-  const normalizedHint = typeof hint === "string" ? hint.toLowerCase() : "";
-  if (
-    normalizedHint.includes("video") ||
-    normalizedHint.includes("mp4") ||
-    normalizedHint.includes("playback")
-  ) {
-    return "video";
+function isHttpsUrl(value: string): boolean {
+  try {
+    return new URL(value).protocol === "https:";
+  } catch {
+    return false;
   }
+}
 
-  return isMediaExtension(url) ? "video" : "image";
+function isVideoUrl(value: string): boolean {
+  try {
+    return /\.(mp4|m4v|mov|webm)(?:$|[?#])/i.test(new URL(value).pathname);
+  } catch {
+    return false;
+  }
 }
 
 function addMedia(
@@ -172,23 +149,108 @@ function addMedia(
   seen: Set<string>,
   value: unknown,
   sourceUrl: string,
-  hint: unknown,
-  trustProviderUrl = false,
+  typeHint?: unknown,
   thumbnail?: string
 ): void {
   if (output.length >= MAX_MEDIA_ITEMS || typeof value !== "string") return;
 
   const url = decodeEmbeddedUrl(value);
-  if (!isCandidateMediaUrl(url, trustProviderUrl) || seen.has(url)) return;
+  if (!isHttpsUrl(url) || seen.has(url)) return;
+
+  const hint = typeof typeHint === "string" ? typeHint.toLowerCase() : "";
+  const type =
+    hint.includes("video") || hint.includes("mp4") || isVideoUrl(url)
+      ? "video"
+      : "image";
 
   seen.add(url);
   output.push({
     url,
     download_url: url,
-    type: inferMediaType(url, hint, sourceUrl),
+    type,
     source_url: sourceUrl,
     thumbnail,
   });
+}
+
+/**
+ * Primary extractor copied from a proven open-source downloader pattern:
+ * POST the Instagram URL to IGram and consume its explicit data.medias[].src/type.
+ * We never scrape arbitrary URLs from the HTML response.
+ */
+async function fetchIgramMedia(url: string): Promise<MediaItem[]> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), IGRAM_TIMEOUT_MS);
+
+  try {
+    const response = await fetch("https://igram.world/api/ig/dl", {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        Referer: "https://igram.world/",
+        Origin: "https://igram.world",
+      },
+      body: new URLSearchParams({ url }).toString(),
+      cache: "no-store",
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`IGram returned ${response.status}.`);
+    }
+
+    const payload = (await response.json()) as IgramResponse;
+    const medias = payload?.data?.medias;
+
+    if (!Array.isArray(medias)) {
+      throw new Error("IGram returned no media list.");
+    }
+
+    const thumbnail =
+      typeof payload?.data?.thumbnail === "string"
+        ? decodeEmbeddedUrl(payload.data.thumbnail)
+        : typeof payload?.data?.thumb === "string"
+          ? decodeEmbeddedUrl(payload.data.thumb)
+          : undefined;
+
+    const reel = isReelSource(url);
+    const output: MediaItem[] = [];
+    const seen = new Set<string>();
+
+    for (const raw of medias) {
+      if (!raw || typeof raw !== "object") continue;
+      const media = raw as IgramMedia;
+      const type = typeof media.type === "string" ? media.type.toLowerCase() : "";
+      const src = typeof media.src === "string" ? media.src : null;
+
+      if (!src) continue;
+
+      const looksVideo = type.includes("video") || isVideoUrl(src);
+      if (reel && !looksVideo) continue;
+
+      addMedia(output, seen, src, url, type || undefined, thumbnail);
+    }
+
+    if (!output.length) {
+      throw new Error(
+        reel
+          ? "IGram returned no Reel video."
+          : "IGram returned no downloadable media."
+      );
+    }
+
+    return output;
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new Error("IGram extraction timed out.");
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 function extractProviderMedia(payload: unknown, sourceUrl: string): MediaItem[] {
@@ -206,40 +268,54 @@ function extractProviderMedia(payload: unknown, sourceUrl: string): MediaItem[] 
 
   const thumbnail =
     typeof data.thumbnail === "string"
-      ? data.thumbnail
+      ? decodeEmbeddedUrl(data.thumbnail)
       : typeof data.thumbnail_url === "string"
-        ? data.thumbnail_url
+        ? decodeEmbeddedUrl(data.thumbnail_url)
         : undefined;
-
-  const values: Array<[unknown, unknown, boolean]> = [
-    [data.video_url, "video", true],
-    [data.videoUrl, "video", true],
-    [data.video, "video", true],
-    [data.download_url, "download_url", true],
-    [data.media_url, "media_url", true],
-    [data.mediaUrl, "mediaUrl", true],
-    [data.url, data.type, true],
-    [data.src, "src", true],
-  ];
 
   const output: MediaItem[] = [];
   const seen = new Set<string>();
+  const fields: Array<[unknown, string]> = [
+    [data.video_url, "video"],
+    [data.videoUrl, "video"],
+    [data.video, "video"],
+    [data.download_url, "download"],
+    [data.media_url, "media"],
+    [data.mediaUrl, "media"],
+    [data.url, typeof data.type === "string" ? data.type : "media"],
+    [data.src, "media"],
+  ];
 
-  for (const [value, hint, trustProviderUrl] of values) {
-    addMedia(
-      output,
-      seen,
-      value,
-      sourceUrl,
-      hint,
-      trustProviderUrl,
-      thumbnail
-    );
-
-    if (isReelSource(sourceUrl) && output.length > 0) break;
+  for (const [value, hint] of fields) {
+    addMedia(output, seen, value, sourceUrl, hint, thumbnail);
+    if (isReelSource(sourceUrl) && output.length) break;
   }
 
   return output.slice(0, MAX_MEDIA_ITEMS);
+}
+
+async function fetchFastResolver(url: string): Promise<MediaItem[]> {
+  const payload = await Promise.race([
+    instagram(url),
+    new Promise<never>((_, reject) => {
+      setTimeout(
+        () => reject(new Error("Fast resolver timed out.")),
+        FAST_RESOLVER_TIMEOUT_MS
+      );
+    }),
+  ]);
+
+  const media = extractProviderMedia(payload, url);
+  if (!media.length) throw new Error("Fast resolver returned no usable media.");
+
+  const reel = isReelSource(url);
+  if (reel) {
+    const videos = media.filter((item) => item.type === "video");
+    if (!videos.length) throw new Error("Fast resolver returned no Reel video.");
+    return videos.slice(0, MAX_MEDIA_ITEMS);
+  }
+
+  return media;
 }
 
 function extractMetaUrl(html: string, property: string): string | null {
@@ -277,60 +353,53 @@ async function fetchInstagramPage(url: string): Promise<MediaItem[]> {
     signal: AbortSignal.timeout(DIRECT_PAGE_TIMEOUT_MS),
   });
 
-  if (!response.ok) {
-    throw new Error(`Instagram page returned ${response.status}.`);
-  }
+  if (!response.ok) throw new Error(`Instagram page returned ${response.status}.`);
 
   const html = await response.text();
-  const media: MediaItem[] = [];
-  const ogVideo =
-    extractMetaUrl(html, "og:video:secure_url") ||
-    extractMetaUrl(html, "og:video");
-  const ogImage = extractMetaUrl(html, "og:image");
+  const video =
+    extractMetaUrl(html, "og:video:secure_url") || extractMetaUrl(html, "og:video");
+  const image = extractMetaUrl(html, "og:image");
 
-  if (ogVideo && isCandidateMediaUrl(ogVideo)) {
-    media.push({
-      url: ogVideo,
-      download_url: ogVideo,
-      type: "video",
-      source_url: url,
-      thumbnail: ogImage || undefined,
-    });
+  if (isReelSource(url)) {
+    if (!video || !isHttpsUrl(video)) {
+      throw new Error("Instagram page did not expose a Reel video.");
+    }
+
+    return [
+      {
+        url: video,
+        download_url: video,
+        type: "video",
+        source_url: url,
+        thumbnail: image || undefined,
+      },
+    ];
   }
 
-  if (!media.length && ogImage && isCandidateMediaUrl(ogImage)) {
-    media.push({
-      url: ogImage,
-      download_url: ogImage,
-      type: "image",
-      source_url: url,
-    });
+  if (video && isHttpsUrl(video)) {
+    return [
+      {
+        url: video,
+        download_url: video,
+        type: "video",
+        source_url: url,
+        thumbnail: image || undefined,
+      },
+    ];
   }
 
-  if (!media.length) {
-    throw new Error("Instagram page did not expose downloadable media.");
+  if (image && isHttpsUrl(image)) {
+    return [
+      {
+        url: image,
+        download_url: image,
+        type: "image",
+        source_url: url,
+      },
+    ];
   }
 
-  return media;
-}
-
-async function fetchFastResolver(url: string): Promise<MediaItem[]> {
-  const payload = await Promise.race([
-    instagram(url),
-    new Promise<never>((_, reject) => {
-      setTimeout(
-        () => reject(new Error("Fast resolver timed out.")),
-        FAST_RESOLVER_TIMEOUT_MS
-      );
-    }),
-  ]);
-
-  const media = extractProviderMedia(payload, url);
-  if (!media.length) {
-    throw new Error("Fast resolver returned no usable media URL.");
-  }
-
-  return media;
+  throw new Error("Instagram page did not expose downloadable media.");
 }
 
 async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
@@ -363,7 +432,7 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
     try {
       data = JSON.parse(text);
     } catch {
-      // Keep null when the provider does not return JSON.
+      data = null;
     }
 
     if (!response.ok || !Array.isArray(data)) {
@@ -389,12 +458,13 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
         filesize_bytes: item.media_meta_data?.filesize_bytes,
       }));
 
-    if (!media.length) {
-      throw new Error(
-        "No downloadable public media was found. The post may be private, deleted, unavailable, or unsupported."
-      );
+    if (isReelSource(url)) {
+      const videos = media.filter((item) => item.type === "video");
+      if (!videos.length) throw new Error("No Reel video was found.");
+      return videos;
     }
 
+    if (!media.length) throw new Error("No downloadable public media was found.");
     return media;
   } catch (error) {
     if (error instanceof DOMException && error.name === "AbortError") {
@@ -407,36 +477,33 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
 }
 
 async function uncachedExtractInstagramMedia(url: string): Promise<MediaItem[]> {
-  if (isSupportedPath(url)) {
-    try {
-      const fastMedia = await fetchFastResolver(url);
-      if (isReelSource(url)) {
-        const videos = fastMedia.filter((item) => item.type === "video");
-        if (!videos.length) throw new Error("Fast provider returned no Reel video.");
-        return videos;
-      }
-      return fastMedia;
-    } catch (error) {
-      console.warn(
-        "Fast Instagram provider failed; trying direct page:",
-        error instanceof Error ? error.message : error
-      );
-    }
+  if (!isSupportedPath(url)) return fetchApifyMedia(url);
 
-    try {
-      const pageMedia = await fetchInstagramPage(url);
-      if (isReelSource(url)) {
-        const videos = pageMedia.filter((item) => item.type === "video");
-        if (!videos.length) throw new Error("Instagram page returned no Reel video.");
-        return videos;
-      }
-      return pageMedia;
-    } catch (error) {
-      console.warn(
-        "Instagram direct page failed; using Apify fallback:",
-        error instanceof Error ? error.message : error
-      );
-    }
+  try {
+    return await fetchIgramMedia(url);
+  } catch (error) {
+    console.warn(
+      "IGram failed; trying lightweight resolver:",
+      error instanceof Error ? error.message : error
+    );
+  }
+
+  try {
+    return await fetchFastResolver(url);
+  } catch (error) {
+    console.warn(
+      "Lightweight Instagram resolver failed; trying direct page:",
+      error instanceof Error ? error.message : error
+    );
+  }
+
+  try {
+    return await fetchInstagramPage(url);
+  } catch (error) {
+    console.warn(
+      "Instagram direct page failed; using Apify fallback:",
+      error instanceof Error ? error.message : error
+    );
   }
 
   return fetchApifyMedia(url);
@@ -451,7 +518,7 @@ export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
 
   const cachedExtractor = unstable_cache(
     () => uncachedExtractInstagramMedia(normalized),
-    ["instagram-media-v11", normalized],
+    ["instagram-media-v12", normalized],
     { revalidate: 120 }
   );
 

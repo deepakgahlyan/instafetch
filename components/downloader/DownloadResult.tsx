@@ -20,6 +20,21 @@ interface DownloadResultProps {
   media: MediaItem[];
 }
 
+function buildDownloadEndpoint(
+  mediaUrl: string,
+  index: number,
+  sourceUrl?: string
+): string {
+  const params = new URLSearchParams({
+    url: mediaUrl,
+    index: String(index),
+  });
+
+  if (sourceUrl) params.set("source", sourceUrl);
+
+  return `/api/download/file?${params.toString()}`;
+}
+
 export default function DownloadResult({ media }: DownloadResultProps) {
   const [zipping, setZipping] = useState(false);
   const [zipError, setZipError] = useState("");
@@ -35,7 +50,9 @@ export default function DownloadResult({ media }: DownloadResultProps) {
 
     try {
       if (media.length > 20) {
-        throw new Error("This carousel is too large for a browser ZIP. Download the items individually.");
+        throw new Error(
+          "This carousel is too large for a browser ZIP. Download the items individually."
+        );
       }
 
       const zip = new JSZip();
@@ -46,7 +63,7 @@ export default function DownloadResult({ media }: DownloadResultProps) {
         if (!mediaUrl) continue;
 
         const response = await fetch(
-          `/api/download/file?url=${encodeURIComponent(mediaUrl)}&index=${index}`,
+          buildDownloadEndpoint(mediaUrl, index, item.source_url),
           { cache: "no-store" }
         );
 
@@ -68,7 +85,12 @@ export default function DownloadResult({ media }: DownloadResultProps) {
         zip.file(filename, blob);
       }
 
-      const archive = await zip.generateAsync({ type: "blob" });
+      const archive = await zip.generateAsync({
+        type: "blob",
+        compression: "DEFLATE",
+        compressionOptions: { level: 6 },
+      });
+
       const objectUrl = URL.createObjectURL(archive);
       const link = document.createElement("a");
       link.href = objectUrl;
@@ -92,8 +114,11 @@ export default function DownloadResult({ media }: DownloadResultProps) {
         <div className="mb-6 text-center">
           <p className="text-sm font-medium text-violet-400">Your media is ready</p>
           <h3 className="mt-1 text-2xl font-semibold text-white">
-            {media.length > 1 ? `${media.length} Media Items Found` : "Download Ready"}
+            {media.length > 1
+              ? `${media.length} Media Items Found`
+              : "Download Ready"}
           </h3>
+
           {caption && (
             <p className="mx-auto mt-4 max-w-3xl whitespace-pre-wrap text-left text-sm leading-6 text-zinc-400">
               {caption}
@@ -153,14 +178,11 @@ function MediaCard({
     setError("");
 
     try {
-      // TypeScript cannot safely retain a component-scope narrowing inside a
-      // later-executed event handler, so narrow the URL again at click time.
-      if (!mediaUrl) {
-        throw new Error("Media URL is unavailable. Please fetch the post again.");
-      }
-
-      const endpoint =
-        `/api/download/file?url=${encodeURIComponent(mediaUrl)}&index=${index}`;
+      const endpoint = buildDownloadEndpoint(
+        mediaUrl,
+        index,
+        item.source_url
+      );
 
       const response = await fetch(endpoint, {
         method: "GET",
@@ -183,7 +205,9 @@ function MediaCard({
       }
 
       const blob = await response.blob();
-      if (!blob.size) throw new Error("The downloaded file was empty. Please try again.");
+      if (!blob.size) {
+        throw new Error("The downloaded file was empty. Please try again.");
+      }
 
       const disposition = response.headers.get("content-disposition") || "";
       const match = disposition.match(/filename="?([^";]+)"?/i);
@@ -202,7 +226,9 @@ function MediaCard({
       setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Download failed. Please try again."
+        err instanceof Error
+          ? err.message
+          : "Download failed. Please try again."
       );
     } finally {
       setDownloading(false);
@@ -237,7 +263,9 @@ function MediaCard({
           </p>
           <p className="mt-1 text-xs text-zinc-500">
             {total > 1 ? `Media ${index + 1} of ${total}` : "Media 1"}
-            {item.width && item.height ? ` · ${item.width}×${item.height}` : ""}
+            {item.width && item.height
+              ? ` · ${item.width}×${item.height}`
+              : ""}
           </p>
         </div>
 

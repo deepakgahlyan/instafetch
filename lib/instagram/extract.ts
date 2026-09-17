@@ -32,7 +32,6 @@ interface ResolverData {
   thumbnail?: unknown;
   thumbnail_url?: unknown;
   type?: unknown;
-  title?: unknown;
 }
 
 interface ApifyItem {
@@ -107,7 +106,8 @@ function isKnownMediaHost(hostname: string): boolean {
     host.endsWith(".snapcdn.app") ||
     host.endsWith("cdninstagram.com") ||
     host.endsWith("fbcdn.net") ||
-    host.endsWith("fbsbx.com")
+    host.endsWith("fbsbx.com") ||
+    host === "jerrycoder.oggyapi.workers.dev"
   );
 }
 
@@ -212,9 +212,9 @@ function extractProviderMedia(payload: unknown, sourceUrl: string): MediaItem[] 
         : undefined;
 
   const values: Array<[unknown, unknown, boolean]> = [
-    [data.video_url, "video", false],
-    [data.videoUrl, "video", false],
-    [data.video, "video", false],
+    [data.video_url, "video", true],
+    [data.videoUrl, "video", true],
+    [data.video, "video", true],
     [data.download_url, "download_url", true],
     [data.media_url, "media_url", true],
     [data.mediaUrl, "mediaUrl", true],
@@ -235,9 +235,8 @@ function extractProviderMedia(payload: unknown, sourceUrl: string): MediaItem[] 
       trustProviderUrl,
       thumbnail
     );
-    if (isReelSource(sourceUrl) && output.some((item) => item.type === "video")) {
-      break;
-    }
+
+    if (isReelSource(sourceUrl) && output.length > 0) break;
   }
 
   return output.slice(0, MAX_MEDIA_ITEMS);
@@ -364,7 +363,7 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
     try {
       data = JSON.parse(text);
     } catch {
-      // Keep data null when the provider does not return JSON.
+      // Keep null when the provider does not return JSON.
     }
 
     if (!response.ok || !Array.isArray(data)) {
@@ -410,28 +409,31 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
 async function uncachedExtractInstagramMedia(url: string): Promise<MediaItem[]> {
   if (isSupportedPath(url)) {
     try {
-      const fastResolver = fetchFastResolver(url);
-      const directPage = fetchInstagramPage(url);
-
+      const fastMedia = await fetchFastResolver(url);
       if (isReelSource(url)) {
-        return await Promise.any([
-          fastResolver.then((media) => {
-            const videos = media.filter((item) => item.type === "video");
-            if (!videos.length) throw new Error("Fast provider returned no Reel video.");
-            return videos;
-          }),
-          directPage.then((media) => {
-            const videos = media.filter((item) => item.type === "video");
-            if (!videos.length) throw new Error("Instagram page returned no Reel video.");
-            return videos;
-          }),
-        ]);
+        const videos = fastMedia.filter((item) => item.type === "video");
+        if (!videos.length) throw new Error("Fast provider returned no Reel video.");
+        return videos;
       }
-
-      return await Promise.any([fastResolver, directPage]);
+      return fastMedia;
     } catch (error) {
       console.warn(
-        "Fast Instagram providers failed; using Apify fallback:",
+        "Fast Instagram provider failed; trying direct page:",
+        error instanceof Error ? error.message : error
+      );
+    }
+
+    try {
+      const pageMedia = await fetchInstagramPage(url);
+      if (isReelSource(url)) {
+        const videos = pageMedia.filter((item) => item.type === "video");
+        if (!videos.length) throw new Error("Instagram page returned no Reel video.");
+        return videos;
+      }
+      return pageMedia;
+    } catch (error) {
+      console.warn(
+        "Instagram direct page failed; using Apify fallback:",
         error instanceof Error ? error.message : error
       );
     }
@@ -449,7 +451,7 @@ export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
 
   const cachedExtractor = unstable_cache(
     () => uncachedExtractInstagramMedia(normalized),
-    ["instagram-media-v10", normalized],
+    ["instagram-media-v11", normalized],
     { revalidate: 120 }
   );
 

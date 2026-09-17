@@ -1,7 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
-import { extractInstagramMedia, type MediaItem } from "@/lib/instagram/extract";
+import { resolveInstagramDirect, type MediaItem } from "@/lib/instagram/direct";
 import { checkRateLimit } from "@/lib/rate-limit";
+
+const FIRST_PARTY_TIMEOUT_MS = 16_000;
+const DIRECT_FALLBACK_TIMEOUT_MS = 6_000;
 
 function getClientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
@@ -27,7 +30,7 @@ async function resolveWithFirstPartyApi(url: string): Promise<MediaItem[] | null
   endpoint.searchParams.set("url", url);
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 18_000);
+  const timer = setTimeout(() => controller.abort(), FIRST_PARTY_TIMEOUT_MS);
 
   try {
     const headers: HeadersInit = { Accept: "application/json" };
@@ -60,6 +63,24 @@ async function resolveWithFirstPartyApi(url: string): Promise<MediaItem[] | null
   }
 }
 
+async function resolveDirectFallback(url: string): Promise<MediaItem[]> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), DIRECT_FALLBACK_TIMEOUT_MS);
+
+  try {
+    return await Promise.race([
+      resolveInstagramDirect(url),
+      new Promise<MediaItem[]>((_, reject) =>
+        controller.signal.addEventListener("abort", () => {
+          reject(new Error("Direct Instagram fallback timed out."));
+        }),
+      ),
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export async function POST(request: Request) {
   const requestId = randomUUID();
   const rate = checkRateLimit(`extract:${getClientIp(request)}`);
@@ -76,7 +97,7 @@ export async function POST(request: Request) {
           "Retry-After": String(rate.retryAfterSeconds),
           "X-Request-Id": requestId,
         },
-      }
+      },
     );
   }
 
@@ -87,30 +108,28 @@ export async function POST(request: Request) {
     if (!rawUrl || typeof rawUrl !== "string") {
       return NextResponse.json(
         { error: "Please enter an Instagram URL." },
-        { status: 400, headers: { "X-Request-Id": requestId } }
+        { status: 400, headers: { "X-Request-Id": requestId } },
       );
     }
 
     let parsedUrl: URL;
-
     try {
       parsedUrl = new URL(rawUrl.trim());
     } catch {
       return NextResponse.json(
         { error: "Please enter a valid Instagram URL." },
-        { status: 400, headers: { "X-Request-Id": requestId } }
+        { status: 400, headers: { "X-Request-Id": requestId } },
       );
     }
 
     const hostname = parsedUrl.hostname.toLowerCase();
-
     if (
       parsedUrl.protocol !== "https:" ||
       (hostname !== "instagram.com" && hostname !== "www.instagram.com")
     ) {
       return NextResponse.json(
         { error: "Please enter a valid Instagram URL." },
-        { status: 400, headers: { "X-Request-Id": requestId } }
+        { status: 400, headers: { "X-Request-Id": requestId } },
       );
     }
 
@@ -120,16 +139,18 @@ export async function POST(request: Request) {
           error:
             "Paste a public Instagram post, Reel, or video URL. Profile and private-account URLs are not supported.",
         },
-        { status: 400, headers: { "X-Request-Id": requestId } }
+        { status: 400, headers: { "X-Request-Id": requestId } },
       );
     }
 
     const startedAt = Date.now();
     let media: MediaItem[] | null = null;
+    let source = "direct-fallback";
 
     try {
       media = await resolveWithFirstPartyApi(parsedUrl.toString());
       if (media) {
+        source = "first-party-api";
         console.info("First-party Instagram API completed", {
           requestId,
           mediaCount: media.length,
@@ -137,14 +158,14 @@ export async function POST(request: Request) {
         });
       }
     } catch (error) {
-      console.warn("First-party Instagram API failed; using local fallback", {
+      console.warn("First-party Instagram API failed; using direct fallback", {
         requestId,
         error: error instanceof Error ? error.message : String(error),
       });
     }
 
     if (!media) {
-      media = await extractInstagramMedia(parsedUrl.toString());
+      media = await resolveDirectFallback(parsedUrl.toString());
     }
 
     const durationMs = Date.now() - startedAt;
@@ -152,7 +173,7 @@ export async function POST(request: Request) {
     if (!media.length) {
       return NextResponse.json(
         { error: "No downloadable public media was found." },
-        { status: 404, headers: { "X-Request-Id": requestId } }
+        { status: 404, headers: { "X-Request-Id": requestId } },
       );
     }
 
@@ -164,10 +185,7 @@ export async function POST(request: Request) {
           requestId,
           mediaCount: media.length,
           durationMs,
-          source:
-            process.env.INSTAGRAM_API_URL
-              ? "first-party-api-or-fallback"
-              : "local-extractor",
+          source,
         },
       },
       {
@@ -176,7 +194,7 @@ export async function POST(request: Request) {
           "Cache-Control": "no-store",
           "X-Request-Id": requestId,
         },
-      }
+      },
     );
   } catch (error) {
     console.error("INSTAGRAM EXTRACTION ERROR", {
@@ -184,14 +202,10 @@ export async function POST(request: Request) {
       error,
     });
 
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    const isConfigurationError = errorMessage.includes("APIFY_API_TOKEN");
-
     return NextResponse.json(
       {
-        error: isConfigurationError
-          ? "The downloader is temporarily unavailable because its server configuration is incomplete."
-          : "We could not prepare that Instagram media. Check that the post is public and try again.",
+        error:
+          "We could not prepare that Instagram media. Check that the post is public and try again.",
         requestId,
       },
       {
@@ -200,7 +214,7 @@ export async function POST(request: Request) {
           "Cache-Control": "no-store",
           "X-Request-Id": requestId,
         },
-      }
+      },
     );
   }
 }

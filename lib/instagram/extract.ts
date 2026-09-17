@@ -29,6 +29,10 @@ interface ResolverItem {
   };
 }
 
+const FAST_RESOLVER_TIMEOUT_MS = 6_000;
+const APIFY_TIMEOUT_SECONDS = 15;
+const APIFY_TIMEOUT_MS = APIFY_TIMEOUT_SECONDS * 1_000;
+
 function normalizeInstagramUrl(url: string): string {
   const parsed = new URL(url.trim());
   parsed.protocol = "https:";
@@ -142,7 +146,10 @@ function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
 
 async function fetchFastResolver(url: string): Promise<MediaItem[]> {
   const timeout = new Promise<never>((_, reject) => {
-    setTimeout(() => reject(new Error("Fast resolver timed out.")), 8000);
+    setTimeout(
+      () => reject(new Error("Fast resolver timed out.")),
+      FAST_RESOLVER_TIMEOUT_MS
+    );
   });
 
   const payload = await Promise.race([instagram(url), timeout]);
@@ -165,96 +172,78 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
   const endpoint =
     "https://api.apify.com/v2/acts/crawlerbros~instagram-downloader-api/run-sync-get-dataset-items";
 
-  let lastError = "Instagram extraction failed.";
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), APIFY_TIMEOUT_MS);
 
-  for (let attempt = 1; attempt <= 2; attempt++) {
+  try {
+    const endpointUrl = new URL(endpoint);
+    endpointUrl.searchParams.set("token", token);
+    endpointUrl.searchParams.set("timeout", String(APIFY_TIMEOUT_SECONDS));
+
+    const response = await fetch(endpointUrl.toString(), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ postUrls: [url] }),
+      cache: "no-store",
+      signal: controller.signal,
+    });
+
+    const text = await response.text();
+    let data: unknown;
+
     try {
-      const response = await fetch(
-        `${endpoint}?token=${encodeURIComponent(token)}`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ postUrls: [url] }),
-          cache: "no-store",
-          signal: AbortSignal.timeout(30000),
-        }
-      );
-
-      const text = await response.text();
-      let data: unknown;
-
-      try {
-        data = JSON.parse(text);
-      } catch {
-        data = null;
-      }
-
-      if (!response.ok || !Array.isArray(data)) {
-        lastError = `Instagram extraction failed (${response.status}).`;
-        console.error(
-          "STORAGE RESOLVER ERROR:",
-          response.status,
-          text.slice(0, 500)
-        );
-
-        if (attempt < 2) {
-          await new Promise((resolve) => setTimeout(resolve, 500));
-          continue;
-        }
-
-        throw new Error(lastError);
-      }
-
-      const results = data as ResolverItem[];
-      const media = results
-        .filter(
-          (item) =>
-            item.download_status === "finished" &&
-            typeof item.download_url === "string" &&
-            item.download_url.length > 0
-        )
-        .map((item) => ({
-          url: item.download_url,
-          download_url: item.download_url,
-          type: item.type === "video" ? "video" : "image",
-          source_url: url,
-          filename: item.filename,
-          width: item.media_meta_data?.width,
-          height: item.media_meta_data?.height,
-          filesize_bytes: item.media_meta_data?.filesize_bytes,
-        }));
-
-      if (!media.length) {
-        throw new Error(
-          "No downloadable public media was found. The post may be private, deleted, unavailable, or unsupported."
-        );
-      }
-
-      return media;
-    } catch (error) {
-      if (
-        error instanceof Error &&
-        error.message.startsWith("No downloadable public media")
-      ) {
-        throw error;
-      }
-
-      lastError = error instanceof Error ? error.message : String(error);
-
-      if (attempt < 2) {
-        console.warn(
-          `Instagram storage resolver retry ${attempt + 1}:`,
-          lastError
-        );
-        await new Promise((resolve) => setTimeout(resolve, 500));
-      }
+      data = JSON.parse(text);
+    } catch {
+      data = null;
     }
-  }
 
-  throw new Error(lastError);
+    if (!response.ok || !Array.isArray(data)) {
+      console.error(
+        "INSTAGRAM APIFY RESOLVER ERROR:",
+        response.status,
+        text.slice(0, 500)
+      );
+      throw new Error(`Instagram extraction failed (${response.status}).`);
+    }
+
+    const results = data as ResolverItem[];
+    const media = results
+      .filter(
+        (item) =>
+          item.download_status === "finished" &&
+          typeof item.download_url === "string" &&
+          item.download_url.length > 0
+      )
+      .map((item) => ({
+        url: item.download_url,
+        download_url: item.download_url,
+        type: item.type === "video" ? "video" : "image",
+        source_url: url,
+        filename: item.filename,
+        width: item.media_meta_data?.width,
+        height: item.media_meta_data?.height,
+        filesize_bytes: item.media_meta_data?.filesize_bytes,
+      }));
+
+    if (!media.length) {
+      throw new Error(
+        "No downloadable public media was found. The post may be private, deleted, unavailable, or unsupported."
+      );
+    }
+
+    return media;
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new Error("Instagram extraction timed out.");
+    }
+
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 async function uncachedExtractInstagramMedia(
@@ -266,7 +255,7 @@ async function uncachedExtractInstagramMedia(
     } catch (error) {
       console.warn(
         "Fast Instagram resolver failed; using Apify fallback:",
-        error
+        error instanceof Error ? error.message : error
       );
     }
   }
@@ -283,7 +272,7 @@ export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
 
   const cachedExtractor = unstable_cache(
     () => uncachedExtractInstagramMedia(normalized),
-    ["instagram-media-v3", normalized],
+    ["instagram-media-v4", normalized],
     {
       revalidate: 120,
     }

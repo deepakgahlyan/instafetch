@@ -1,5 +1,11 @@
 import { createHash } from "node:crypto";
-import { getMediaObjectUrl, putMediaObject, r2Configured } from "@/lib/storage/r2";
+import { unstable_cache } from "next/cache";
+import { instagram } from "@jerrycoder/instagram-api";
+import {
+  getMediaObjectUrl,
+  putMediaObject,
+  r2Configured,
+} from "@/lib/storage/r2";
 
 export interface MediaItem {
   url?: string;
@@ -51,15 +57,125 @@ function isInstagramUrl(url: string): boolean {
   }
 }
 
-function safeExtension(item: ResolverItem): string {
-  const ext = item.media_meta_data?.ext || (item.type === "video" ? "mp4" : "jpg");
+function isSingleMediaPath(url: string): boolean {
+  try {
+    const pathname = new URL(url).pathname.toLowerCase();
+    return pathname.startsWith("/reel/") || pathname.startsWith("/tv/");
+  } catch {
+    return false;
+  }
+}
+
+function safeExtension(item: ResolverItem | MediaItem): string {
+  const mediaType = item.type === "video" ? "mp4" : "jpg";
+  const ext =
+    "media_meta_data" in item
+      ? item.media_meta_data?.ext || mediaType
+      : item.filename?.split(".").pop() || mediaType;
   return ext.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() || "bin";
 }
 
-async function mirrorToR2(media: MediaItem[], sourceUrl: string): Promise<MediaItem[]> {
+function isCandidateMediaUrl(value: string): boolean {
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol !== "https:") return false;
+    const host = parsed.hostname.toLowerCase();
+    if (host === "instagram.com" || host === "www.instagram.com") return false;
+
+    const pathname = parsed.pathname.toLowerCase();
+    const hasMediaExtension = /\.(mp4|m4v|mov|webm|jpg|jpeg|png|webp|gif)(?:$|[?#])/.test(
+      pathname
+    );
+    const looksLikeMediaHost =
+      host.includes("cdninstagram.com") ||
+      host.endsWith("fbcdn.net") ||
+      host.endsWith("fbsbx.com");
+
+    return hasMediaExtension || looksLikeMediaHost;
+  } catch {
+    return false;
+  }
+}
+
+function inferMediaType(url: string, hint?: string): "video" | "image" {
+  const normalizedHint = (hint || "").toLowerCase();
+  if (normalizedHint.includes("video") || normalizedHint.includes("mp4")) {
+    return "video";
+  }
+
+  return /\.(mp4|m4v|mov|webm)(?:$|[?#])/i.test(url) ? "video" : "image";
+}
+
+function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
+  const output: MediaItem[] = [];
+  const seen = new Set<string>();
+
+  function visit(node: unknown, hint = "", depth = 0): void {
+    if (depth > 6 || node == null) return;
+
+    if (typeof node === "string") {
+      if (isCandidateMediaUrl(node) && !seen.has(node)) {
+        seen.add(node);
+        output.push({
+          url: node,
+          download_url: node,
+          type: inferMediaType(node, hint),
+          source_url: sourceUrl,
+        });
+      }
+      return;
+    }
+
+    if (Array.isArray(node)) {
+      for (const entry of node) visit(entry, hint, depth + 1);
+      return;
+    }
+
+    if (typeof node !== "object") return;
+
+    const record = node as Record<string, unknown>;
+    const typeHint =
+      typeof record.type === "string"
+        ? record.type
+        : typeof record.media_type === "string"
+          ? record.media_type
+          : hint;
+
+    for (const [key, value] of Object.entries(record)) {
+      const nextHint = key.toLowerCase().includes("url") ? key : typeHint;
+      visit(value, nextHint, depth + 1);
+    }
+  }
+
+  visit(payload);
+  return output;
+}
+
+async function fetchFastResolver(url: string): Promise<MediaItem[]> {
+  const timeout = new Promise<never>((_, reject) => {
+    setTimeout(() => reject(new Error("Fast resolver timed out.")), 12000);
+  });
+
+  const payload = await Promise.race([instagram(url), timeout]);
+  const media = collectFastMedia(payload, url);
+
+  if (!media.length) {
+    throw new Error("Fast resolver returned no downloadable media.");
+  }
+
+  return media;
+}
+
+async function mirrorToR2(
+  media: MediaItem[],
+  sourceUrl: string
+): Promise<MediaItem[]> {
   if (!r2Configured) return media;
 
-  const postHash = createHash("sha256").update(sourceUrl).digest("hex").slice(0, 24);
+  const postHash = createHash("sha256")
+    .update(sourceUrl)
+    .digest("hex")
+    .slice(0, 24);
 
   const mirrored = await Promise.allSettled(
     media.map(async (item, index) => {
@@ -84,8 +200,14 @@ async function mirrorToR2(media: MediaItem[], sourceUrl: string): Promise<MediaI
       const contentType =
         response.headers.get("content-type") ||
         (item.type === "video" ? "video/mp4" : "image/jpeg");
-      const extension = item.filename?.split(".").pop() || (item.type === "video" ? "mp4" : "jpg");
-      const key = `instagram/${postHash}/${String(index + 1).padStart(2, "0")}-${createHash("sha256").update(source).digest("hex").slice(0, 16)}.${extension}`;
+      const extension = safeExtension(item);
+      const key = `instagram/${postHash}/${String(index + 1).padStart(
+        2,
+        "0"
+      )}-${createHash("sha256")
+        .update(source)
+        .digest("hex")
+        .slice(0, 16)}.${extension}`;
 
       await putMediaObject({
         key,
@@ -94,8 +216,13 @@ async function mirrorToR2(media: MediaItem[], sourceUrl: string): Promise<MediaI
         contentLength: body.byteLength,
       });
 
-      const filename = item.filename || `instafetch-${index + 1}.${safeExtension({ type: item.type, media_meta_data: { ext: extension } })}`;
-      const signedUrl = await getMediaObjectUrl(key, filename, contentType);
+      const filename =
+        item.filename || `instafetch-${index + 1}.${extension}`;
+      const signedUrl = await getMediaObjectUrl(
+        key,
+        filename,
+        contentType
+      );
 
       return {
         ...item,
@@ -107,7 +234,10 @@ async function mirrorToR2(media: MediaItem[], sourceUrl: string): Promise<MediaI
   );
 
   const successful = mirrored
-    .filter((result): result is PromiseFulfilledResult<MediaItem> => result.status === "fulfilled")
+    .filter(
+      (result): result is PromiseFulfilledResult<MediaItem> =>
+        result.status === "fulfilled"
+    )
     .map((result) => result.value);
 
   if (!successful.length) {
@@ -117,7 +247,7 @@ async function mirrorToR2(media: MediaItem[], sourceUrl: string): Promise<MediaI
   return successful;
 }
 
-async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
+async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
   const token = process.env.APIFY_API_TOKEN;
 
   if (!token) {
@@ -131,16 +261,19 @@ async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
 
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      const response = await fetch(`${endpoint}?token=${encodeURIComponent(token)}`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ postUrls: [url] }),
-        cache: "no-store",
-        signal: AbortSignal.timeout(45000),
-      });
+      const response = await fetch(
+        `${endpoint}?token=${encodeURIComponent(token)}`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ postUrls: [url] }),
+          cache: "no-store",
+          signal: AbortSignal.timeout(30000),
+        }
+      );
 
       const text = await response.text();
       let data: unknown;
@@ -153,10 +286,14 @@ async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
 
       if (!response.ok || !Array.isArray(data)) {
         lastError = `Instagram extraction failed (${response.status}).`;
-        console.error("STORAGE RESOLVER ERROR:", response.status, text.slice(0, 500));
+        console.error(
+          "STORAGE RESOLVER ERROR:",
+          response.status,
+          text.slice(0, 500)
+        );
 
         if (attempt < 2) {
-          await new Promise((resolve) => setTimeout(resolve, 700));
+          await new Promise((resolve) => setTimeout(resolve, 500));
           continue;
         }
 
@@ -201,14 +338,33 @@ async function fetchInstagramMedia(url: string): Promise<MediaItem[]> {
       lastError = error instanceof Error ? error.message : String(error);
 
       if (attempt < 2) {
-        console.warn(`Instagram storage resolver retry ${attempt + 1}:`, lastError);
-        await new Promise((resolve) => setTimeout(resolve, 700));
-        continue;
+        console.warn(
+          `Instagram storage resolver retry ${attempt + 1}:`,
+          lastError
+        );
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
     }
   }
 
   throw new Error(lastError);
+}
+
+async function uncachedExtractInstagramMedia(
+  url: string
+): Promise<MediaItem[]> {
+  const preferFast = isSingleMediaPath(url);
+
+  if (preferFast) {
+    try {
+      const fastMedia = await fetchFastResolver(url);
+      return mirrorToR2(fastMedia, url);
+    } catch (error) {
+      console.warn("Fast Instagram resolver failed; using Apify fallback:", error);
+    }
+  }
+
+  return fetchApifyMedia(url);
 }
 
 export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
@@ -218,5 +374,13 @@ export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
     throw new Error("Only public Instagram URLs are supported.");
   }
 
-  return fetchInstagramMedia(normalized);
+  const cachedExtractor = unstable_cache(
+    () => uncachedExtractInstagramMedia(normalized),
+    ["instagram-media-v2", normalized],
+    {
+      revalidate: 120,
+    }
+  );
+
+  return cachedExtractor();
 }

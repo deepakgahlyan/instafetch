@@ -64,7 +64,10 @@ def is_supported_url(raw: str) -> bool:
 
 def is_reel_url(raw: str) -> bool:
     path = urlsplit(raw).path.rstrip("/").lower()
-    return bool(re.fullmatch(r"/(reel|reels|tv)/[^/]+", path) or re.fullmatch(r"/share/reel/[^/]+", path))
+    return bool(
+        re.fullmatch(r"/(reel|reels|tv)/[^/]+", path)
+        or re.fullmatch(r"/share/reel/[^/]+", path)
+    )
 
 
 def shortcode_from_url(raw: str) -> str:
@@ -99,7 +102,9 @@ def is_https_url(value: Any) -> bool:
 
 
 def find_balanced_json(text: str, start: int) -> str | None:
-    opener = text[start] if 0 <= start < len(text) else ""
+    if start < 0 or start >= len(text):
+        return None
+    opener = text[start]
     closer = {"{": "}", "[": "]"}.get(opener)
     if not closer:
         return None
@@ -107,7 +112,6 @@ def find_balanced_json(text: str, start: int) -> str | None:
     depth = 0
     in_string = False
     escaped = False
-
     for index in range(start, len(text)):
         char = text[index]
         if in_string:
@@ -118,22 +122,19 @@ def find_balanced_json(text: str, start: int) -> str | None:
             elif char == '"':
                 in_string = False
             continue
-
         if char == '"':
             in_string = True
             continue
-
         if char == opener:
             depth += 1
         elif char == closer:
             depth -= 1
             if depth == 0:
                 return text[start : index + 1]
-
     return None
 
 
-def parse_marker_payload(html: str, marker: str) -> list[Any]:
+def parse_marker_payloads(html: str, marker: str) -> list[Any]:
     results: list[Any] = []
     offset = 0
     while True:
@@ -145,11 +146,12 @@ def parse_marker_payload(html: str, marker: str) -> list[Any]:
             break
 
         value_start = -1
-        for index in range(colon + 1, min(len(html), colon + 220)):
-            if html[index] in "[{":
+        for index in range(colon + 1, min(len(html), colon + 300)):
+            char = html[index]
+            if char in "[{":
                 value_start = index
                 break
-            if not html[index].isspace():
+            if not char.isspace() and char not in '"':
                 break
 
         if value_start >= 0:
@@ -161,7 +163,6 @@ def parse_marker_payload(html: str, marker: str) -> list[Any]:
                         break
                     except json.JSONDecodeError:
                         continue
-
         offset = marker_index + len(marker)
     return results
 
@@ -201,9 +202,12 @@ def pick_best_image(entries: Any) -> dict[str, Any] | None:
         return None
     valid: list[dict[str, Any]] = []
     for entry in entries:
-        if not isinstance(entry, dict) or not isinstance(entry.get("url"), str):
+        if not isinstance(entry, dict):
             continue
-        url = decode_url(entry["url"])
+        candidate_url = entry.get("url")
+        if not isinstance(candidate_url, str):
+            continue
+        url = decode_url(candidate_url)
         if not is_https_url(url):
             continue
         valid.append(
@@ -219,17 +223,38 @@ def pick_best_image(entries: Any) -> dict[str, Any] | None:
     return valid[0]
 
 
-def media_from_object(item: dict[str, Any], source_url: str) -> list[dict[str, Any]]:
+def caption_from_object(item: dict[str, Any]) -> str | None:
+    raw = item.get("caption")
+    if isinstance(raw, str) and raw.strip():
+        return raw.strip()
+    if isinstance(raw, dict):
+        text = raw.get("text")
+        if isinstance(text, str) and text.strip():
+            return text.strip()
+
+    edge = item.get("edge_media_to_caption")
+    if isinstance(edge, dict):
+        edges = edge.get("edges")
+        if isinstance(edges, list):
+            for entry in edges:
+                if not isinstance(entry, dict):
+                    continue
+                node = entry.get("node")
+                if isinstance(node, dict) and isinstance(node.get("text"), str) and node["text"].strip():
+                    return node["text"].strip()
+
+    return None
+
+
+def media_from_object(item: dict[str, Any], source_url: str, inherited_caption: str | None = None) -> list[dict[str, Any]]:
+    # Mobile/XDT shape.
     images = item.get("image_versions2")
     candidates = images.get("candidates") if isinstance(images, dict) else None
     best_image = pick_best_image(candidates)
 
     best_video = pick_best_video(item.get("video_versions"))
     if best_video:
-        caption = None
-        raw_caption = item.get("caption")
-        if isinstance(raw_caption, dict) and isinstance(raw_caption.get("text"), str):
-            caption = raw_caption["text"]
+        caption = caption_from_object(item) or inherited_caption
         return [
             {
                 "url": best_video["url"],
@@ -243,6 +268,40 @@ def media_from_object(item: dict[str, Any], source_url: str) -> list[dict[str, A
             }
         ]
 
+    # GraphQL/web shape.
+    graphql_video = item.get("video_url")
+    if isinstance(graphql_video, str) and is_https_url(decode_url(graphql_video)):
+        image_url = item.get("display_url") or item.get("thumbnail_src")
+        image_url = decode_url(image_url) if isinstance(image_url, str) else None
+        return [
+            {
+                "url": decode_url(graphql_video),
+                "download_url": decode_url(graphql_video),
+                "type": "video",
+                "source_url": source_url,
+                "thumbnail": image_url if is_https_url(image_url) else None,
+                "width": item.get("dimensions", {}).get("width") if isinstance(item.get("dimensions"), dict) else item.get("original_width"),
+                "height": item.get("dimensions", {}).get("height") if isinstance(item.get("dimensions"), dict) else item.get("original_height"),
+                "caption": caption_from_object(item) or inherited_caption,
+            }
+        ]
+
+    display_url = item.get("display_url") or item.get("thumbnail_src")
+    if isinstance(display_url, str):
+        display_url = decode_url(display_url)
+        if is_https_url(display_url):
+            return [
+                {
+                    "url": display_url,
+                    "download_url": display_url,
+                    "type": "image",
+                    "source_url": source_url,
+                    "width": item.get("dimensions", {}).get("width") if isinstance(item.get("dimensions"), dict) else item.get("original_width"),
+                    "height": item.get("dimensions", {}).get("height") if isinstance(item.get("dimensions"), dict) else item.get("original_height"),
+                    "caption": caption_from_object(item) or inherited_caption,
+                }
+            ]
+
     if best_image:
         return [
             {
@@ -252,22 +311,46 @@ def media_from_object(item: dict[str, Any], source_url: str) -> list[dict[str, A
                 "source_url": source_url,
                 "width": best_image.get("width"),
                 "height": best_image.get("height"),
+                "caption": caption_from_object(item) or inherited_caption,
             }
         ]
 
     return []
 
 
-def extract_media_from_payload(payload: Any, shortcode: str, source_url: str) -> list[dict[str, Any]]:
-    if not isinstance(payload, (dict, list)):
-        return []
+def child_media_objects(obj: dict[str, Any]) -> list[dict[str, Any]]:
+    carousel = obj.get("carousel_media")
+    if isinstance(carousel, list) and carousel:
+        return [child for child in carousel[:MAX_MEDIA_ITEMS] if isinstance(child, dict)]
 
-    objects: list[dict[str, Any]] = []
+    edge_sidecar = obj.get("edge_sidecar_to_children")
+    if isinstance(edge_sidecar, dict):
+        edges = edge_sidecar.get("edges")
+        if isinstance(edges, list):
+            children: list[dict[str, Any]] = []
+            for edge in edges[:MAX_MEDIA_ITEMS]:
+                if isinstance(edge, dict) and isinstance(edge.get("node"), dict):
+                    children.append(edge["node"])
+            if children:
+                return children
+        nodes = edge_sidecar.get("nodes")
+        if isinstance(nodes, list):
+            return [node for node in nodes[:MAX_MEDIA_ITEMS] if isinstance(node, dict)]
+
+    children = obj.get("children")
+    if isinstance(children, list):
+        return [child for child in children[:MAX_MEDIA_ITEMS] if isinstance(child, dict)]
+
+    return [obj]
+
+
+def collect_media_objects(root: Any, shortcode: str) -> list[dict[str, Any]]:
     exact: list[dict[str, Any]] = []
+    generic: list[dict[str, Any]] = []
     seen: set[int] = set()
 
     def walk(value: Any, depth: int = 0) -> None:
-        if depth > 10 or not isinstance(value, (dict, list)):
+        if depth > 14 or not isinstance(value, (dict, list)):
             return
         object_id = id(value)
         if object_id in seen:
@@ -281,45 +364,57 @@ def extract_media_from_payload(payload: Any, shortcode: str, source_url: str) ->
 
         code = value.get("code") if isinstance(value.get("code"), str) else ""
         short = value.get("shortcode") if isinstance(value.get("shortcode"), str) else ""
-        has_media = isinstance(value.get("video_versions"), list) or isinstance(value.get("image_versions2"), dict) or isinstance(value.get("carousel_media"), list)
+        has_media = (
+            isinstance(value.get("video_versions"), list)
+            or isinstance(value.get("image_versions2"), dict)
+            or isinstance(value.get("carousel_media"), list)
+            or isinstance(value.get("edge_sidecar_to_children"), dict)
+            or isinstance(value.get("video_url"), str)
+            or isinstance(value.get("display_url"), str)
+        )
         if has_media:
             if code == shortcode or short == shortcode:
                 exact.append(value)
             else:
-                objects.append(value)
+                generic.append(value)
+
         for child in value.values():
             walk(child, depth + 1)
 
-    walk(payload)
-    ordered = exact + objects
+    walk(root)
+    return exact + generic
+
+
+def extract_media_from_payload(payload: Any, shortcode: str, source_url: str) -> list[dict[str, Any]]:
+    objects = collect_media_objects(payload, shortcode)
     result: list[dict[str, Any]] = []
     urls: set[str] = set()
     reel = is_reel_url(source_url)
 
-    for obj in ordered:
-        carousel = obj.get("carousel_media")
-        if isinstance(carousel, list) and carousel:
-            children = carousel[:MAX_MEDIA_ITEMS]
-        else:
-            children = [obj]
+    for obj in objects:
+        parent_caption = caption_from_object(obj)
+        children = child_media_objects(obj)
 
         for child in children:
-            if not isinstance(child, dict):
-                continue
-            for item in media_from_object(child, source_url):
-                if not item.get("url") or item["url"] in urls:
+            for media in media_from_object(child, source_url, parent_caption):
+                url = media.get("url")
+                if not isinstance(url, str) or not url or url in urls:
                     continue
-                if reel and item.get("type") != "video":
+                if reel and media.get("type") != "video":
                     continue
-                urls.add(item["url"])
-                result.append(item)
+                urls.add(url)
+                result.append(media)
                 if len(result) >= MAX_MEDIA_ITEMS:
                     return result
+
+        # A standalone object can have its own media even when no children were present.
+        if children != [obj]:
+            continue
 
         if reel and result:
             return [item for item in result if item.get("type") == "video"]
 
-    return result
+    return [item for item in result if not reel or item.get("type") == "video"][:MAX_MEDIA_ITEMS]
 
 
 def parse_open_graph(html: str, source_url: str) -> list[dict[str, Any]]:
@@ -337,25 +432,76 @@ def parse_open_graph(html: str, source_url: str) -> list[dict[str, Any]]:
 
     video = meta("og:video:secure_url") or meta("og:video") or meta("og:video:url")
     image = meta("og:image") or meta("og:image:url")
+    title = meta("og:title")
 
     if is_reel_url(source_url):
         if not is_https_url(video):
             return []
-        return [{"url": video, "download_url": video, "type": "video", "source_url": source_url, "thumbnail": image}]
+        return [{
+            "url": video,
+            "download_url": video,
+            "type": "video",
+            "source_url": source_url,
+            "thumbnail": image,
+            "caption": title,
+        }]
 
     if is_https_url(video):
-        return [{"url": video, "download_url": video, "type": "video", "source_url": source_url, "thumbnail": image}]
+        return [{
+            "url": video,
+            "download_url": video,
+            "type": "video",
+            "source_url": source_url,
+            "thumbnail": image,
+            "caption": title,
+        }]
     if is_https_url(image):
-        return [{"url": image, "download_url": image, "type": "image", "source_url": source_url}]
+        return [{
+            "url": image,
+            "download_url": image,
+            "type": "image",
+            "source_url": source_url,
+            "caption": title,
+        }]
+    return []
+
+
+def extract_loose_media(html: str, shortcode: str, source_url: str) -> list[dict[str, Any]]:
+    # Keep this fallback intentionally narrow: it must never return unrelated
+    # Instagram image URLs such as logos/icons.
+    positions = [
+        html.find(f'"code":"{shortcode}"'),
+        html.find(f'"shortcode":"{shortcode}"'),
+    ]
+    for position in positions:
+        if position < 0:
+            continue
+        video_marker = html.find('"video_versions":', position)
+        if 0 <= video_marker - position <= 30_000:
+            start = html.find("[", video_marker)
+            raw = find_balanced_json(html, start) if start >= 0 else None
+            if raw:
+                try:
+                    best = pick_best_video(json.loads(raw))
+                except json.JSONDecodeError:
+                    best = None
+                if best:
+                    return [{
+                        "url": best["url"],
+                        "download_url": best["url"],
+                        "type": "video",
+                        "source_url": source_url,
+                        "caption": None,
+                        "width": best.get("width"),
+                        "height": best.get("height"),
+                    }]
     return []
 
 
 def parse_instagram_response(text: str, source_url: str) -> list[dict[str, Any]]:
+    # IMPORTANT: Open Graph exposes only the cover item for many carousels.
+    # Always try structured payloads first so sidecars are preserved.
     shortcode = shortcode_from_url(source_url)
-
-    og = parse_open_graph(text, source_url)
-    if og:
-        return og
 
     try:
         payload = json.loads(text)
@@ -366,32 +512,18 @@ def parse_instagram_response(text: str, source_url: str) -> list[dict[str, Any]]
         pass
 
     for marker in MEDIA_MARKERS:
-        for payload in parse_marker_payload(text, marker):
+        for payload in parse_marker_payloads(text, marker):
             media = extract_media_from_payload(payload, shortcode, source_url)
             if media:
                 return media
 
-    # Final structured fallback: locate the shortcode and nearby explicit video_versions.
-    positions = [
-        text.find(f'"code":"{shortcode}"'),
-        text.find(f'"shortcode":"{shortcode}"'),
-    ]
-    for position in positions:
-        if position < 0:
-            continue
-        video_marker = text.find('"video_versions":', position)
-        if 0 <= video_marker - position <= 30_000:
-            array_start = text.find("[", video_marker)
-            raw = find_balanced_json(text, array_start) if array_start >= 0 else None
-            if raw:
-                try:
-                    best = pick_best_video(json.loads(raw))
-                except json.JSONDecodeError:
-                    best = None
-                if best:
-                    return [{"url": best["url"], "download_url": best["url"], "type": "video", "source_url": source_url, "width": best.get("width"), "height": best.get("height")}]
+    loose = extract_loose_media(text, shortcode, source_url)
+    if loose:
+        return loose
 
-    return []
+    # Last resort only. OG is intentionally last because a carousel's OG fields
+    # generally describe just the first media item.
+    return parse_open_graph(text, source_url)
 
 
 async def fetch_instagram(url: str) -> list[dict[str, Any]]:
@@ -422,10 +554,8 @@ async def fetch_instagram(url: str) -> list[dict[str, Any]]:
     if media:
         return media[:MAX_MEDIA_ITEMS]
 
-    # The private JSON representation is a useful second direct request. No third-party
-    # downloader service is involved.
     parsed = urlsplit(url)
-    json_url = urlunsplit((parsed.scheme, parsed.netloc, parsed.path, "__a=1&__d=dis", ""))
+    json_url = urlunsplit((parsed.scheme, parsed.netloc, parsed.path, "", "__a=1&__d=dis"))
     response = await session.get(
         json_url,
         headers={**headers, "Accept": "application/json,text/plain,*/*"},
@@ -456,8 +586,7 @@ def cached_put(key: str, media: list[dict[str, Any]]) -> None:
     cache[key] = CacheEntry(time.monotonic() + CACHE_TTL_SECONDS, media)
     cache.move_to_end(key)
     now = time.monotonic()
-    expired = [key for key, value in cache.items() if value.expires_at <= now]
-    for old_key in expired:
+    for old_key in [key for key, value in cache.items() if value.expires_at <= now]:
         cache.pop(old_key, None)
     while len(cache) > CACHE_MAX_ENTRIES:
         cache.popitem(last=False)
@@ -492,7 +621,7 @@ async def lifespan(_: FastAPI):
         session = None
 
 
-app = FastAPI(title="InstaFetch Instagram API", version="2.0.0", lifespan=lifespan)
+app = FastAPI(title="InstaFetch Instagram API", version="2.1.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[origin.strip() for origin in os.getenv("CORS_ORIGIN", "*").split(",") if origin.strip()],
@@ -504,9 +633,7 @@ app.add_middleware(
 
 def check_api_key(authorization: str | None) -> None:
     configured = os.getenv("INSTAGRAM_API_KEY", "").strip()
-    if not configured:
-        return
-    if authorization != f"Bearer {configured}":
+    if configured and authorization != f"Bearer {configured}":
         raise HTTPException(status_code=401, detail="Unauthorized")
 
 
@@ -542,7 +669,9 @@ async def resolve(raw_url: str) -> dict[str, Any]:
     was_cached = cached_get(key) is not None
 
     try:
-        media = await asyncio.wait_for(resolve_with_dedupe(key), timeout=REQUEST_TIMEOUT_SECONDS + 1)
+        media = await asyncio.wait_for(
+            resolve_with_dedupe(key), timeout=REQUEST_TIMEOUT_SECONDS + 1
+        )
     except asyncio.TimeoutError:
         raise HTTPException(status_code=504, detail="Instagram extraction timed out.") from None
     except Exception as exc:

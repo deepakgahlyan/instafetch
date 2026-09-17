@@ -153,10 +153,14 @@ function MediaCard({
     setError("");
 
     try {
-      // mediaUrl is narrowed to a string above before entering the handler.
-      const downloadUrl = mediaUrl;
+      // TypeScript cannot safely retain a component-scope narrowing inside a
+      // later-executed event handler, so narrow the URL again at click time.
+      if (!mediaUrl) {
+        throw new Error("Media URL is unavailable. Please fetch the post again.");
+      }
+
       const endpoint =
-        `/api/download/file?url=${encodeURIComponent(downloadUrl)}&index=${index}`;
+        `/api/download/file?url=${encodeURIComponent(mediaUrl)}&index=${index}`;
 
       const response = await fetch(endpoint, {
         method: "GET",

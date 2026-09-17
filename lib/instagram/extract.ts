@@ -29,8 +29,9 @@ interface ResolverItem {
   };
 }
 
-const FAST_RESOLVER_TIMEOUT_MS = 8_000;
-const APIFY_TIMEOUT_SECONDS = 15;
+const DIRECT_PAGE_TIMEOUT_MS = 4_500;
+const FAST_RESOLVER_TIMEOUT_MS = 6_000;
+const APIFY_TIMEOUT_SECONDS = 12;
 const APIFY_TIMEOUT_MS = APIFY_TIMEOUT_SECONDS * 1_000;
 
 function normalizeInstagramUrl(url: string): string {
@@ -90,6 +91,17 @@ function isCandidateMediaUrl(value: string): boolean {
   }
 }
 
+function decodeEmbeddedUrl(value: string): string {
+  return value
+    .replace(/\\u0026/gi, "&")
+    .replace(/\\u003D/gi, "=")
+    .replace(/\\u002F/gi, "/")
+    .replace(/\\\//g, "/")
+    .replace(/&amp;/gi, "&")
+    .replace(/\\"/g, '"')
+    .trim();
+}
+
 function inferMediaType(url: string, hint?: string): "video" | "image" {
   const normalizedHint = (hint || "").toLowerCase();
   if (normalizedHint.includes("video") || normalizedHint.includes("mp4")) {
@@ -107,12 +119,13 @@ function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
     if (depth > 7 || node == null) return;
 
     if (typeof node === "string") {
-      if (isCandidateMediaUrl(node) && !seen.has(node)) {
-        seen.add(node);
+      const value = decodeEmbeddedUrl(node);
+      if (isCandidateMediaUrl(value) && !seen.has(value)) {
+        seen.add(value);
         output.push({
-          url: node,
-          download_url: node,
-          type: inferMediaType(node, hint),
+          url: value,
+          download_url: value,
+          type: inferMediaType(value, hint),
           source_url: sourceUrl,
         });
       }
@@ -144,17 +157,130 @@ function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
   return output;
 }
 
-async function fetchFastResolver(url: string): Promise<MediaItem[]> {
-  const timeout = new Promise<never>((_, reject) => {
-    setTimeout(
-      () => reject(new Error("Fast resolver timed out.")),
-      FAST_RESOLVER_TIMEOUT_MS
-    );
+function extractMetaUrl(html: string, property: string): string | null {
+  const escaped = property.replace(/[-:]/g, "\\$&");
+  const patterns = [
+    new RegExp(
+      `<meta[^>]+property=[\"']${escaped}[\"'][^>]+content=[\"']([^\"']+)[\"']`,
+      "i"
+    ),
+    new RegExp(
+      `<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+property=[\"']${escaped}[\"']`,
+      "i"
+    ),
+  ];
+
+  for (const pattern of patterns) {
+    const match = html.match(pattern);
+    if (match?.[1]) return decodeEmbeddedUrl(match[1]);
+  }
+
+  return null;
+}
+
+async function fetchInstagramPage(url: string): Promise<MediaItem[]> {
+  const response = await fetch(url, {
+    headers: {
+      Accept: "text/html,application/xhtml+xml",
+      "Accept-Language": "en-US,en;q=0.9",
+      Referer: "https://www.instagram.com/",
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36",
+    },
+    redirect: "follow",
+    cache: "no-store",
+    signal: AbortSignal.timeout(DIRECT_PAGE_TIMEOUT_MS),
   });
 
-  const payload = await Promise.race([instagram(url), timeout]);
-  const media = collectFastMedia(payload, url);
+  if (!response.ok) {
+    throw new Error(`Instagram page returned ${response.status}.`);
+  }
 
+  const html = await response.text();
+  const videoCandidates = new Set<string>();
+  const imageCandidates = new Set<string>();
+
+  const ogVideo = extractMetaUrl(html, "og:video:secure_url") || extractMetaUrl(html, "og:video");
+  const ogImage = extractMetaUrl(html, "og:image");
+
+  if (ogVideo && isCandidateMediaUrl(ogVideo)) videoCandidates.add(ogVideo);
+  if (ogImage && isCandidateMediaUrl(ogImage)) imageCandidates.add(ogImage);
+
+  const videoPatterns = [
+    /[\"'](?:video_url|playback_url|contentUrl)[\"']\s*:\s*[\"']([^\"']+)[\"']/gi,
+    /[\"']video_versions[\"']\s*:\s*\[([\s\S]{0,120000})\]/gi,
+  ];
+
+  for (const pattern of videoPatterns) {
+    for (const match of html.matchAll(pattern)) {
+      const chunk = match[1] || "";
+      const urls = chunk.match(/https?:\\?\\?\/\\?\\?\/[^\"'\\s]+/g) || [];
+      for (const raw of urls) {
+        const value = decodeEmbeddedUrl(raw).replace(/\\\\/g, "");
+        if (isCandidateMediaUrl(value)) videoCandidates.add(value);
+      }
+
+      const direct = decodeEmbeddedUrl(chunk);
+      if (isCandidateMediaUrl(direct)) videoCandidates.add(direct);
+    }
+  }
+
+  const directUrlPattern = /[\"'](https?:\\?\/\\?\/[^\"']+(?:\.mp4|video)[^\"']*)[\"']/gi;
+  for (const match of html.matchAll(directUrlPattern)) {
+    const value = decodeEmbeddedUrl(match[1]).replace(/\\\\/g, "");
+    if (isCandidateMediaUrl(value)) videoCandidates.add(value);
+  }
+
+  const imagePatterns = [
+    /[\"'](?:display_url|thumbnail_src|image_url)[\"']\s*:\s*[\"']([^\"']+)[\"']/gi,
+  ];
+  for (const pattern of imagePatterns) {
+    for (const match of html.matchAll(pattern)) {
+      const value = decodeEmbeddedUrl(match[1]);
+      if (isCandidateMediaUrl(value)) imageCandidates.add(value);
+    }
+  }
+
+  const media: MediaItem[] = [];
+  for (const value of videoCandidates) {
+    media.push({
+      url: value,
+      download_url: value,
+      type: "video",
+      source_url: url,
+      thumbnail: ogImage || undefined,
+    });
+  }
+  for (const value of imageCandidates) {
+    if (!media.some((item) => item.download_url === value)) {
+      media.push({
+        url: value,
+        download_url: value,
+        type: "image",
+        source_url: url,
+      });
+    }
+  }
+
+  if (!media.length) {
+    throw new Error("Instagram page did not expose downloadable media.");
+  }
+
+  return media;
+}
+
+async function fetchFastResolver(url: string): Promise<MediaItem[]> {
+  const payload = await Promise.race([
+    instagram(url),
+    new Promise<never>((_, reject) => {
+      setTimeout(
+        () => reject(new Error("Fast resolver timed out.")),
+        FAST_RESOLVER_TIMEOUT_MS
+      );
+    }),
+  ]);
+
+  const media = collectFastMedia(payload, url);
   if (!media.length) {
     throw new Error("Fast resolver returned no downloadable media.");
   }
@@ -164,10 +290,7 @@ async function fetchFastResolver(url: string): Promise<MediaItem[]> {
 
 async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
   const token = process.env.APIFY_API_TOKEN;
-
-  if (!token) {
-    throw new Error("APIFY_API_TOKEN is not configured.");
-  }
+  if (!token) throw new Error("APIFY_API_TOKEN is not configured.");
 
   const endpoint =
     "https://api.apify.com/v2/acts/crawlerbros~instagram-downloader-api/run-sync-get-dataset-items";
@@ -193,7 +316,6 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
 
     const text = await response.text();
     let data: unknown;
-
     try {
       data = JSON.parse(text);
     } catch {
@@ -239,22 +361,22 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
     if (error instanceof DOMException && error.name === "AbortError") {
       throw new Error("Instagram extraction timed out.");
     }
-
     throw error;
   } finally {
     clearTimeout(timeoutId);
   }
 }
 
-async function uncachedExtractInstagramMedia(
-  url: string
-): Promise<MediaItem[]> {
+async function uncachedExtractInstagramMedia(url: string): Promise<MediaItem[]> {
   if (isFastPath(url)) {
     try {
-      return await fetchFastResolver(url);
+      return await Promise.any([
+        fetchInstagramPage(url),
+        fetchFastResolver(url),
+      ]);
     } catch (error) {
       console.warn(
-        "Fast Instagram resolver failed; using Apify fallback:",
+        "Fast Instagram paths failed; using Apify fallback:",
         error instanceof Error ? error.message : error
       );
     }
@@ -272,10 +394,8 @@ export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
 
   const cachedExtractor = unstable_cache(
     () => uncachedExtractInstagramMedia(normalized),
-    ["instagram-media-v4", normalized],
-    {
-      revalidate: 120,
-    }
+    ["instagram-media-v5", normalized],
+    { revalidate: 120 }
   );
 
   return cachedExtractor();

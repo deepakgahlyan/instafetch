@@ -1,11 +1,5 @@
-import { createHash } from "node:crypto";
 import { unstable_cache } from "next/cache";
 import { instagram } from "@jerrycoder/instagram-api";
-import {
-  getMediaObjectUrl,
-  putMediaObject,
-  r2Configured,
-} from "@/lib/storage/r2";
 
 export interface MediaItem {
   url?: string;
@@ -57,28 +51,23 @@ function isInstagramUrl(url: string): boolean {
   }
 }
 
-function isSingleMediaPath(url: string): boolean {
+function isFastPath(url: string): boolean {
   try {
-    const pathname = new URL(url).pathname.toLowerCase();
-    return pathname.startsWith("/reel/") || pathname.startsWith("/tv/");
+    const pathname = new URL(url).pathname.toLowerCase().replace(/\/+$/, "");
+    return (
+      /^\/(p|reel|reels|tv)\/[^/]+$/.test(pathname) ||
+      /^\/share\/reel\/[^/]+$/.test(pathname)
+    );
   } catch {
     return false;
   }
-}
-
-function safeExtension(item: ResolverItem | MediaItem): string {
-  const mediaType = item.type === "video" ? "mp4" : "jpg";
-  const ext =
-    "media_meta_data" in item
-      ? item.media_meta_data?.ext || mediaType
-      : item.filename?.split(".").pop() || mediaType;
-  return ext.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() || "bin";
 }
 
 function isCandidateMediaUrl(value: string): boolean {
   try {
     const parsed = new URL(value);
     if (parsed.protocol !== "https:") return false;
+
     const host = parsed.hostname.toLowerCase();
     if (host === "instagram.com" || host === "www.instagram.com") return false;
 
@@ -111,7 +100,7 @@ function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
   const seen = new Set<string>();
 
   function visit(node: unknown, hint = "", depth = 0): void {
-    if (depth > 6 || node == null) return;
+    if (depth > 7 || node == null) return;
 
     if (typeof node === "string") {
       if (isCandidateMediaUrl(node) && !seen.has(node)) {
@@ -153,7 +142,7 @@ function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
 
 async function fetchFastResolver(url: string): Promise<MediaItem[]> {
   const timeout = new Promise<never>((_, reject) => {
-    setTimeout(() => reject(new Error("Fast resolver timed out.")), 12000);
+    setTimeout(() => reject(new Error("Fast resolver timed out.")), 8000);
   });
 
   const payload = await Promise.race([instagram(url), timeout]);
@@ -164,87 +153,6 @@ async function fetchFastResolver(url: string): Promise<MediaItem[]> {
   }
 
   return media;
-}
-
-async function mirrorToR2(
-  media: MediaItem[],
-  sourceUrl: string
-): Promise<MediaItem[]> {
-  if (!r2Configured) return media;
-
-  const postHash = createHash("sha256")
-    .update(sourceUrl)
-    .digest("hex")
-    .slice(0, 24);
-
-  const mirrored = await Promise.allSettled(
-    media.map(async (item, index) => {
-      const source = item.download_url || item.url;
-      if (!source) return item;
-
-      const response = await fetch(source, {
-        method: "GET",
-        headers: {
-          Accept: "*/*",
-          "User-Agent": "Mozilla/5.0 (compatible; InstaFetch/1.0)",
-        },
-        cache: "no-store",
-        signal: AbortSignal.timeout(90000),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Media storage fetch failed (${response.status}).`);
-      }
-
-      const body = await response.arrayBuffer();
-      const contentType =
-        response.headers.get("content-type") ||
-        (item.type === "video" ? "video/mp4" : "image/jpeg");
-      const extension = safeExtension(item);
-      const key = `instagram/${postHash}/${String(index + 1).padStart(
-        2,
-        "0"
-      )}-${createHash("sha256")
-        .update(source)
-        .digest("hex")
-        .slice(0, 16)}.${extension}`;
-
-      await putMediaObject({
-        key,
-        body,
-        contentType,
-        contentLength: body.byteLength,
-      });
-
-      const filename =
-        item.filename || `instafetch-${index + 1}.${extension}`;
-      const signedUrl = await getMediaObjectUrl(
-        key,
-        filename,
-        contentType
-      );
-
-      return {
-        ...item,
-        url: signedUrl,
-        download_url: signedUrl,
-        filesize_bytes: body.byteLength,
-      };
-    })
-  );
-
-  const successful = mirrored
-    .filter(
-      (result): result is PromiseFulfilledResult<MediaItem> =>
-        result.status === "fulfilled"
-    )
-    .map((result) => result.value);
-
-  if (!successful.length) {
-    throw new Error("Media was found but could not be prepared for download.");
-  }
-
-  return successful;
 }
 
 async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
@@ -325,12 +233,11 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
         );
       }
 
-      return mirrorToR2(media, url);
+      return media;
     } catch (error) {
       if (
         error instanceof Error &&
-        (error.message.startsWith("No downloadable public media") ||
-          error.message.startsWith("Media was found but could not be prepared"))
+        error.message.startsWith("No downloadable public media")
       ) {
         throw error;
       }
@@ -353,14 +260,14 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
 async function uncachedExtractInstagramMedia(
   url: string
 ): Promise<MediaItem[]> {
-  const preferFast = isSingleMediaPath(url);
-
-  if (preferFast) {
+  if (isFastPath(url)) {
     try {
-      const fastMedia = await fetchFastResolver(url);
-      return mirrorToR2(fastMedia, url);
+      return await fetchFastResolver(url);
     } catch (error) {
-      console.warn("Fast Instagram resolver failed; using Apify fallback:", error);
+      console.warn(
+        "Fast Instagram resolver failed; using Apify fallback:",
+        error
+      );
     }
   }
 
@@ -376,7 +283,7 @@ export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
 
   const cachedExtractor = unstable_cache(
     () => uncachedExtractInstagramMedia(normalized),
-    ["instagram-media-v2", normalized],
+    ["instagram-media-v3", normalized],
     {
       revalidate: 120,
     }

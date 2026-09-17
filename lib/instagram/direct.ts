@@ -189,6 +189,11 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
   const videoVersions = Array.isArray(item.video_versions) ? item.video_versions : [];
   const bestVideo = pickBestVideo(videoVersions);
   const dash = dashVideoUrl(item.video_dash_manifest);
+  const captionText: string | undefined = (() => {
+    if (!item.caption || typeof item.caption !== "object") return undefined;
+    const text = (item.caption as Record<string, unknown>).text;
+    return typeof text === "string" ? text : undefined;
+  })();
 
   if (bestVideo) {
     output.push({
@@ -199,12 +204,7 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       thumbnail: bestImage?.url,
       width: bestVideo.width,
       height: bestVideo.height,
-      caption:
-        item.caption && typeof item.caption === "object"
-          ? typeof (item.caption as Record<string, unknown>).text === "string"
-            ? (item.caption as Record<string, unknown>).text
-            : undefined
-          : undefined,
+      caption: captionText,
     });
   } else if (dash) {
     output.push({
@@ -213,6 +213,7 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       type: "video",
       source_url: sourceUrl,
       thumbnail: bestImage?.url,
+      caption: captionText,
     });
   } else if (bestImage) {
     output.push({
@@ -222,6 +223,7 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       source_url: sourceUrl,
       width: bestImage.width,
       height: bestImage.height,
+      caption: captionText,
     });
   }
 

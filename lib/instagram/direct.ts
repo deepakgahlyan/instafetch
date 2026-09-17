@@ -76,13 +76,9 @@ function findBalancedJson(text: string, start: number): string | null {
     const char = text[i];
 
     if (inString) {
-      if (escaped) {
-        escaped = false;
-      } else if (char === "\\") {
-        escaped = true;
-      } else if (char === '"') {
-        inString = false;
-      }
+      if (escaped) escaped = false;
+      else if (char === "\\") escaped = true;
+      else if (char === '"') inString = false;
       continue;
     }
 
@@ -101,21 +97,21 @@ function findBalancedJson(text: string, start: number): string | null {
   return null;
 }
 
-function parseValueAfterMarker(text: string, markerIndex: number): unknown | null {
-  const colon = text.indexOf(":", markerIndex + markerIndex + 0);
+function parseValueAfterMarker(text: string, markerIndex: number, marker: string): unknown | null {
+  const colon = text.indexOf(":", markerIndex + marker.length);
   if (colon < 0) return null;
 
-  const valueStart = (() => {
-    for (let i = colon + 1; i < Math.min(text.length, colon + 200); i += 1) {
-      const char = text[i];
-      if (char === "{" || char === "[") return i;
-      if (!/\s/.test(char)) return -1;
+  let valueStart = -1;
+  for (let i = colon + 1; i < Math.min(text.length, colon + 200); i += 1) {
+    const char = text[i];
+    if (char === "{" || char === "[") {
+      valueStart = i;
+      break;
     }
-    return -1;
-  })();
+    if (!/\s/.test(char)) return null;
+  }
 
   if (valueStart < 0) return null;
-
   const candidate = findBalancedJson(text, valueStart);
   if (!candidate) return null;
 
@@ -164,10 +160,7 @@ function pickBestImage(candidates: unknown[]): { url: string; width?: number; he
     .filter((entry) => isHttpsUrl(entry.url));
 
   if (!valid.length) return null;
-  valid.sort(
-    (a, b) =>
-      (b.width ?? 0) * (b.height ?? 0) - (a.width ?? 0) * (a.height ?? 0)
-  );
+  valid.sort((a, b) => (b.width ?? 0) * (b.height ?? 0) - (a.width ?? 0) * (a.height ?? 0));
   return valid[0];
 }
 
@@ -176,6 +169,7 @@ function dashVideoUrl(manifest: unknown): string | null {
   const decoded = decodeEmbedded(manifest);
   const matches = decoded.match(/<BaseURL[^>]*>([\s\S]*?)<\/BaseURL>/gi);
   if (!matches?.length) return null;
+
   for (const match of matches) {
     const inner = match.replace(/^<BaseURL[^>]*>/i, "").replace(/<\/BaseURL>$/i, "");
     if (isHttpsUrl(inner)) return inner;
@@ -186,16 +180,12 @@ function dashVideoUrl(manifest: unknown): string | null {
 function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): MediaItem[] {
   const output: MediaItem[] = [];
   const seen = new Set<string>();
-  const thumbnailCandidates =
+  const imageVersions =
     item.image_versions2 && typeof item.image_versions2 === "object"
       ? (item.image_versions2 as Record<string, unknown>).candidates
       : undefined;
 
-  const bestImage = Array.isArray(thumbnailCandidates)
-    ? pickBestImage(thumbnailCandidates)
-    : null;
-
-  const thumbnail = bestImage?.url;
+  const bestImage = Array.isArray(imageVersions) ? pickBestImage(imageVersions) : null;
   const videoVersions = Array.isArray(item.video_versions) ? item.video_versions : [];
   const bestVideo = pickBestVideo(videoVersions);
   const dash = dashVideoUrl(item.video_dash_manifest);
@@ -206,7 +196,7 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       download_url: bestVideo.url,
       type: "video",
       source_url: sourceUrl,
-      thumbnail,
+      thumbnail: bestImage?.url,
       width: bestVideo.width,
       height: bestVideo.height,
       caption:
@@ -222,7 +212,7 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       download_url: dash,
       type: "video",
       source_url: sourceUrl,
-      thumbnail,
+      thumbnail: bestImage?.url,
     });
   } else if (bestImage) {
     output.push({
@@ -235,8 +225,8 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
     });
   }
 
-  return output.filter((item) => {
-    const key = item.url || "";
+  return output.filter((media) => {
+    const key = media.url || "";
     if (!key || seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -249,7 +239,7 @@ function collectMediaObjects(root: unknown, shortcode: string): Record<string, u
   const seen = new Set<object>();
 
   function walk(value: unknown, depth: number): void {
-    if (depth > 10 || value === null || typeof value !== "object") return;
+    if (depth > 12 || value === null || typeof value !== "object") return;
     if (seen.has(value as object)) return;
     seen.add(value as object);
 
@@ -290,8 +280,7 @@ function extractFromPayload(payload: unknown, shortcode: string, sourceUrl: stri
     if (carousel?.length) {
       for (const child of carousel.slice(0, MAX_MEDIA_ITEMS)) {
         if (!child || typeof child !== "object") continue;
-        const childItems = mediaItemFromObject(child as Record<string, unknown>, sourceUrl);
-        for (const item of childItems) {
+        for (const item of mediaItemFromObject(child as Record<string, unknown>, sourceUrl)) {
           if (item.url && !seen.has(item.url)) {
             seen.add(item.url);
             output.push(item);
@@ -310,7 +299,6 @@ function extractFromPayload(payload: unknown, shortcode: string, sourceUrl: stri
     if (reel && output.some((item) => item.type === "video")) {
       return output.filter((item) => item.type === "video").slice(0, MAX_MEDIA_ITEMS);
     }
-
     if (output.length >= MAX_MEDIA_ITEMS) break;
   }
 
@@ -320,7 +308,6 @@ function extractFromPayload(payload: unknown, shortcode: string, sourceUrl: stri
 }
 
 function extractLooseMedia(html: string, shortcode: string, sourceUrl: string): MediaItem[] {
-  const escapedCode = shortcode.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const positions = [
     html.indexOf(`\"code\":\"${shortcode}\"`),
     html.indexOf(`\"shortcode\":\"${shortcode}\"`),
@@ -337,19 +324,17 @@ function extractLooseMedia(html: string, shortcode: string, sourceUrl: string): 
             const versions = JSON.parse(rawArray) as unknown[];
             const best = pickBestVideo(versions);
             if (best) {
-              return [
-                {
-                  url: best.url,
-                  download_url: best.url,
-                  type: "video",
-                  source_url: sourceUrl,
-                  width: best.width,
-                  height: best.height,
-                },
-              ];
+              return [{
+                url: best.url,
+                download_url: best.url,
+                type: "video",
+                source_url: sourceUrl,
+                width: best.width,
+                height: best.height,
+              }];
             }
           } catch {
-            // Continue to other structured fields.
+            // Try another structured field.
           }
         }
       }
@@ -366,16 +351,14 @@ function extractLooseMedia(html: string, shortcode: string, sourceUrl: string): 
             const candidates = Array.isArray(imageObject.candidates) ? imageObject.candidates : [];
             const best = pickBestImage(candidates);
             if (best) {
-              return [
-                {
-                  url: best.url,
-                  download_url: best.url,
-                  type: "image",
-                  source_url: sourceUrl,
-                  width: best.width,
-                  height: best.height,
-                },
-              ];
+              return [{
+                url: best.url,
+                download_url: best.url,
+                type: "image",
+                source_url: sourceUrl,
+                width: best.width,
+                height: best.height,
+              }];
             }
           } catch {
             // Continue.
@@ -385,7 +368,6 @@ function extractLooseMedia(html: string, shortcode: string, sourceUrl: string): 
     }
   }
 
-  void escapedCode;
   return [];
 }
 
@@ -395,11 +377,13 @@ function parseInstagramHtml(html: string, sourceUrl: string, shortcode: string):
     while (true) {
       const markerIndex = html.indexOf(marker, offset);
       if (markerIndex < 0) break;
-      const payload = parseValueAfterMarker(html, markerIndex);
+
+      const payload = parseValueAfterMarker(html, markerIndex, marker);
       if (payload) {
         const media = extractFromPayload(payload, shortcode, sourceUrl);
         if (media.length) return media;
       }
+
       offset = markerIndex + marker.length;
     }
   }
@@ -431,11 +415,11 @@ async function fetchInstagramVariant(url: string): Promise<MediaItem[]> {
 
   const contentType = response.headers.get("content-type") || "";
   const text = await response.text();
+  const shortcode = getShortcode(url);
 
   if (contentType.includes("application/json")) {
     try {
       const json = JSON.parse(text);
-      const shortcode = getShortcode(url);
       const media = extractFromPayload(json, shortcode, url);
       if (media.length) return media;
     } catch {
@@ -443,7 +427,6 @@ async function fetchInstagramVariant(url: string): Promise<MediaItem[]> {
     }
   }
 
-  const shortcode = getShortcode(url);
   const media = parseInstagramHtml(text, url, shortcode);
   if (!media.length) throw new Error("Instagram page contained no downloadable media.");
   return media;
@@ -451,14 +434,10 @@ async function fetchInstagramVariant(url: string): Promise<MediaItem[]> {
 
 export async function resolveInstagramDirect(inputUrl: string): Promise<MediaItem[]> {
   const sourceUrl = normalizeInstagramUrl(inputUrl);
-  const shortcode = getShortcode(sourceUrl);
+  getShortcode(sourceUrl);
 
   const base = sourceUrl.endsWith("/") ? sourceUrl : `${sourceUrl}/`;
-  const variants = [
-    base,
-    `${base}?__a=1&__d=dis`,
-  ];
-
+  const variants = [base, `${base}?__a=1&__d=dis`];
   const attempts = variants.map((variant) =>
     fetchInstagramVariant(variant).then((media) => {
       if (isReelSource(sourceUrl)) {
@@ -474,7 +453,7 @@ export async function resolveInstagramDirect(inputUrl: string): Promise<MediaIte
     return await Promise.any(attempts);
   } catch {
     throw new Error(
-      `Instagram media extraction failed for shortcode ${shortcode}. The page may require login, be private, unavailable, or temporarily rate-limited.`
+      "Instagram media extraction failed. The page may require login, be private, unavailable, or temporarily rate-limited."
     );
   }
 }

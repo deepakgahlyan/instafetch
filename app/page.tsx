@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/hero/Hero";
 import Features from "@/components/features/Features";
 import HowItWorks from "@/components/how-it-works/HowItWorks";
+import DownloaderResourceCenter from "@/components/content/DownloaderResourceCenter";
 import FAQ from "@/components/faq/FAQ";
 import Footer from "@/components/footer/Footer";
 
@@ -69,18 +70,26 @@ const structuredData = {
 export default function Home() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
 
       <main className="min-h-screen bg-zinc-950">
         <Navbar />
         <Hero />
         <Features />
         <HowItWorks />
+        <DownloaderResourceCenter />
 
         <section className="mx-auto max-w-5xl px-6 py-16">
           <div className="rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8 md:p-10">
-            <p className="text-sm font-semibold uppercase tracking-widest text-violet-400">InstaFetch Instagram Downloader</p>
-            <h2 className="mt-3 text-2xl font-bold text-white md:text-3xl">Instagram Downloader for Videos, Reels &amp; Photos</h2>
+            <p className="text-sm font-semibold uppercase tracking-widest text-violet-400">
+              InstaFetch Instagram Downloader
+            </p>
+            <h2 className="mt-3 text-2xl font-bold text-white md:text-3xl">
+              Instagram Downloader for Videos, Reels &amp; Photos
+            </h2>
             <p className="mt-5 leading-8 text-zinc-300">
               InstaFetch is a free online Instagram downloader for supported public Instagram videos, Reels, and photos. It gives you a simple browser-based workflow: copy a public Instagram URL, paste it into the downloader, check the available media, and download a supported result. No Instagram password is required.
             </p>

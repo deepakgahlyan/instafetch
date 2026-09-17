@@ -34,6 +34,7 @@ function isAllowedHost(hostname: string): boolean {
     "fbcdn.net",
     "fbsbx.com",
     "snapcdn.app",
+    "jerrycoder.oggyapi.workers.dev",
   ];
 
   return allowedHosts.some(
@@ -66,8 +67,6 @@ export async function GET(request: Request) {
       Number.parseInt(requestUrl.searchParams.get("index") || "0", 10) || 0
     );
 
-    // Normal downloads use the storage URL returned during the initial fetch.
-    // We deliberately do NOT scrape Instagram again on every click.
     if (!mediaUrl && sourceUrl) {
       let parsedSource: URL;
       try {
@@ -130,7 +129,11 @@ export async function GET(request: Request) {
         parsedUrl.hostname
       );
 
-      if (sourceUrl && parsedUrl.hostname !== "api.apify.com" && !parsedUrl.hostname.endsWith("r2.cloudflarestorage.com")) {
+      if (
+        sourceUrl &&
+        parsedUrl.hostname !== "api.apify.com" &&
+        !parsedUrl.hostname.endsWith("r2.cloudflarestorage.com")
+      ) {
         const freshMedia = await extractInstagramMedia(sourceUrl);
         const selected = freshMedia[requestedIndex] || freshMedia[0];
         const freshUrl = selected?.download_url || selected?.url;

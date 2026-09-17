@@ -23,7 +23,7 @@ const stages = [
   "Preparing your download",
 ];
 
-const REQUEST_TIMEOUT_MS = 25_000;
+const REQUEST_TIMEOUT_MS = 30_000;
 
 export default function HeroInput() {
   const [url, setUrl] = useState("");

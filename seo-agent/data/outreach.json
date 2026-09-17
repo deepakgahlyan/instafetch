@@ -141,7 +141,7 @@
   {
     "url": "https://rekreate.ai/instagramDownloader",
     "domain": "rekreate.ai",
-    "to": null,
+    "to": "team@rekreate.ai",
     "subject": "A possible addition to “Free Instagram Video Downloader - Download Photos, Reels & Storie”",
     "body": "Hello,\n\nI came across “Free Instagram Video Downloader - Download Photos, Reels & Stories Online” while looking through Instagram resources and noticed the section on related tools.\n\nOffer InstaFetch as an additional free tool for readers who need to save supported public Instagram media. InstaFetch is a simple browser-based option for supported public Instagram media: https://www.instafetch.app.\n\nI’ll leave it with you in case it is useful for a future update.\n\nThanks,\nInstaFetch",
     "personalization": {
@@ -152,7 +152,10 @@
       "generatedFromTarget": true
     },
     "createdAt": "2026-09-01T11:46:55.196Z",
-    "sent": false
+    "sent": false,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-09-17T11:23:28.944Z",
+    "sendError": "[{\"code\":10203,\"message\":\"email.sending.error.email.sending_disabled\"}]"
   },
   {
     "url": "https://inflact.com/instagram-downloader/photo",

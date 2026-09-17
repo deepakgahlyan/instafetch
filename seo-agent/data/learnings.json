@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-17T11:14:56.517Z",
-  "totalOpportunities": 206,
+  "generatedAt": "2026-09-17T11:23:46.399Z",
+  "totalOpportunities": 214,
   "qualified": 138,
   "outreachDrafts": 36,
   "sent": 26,
@@ -8,31 +8,31 @@
   "submissionQueue": 13,
   "byOpportunityType": {
     "resource-page": {
-      "opportunities": 124,
+      "opportunities": 126,
       "linked": 0,
-      "avgQuality": 76,
+      "avgQuality": 75,
       "linkRate": 0
     },
     "directory-submission": {
-      "opportunities": 37,
+      "opportunities": 38,
       "linked": 0,
       "avgQuality": 68,
       "linkRate": 0
     },
     "editorial-mention": {
-      "opportunities": 33,
+      "opportunities": 36,
       "linked": 0,
-      "avgQuality": 69,
-      "linkRate": 0
-    },
-    "creator-resource": {
-      "opportunities": 3,
-      "linked": 0,
-      "avgQuality": 54,
+      "avgQuality": 68,
       "linkRate": 0
     },
     "broken-link-candidate": {
-      "opportunities": 9,
+      "opportunities": 10,
+      "linked": 0,
+      "avgQuality": 56,
+      "linkRate": 0
+    },
+    "creator-resource": {
+      "opportunities": 4,
       "linked": 0,
       "avgQuality": 55,
       "linkRate": 0
@@ -40,7 +40,7 @@
   },
   "nextRunGuidance": [
     "resource-page",
-    "editorial-mention",
-    "directory-submission"
+    "directory-submission",
+    "editorial-mention"
   ]
 }

@@ -178,8 +178,13 @@ function MediaCard({
     setError("");
 
     try {
+      const currentMediaUrl = item.download_url || item.url;
+      if (!currentMediaUrl) {
+        throw new Error("Media URL is unavailable. Please fetch the post again.");
+      }
+
       const endpoint = buildDownloadEndpoint(
-        mediaUrl,
+        currentMediaUrl,
         index,
         item.source_url
       );

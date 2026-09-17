@@ -1,10 +1,12 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
-import { resolveInstagramDirect, type MediaItem } from "@/lib/instagram/direct";
+import { resolveInstagramResilient, type ResilientMediaItem } from "@/lib/instagram/resilient";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 const FIRST_PARTY_TIMEOUT_MS = 16_000;
-const DIRECT_FALLBACK_TIMEOUT_MS = 10_000;
+const RESILIENT_FALLBACK_TIMEOUT_MS = 12_000;
+
+type MediaItem = ResilientMediaItem;
 
 function getClientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
@@ -25,7 +27,6 @@ function firstPartyEndpoints(): string[] {
   const configured = process.env.INSTAGRAM_API_URL?.trim();
   if (configured) endpoints.push(configured.replace(/\/+$/, ""));
 
-  // Local development should work without requiring a .env.local entry.
   if (process.env.NODE_ENV !== "production" && !endpoints.includes("http://127.0.0.1:8787")) {
     endpoints.push("http://127.0.0.1:8787");
   }
@@ -34,10 +35,7 @@ function firstPartyEndpoints(): string[] {
 }
 
 async function resolveWithFirstPartyApi(url: string): Promise<MediaItem[] | null> {
-  const endpoints = firstPartyEndpoints();
-  if (!endpoints.length) return null;
-
-  for (const base of endpoints) {
+  for (const base of firstPartyEndpoints()) {
     const endpoint = new URL(`${base}/v1/resolve`);
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), FIRST_PARTY_TIMEOUT_MS);
@@ -58,9 +56,7 @@ async function resolveWithFirstPartyApi(url: string): Promise<MediaItem[] | null
         signal: controller.signal,
       });
 
-      if (!response.ok) {
-        throw new Error(`First-party API returned ${response.status}.`);
-      }
+      if (!response.ok) throw new Error(`First-party API returned ${response.status}.`);
 
       const data = (await response.json()) as {
         success?: boolean;
@@ -85,16 +81,16 @@ async function resolveWithFirstPartyApi(url: string): Promise<MediaItem[] | null
   return null;
 }
 
-async function resolveDirectFallback(url: string): Promise<MediaItem[]> {
+async function resolveResilientFallback(url: string): Promise<MediaItem[]> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), DIRECT_FALLBACK_TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), RESILIENT_FALLBACK_TIMEOUT_MS);
 
   try {
     return await Promise.race([
-      resolveInstagramDirect(url),
+      resolveInstagramResilient(url),
       new Promise<MediaItem[]>((_, reject) => {
         controller.signal.addEventListener("abort", () => {
-          reject(new Error("Direct Instagram fallback timed out."));
+          reject(new Error("Resilient Instagram extraction timed out."));
         });
       }),
     ]);
@@ -166,17 +162,14 @@ export async function POST(request: Request) {
     }
 
     const startedAt = Date.now();
-    let media: MediaItem[] | null = null;
-    let source = "direct-fallback";
-
-    media = await resolveWithFirstPartyApi(parsedUrl.toString());
-    if (media) source = "first-party-api";
+    let media: MediaItem[] | null = await resolveWithFirstPartyApi(parsedUrl.toString());
+    let source = media ? "first-party-api" : "resilient-direct";
 
     if (!media) {
       try {
-        media = await resolveDirectFallback(parsedUrl.toString());
+        media = await resolveResilientFallback(parsedUrl.toString());
       } catch (error) {
-        console.error("INSTAGRAM DIRECT FALLBACK ERROR", {
+        console.error("INSTAGRAM RESILIENT FALLBACK ERROR", {
           requestId,
           error: error instanceof Error ? error.message : String(error),
         });
@@ -189,7 +182,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "Instagram could not expose this public media right now. The extractor received no usable media URL.",
+            "No downloadable public Instagram media was exposed by the resolver. Please try the link again.",
           requestId,
         },
         { status: 502, headers: { "X-Request-Id": requestId } },

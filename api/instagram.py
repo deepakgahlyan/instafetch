@@ -9,7 +9,7 @@ if str(SERVICE_DIR) not in sys.path:
     sys.path.insert(0, str(SERVICE_DIR))
 
 from app import check_api_key, lifespan, resolve  # type: ignore  # noqa: E402
-from fastapi import FastAPI, Header, HTTPException, Query
+from fastapi import FastAPI, Header, Query
 from pydantic import BaseModel, HttpUrl
 
 

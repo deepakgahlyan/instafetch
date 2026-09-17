@@ -1,0 +1,52 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="88" y1="42" x2="1104" y2="680" gradientUnits="userSpaceOnUse"><stop stop-color="#141225"/><stop offset="1" stop-color="#07070D"/></linearGradient>
+    <linearGradient id="accent" x1="100" y1="150" x2="1070" y2="580" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset="1" stop-color="#EC4899"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#000000" flood-opacity="0.42"/></filter>
+  </defs>
+  <rect width="1200" height="720" rx="40" fill="url(#bg)"/>
+  <circle cx="1050" cy="100" r="190" fill="#7C3AED" fill-opacity="0.11"/>
+  <circle cx="155" cy="610" r="220" fill="#EC4899" fill-opacity="0.08"/>
+  <text x="72" y="84" fill="#A78BFA" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="3">INSTA FETCH / HOW IT WORKS</text>
+  <text x="72" y="126" fill="white" font-family="Inter,Arial,sans-serif" font-size="42" font-weight="800">From public link to downloadable media</text>
+  <text x="72" y="161" fill="#A1A1AA" font-family="Inter,Arial,sans-serif" font-size="18">A clear four-step workflow designed for speed, transparency, and a simple browser experience.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="72" y="218" width="240" height="350" rx="28" fill="#101017" stroke="#2A2A39"/>
+    <rect x="354" y="218" width="240" height="350" rx="28" fill="#101017" stroke="#2A2A39"/>
+    <rect x="636" y="218" width="240" height="350" rx="28" fill="#101017" stroke="#2A2A39"/>
+    <rect x="918" y="218" width="210" height="350" rx="28" fill="#101017" stroke="#2A2A39"/>
+  </g>
+
+  <g font-family="Inter,Arial,sans-serif">
+    <rect x="96" y="244" width="52" height="34" rx="17" fill="#8B5CF6" fill-opacity="0.18"/><text x="112" y="267" fill="#C4B5FD" font-size="14" font-weight="800">01</text>
+    <text x="96" y="323" fill="white" font-size="22" font-weight="750">Copy the link</text>
+    <text x="96" y="356" fill="#A1A1AA" font-size="15">Open a public post,</text><text x="96" y="380" fill="#A1A1AA" font-size="15">Reel, photo, or video.</text>
+    <rect x="96" y="420" width="190" height="54" rx="14" fill="#191924" stroke="#333344"/>
+    <text x="113" y="453" fill="#777785" font-size="13">instagram.com/p/...</text>
+    <circle cx="261" cy="447" r="14" fill="#8B5CF6"/><path d="M254 447h14M264 442l5 5-5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="378" y="244" width="52" height="34" rx="17" fill="#8B5CF6" fill-opacity="0.18"/><text x="394" y="267" fill="#C4B5FD" font-size="14" font-weight="800">02</text>
+    <text x="378" y="323" fill="white" font-size="22" font-weight="750">Paste it</text>
+    <text x="378" y="356" fill="#A1A1AA" font-size="15">Return to InstaFetch</text><text x="378" y="380" fill="#A1A1AA" font-size="15">and submit the URL.</text>
+    <rect x="378" y="414" width="190" height="68" rx="15" fill="#171721" stroke="#6D4AD6"/>
+    <text x="395" y="442" fill="#8D8DA0" font-size="13">Paste Instagram link</text>
+    <rect x="500" y="437" width="52" height="28" rx="14" fill="url(#accent)"/><text x="516" y="456" fill="white" font-size="12" font-weight="700">GO</text>
+
+    <rect x="660" y="244" width="52" height="34" rx="17" fill="#8B5CF6" fill-opacity="0.18"/><text x="676" y="267" fill="#C4B5FD" font-size="14" font-weight="800">03</text>
+    <text x="660" y="323" fill="white" font-size="22" font-weight="750">Check media</text>
+    <text x="660" y="356" fill="#A1A1AA" font-size="15">See what the public URL</text><text x="660" y="380" fill="#A1A1AA" font-size="15">makes available.</text>
+    <rect x="660" y="414" width="190" height="70" rx="15" fill="#171721" stroke="#333344"/>
+    <rect x="676" y="430" width="52" height="38" rx="9" fill="#2B2342"/><path d="M695 441l10 8-10 8v-16Z" fill="#A78BFA"/>
+    <text x="742" y="444" fill="white" font-size="13" font-weight="700">Video</text><text x="742" y="464" fill="#777785" font-size="12">Available</text>
+
+    <rect x="942" y="244" width="52" height="34" rx="17" fill="#8B5CF6" fill-opacity="0.18"/><text x="958" y="267" fill="#C4B5FD" font-size="14" font-weight="800">04</text>
+    <text x="942" y="323" fill="white" font-size="22" font-weight="750">Download</text>
+    <text x="942" y="356" fill="#A1A1AA" font-size="15">Choose the supported</text><text x="942" y="380" fill="#A1A1AA" font-size="15">result you need.</text>
+    <rect x="942" y="418" width="162" height="68" rx="16" fill="url(#accent)"/>
+    <path d="M975 438v20M967 451l8 8 8-8M1007 441h71" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="990" y="473" fill="white" font-size="13" font-weight="800">SAVE MEDIA</text>
+  </g>
+
+  <path d="M320 393h27M602 393h27M884 393h27" stroke="#8B5CF6" stroke-width="3" stroke-linecap="round"/><path d="M338 385l10 8-10 8M620 385l10 8-10 8M902 385l10 8-10 8" stroke="#A78BFA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

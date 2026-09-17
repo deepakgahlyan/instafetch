@@ -36,8 +36,8 @@ export default function HeroInput() {
     if (!loading) return;
 
     setStageIndex(0);
-    const firstTimer = window.setTimeout(() => setStageIndex(1), 1800);
-    const secondTimer = window.setTimeout(() => setStageIndex(2), 5200);
+    const firstTimer = window.setTimeout(() => setStageIndex(1), 2500);
+    const secondTimer = window.setTimeout(() => setStageIndex(2), 8000);
 
     return () => {
       window.clearTimeout(firstTimer);
@@ -172,11 +172,11 @@ export default function HeroInput() {
               <span className="text-zinc-600">…</span>
             </div>
             <div className="mt-3 h-1 overflow-hidden rounded-full bg-zinc-800">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 transition-all duration-700"
-                style={{ width: `${((stageIndex + 1) / stages.length) * 100}%` }}
-              />
+              <div className="h-full w-1/3 animate-[progress_1.2s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500" />
             </div>
+            <p className="mt-2 text-center text-xs text-zinc-500">
+              Usually ready in a few seconds.
+            </p>
           </div>
         )}
 

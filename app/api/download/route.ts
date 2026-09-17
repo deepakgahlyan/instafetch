@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
-import { extractInstagramMedia } from "@/lib/instagram/extract";
+import { extractInstagramMedia, type MediaItem } from "@/lib/instagram/extract";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 function getClientIp(request: Request): string {
@@ -16,6 +16,48 @@ function isSupportedPath(url: URL): boolean {
     /^\/(p|reel|tv|reels)\/[^/]+$/.test(pathname) ||
     /^\/share\/reel\/[^/]+$/.test(pathname)
   );
+}
+
+async function resolveWithFirstPartyApi(url: string): Promise<MediaItem[] | null> {
+  const configured = process.env.INSTAGRAM_API_URL?.trim();
+  if (!configured) return null;
+
+  const base = configured.replace(/\/+$/, "");
+  const endpoint = new URL(`${base}/v1/resolve`);
+  endpoint.searchParams.set("url", url);
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 9_000);
+
+  try {
+    const headers: HeadersInit = { Accept: "application/json" };
+    const apiKey = process.env.INSTAGRAM_API_KEY?.trim();
+    if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+
+    const response = await fetch(endpoint.toString(), {
+      method: "GET",
+      headers,
+      cache: "no-store",
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`First-party API returned ${response.status}.`);
+    }
+
+    const data = (await response.json()) as {
+      success?: boolean;
+      media?: MediaItem[];
+    };
+
+    if (!data.success || !Array.isArray(data.media) || data.media.length === 0) {
+      throw new Error("First-party API returned no media.");
+    }
+
+    return data.media;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 export async function POST(request: Request) {
@@ -83,19 +125,29 @@ export async function POST(request: Request) {
     }
 
     const startedAt = Date.now();
-    console.info("Instagram extraction started", {
-      requestId,
-      path: parsedUrl.pathname,
-    });
+    let media: MediaItem[] | null = null;
 
-    const media = await extractInstagramMedia(parsedUrl.toString());
+    try {
+      media = await resolveWithFirstPartyApi(parsedUrl.toString());
+      if (media) {
+        console.info("First-party Instagram API completed", {
+          requestId,
+          mediaCount: media.length,
+          durationMs: Date.now() - startedAt,
+        });
+      }
+    } catch (error) {
+      console.warn("First-party Instagram API failed; using local fallback", {
+        requestId,
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+
+    if (!media) {
+      media = await extractInstagramMedia(parsedUrl.toString());
+    }
 
     const durationMs = Date.now() - startedAt;
-    console.info("Instagram extraction completed", {
-      requestId,
-      mediaCount: media.length,
-      durationMs,
-    });
 
     if (!media.length) {
       return NextResponse.json(
@@ -112,6 +164,7 @@ export async function POST(request: Request) {
           requestId,
           mediaCount: media.length,
           durationMs,
+          source: process.env.INSTAGRAM_API_URL ? "first-party-api-or-fallback" : "local-extractor",
         },
       },
       {
@@ -129,9 +182,7 @@ export async function POST(request: Request) {
     });
 
     const errorMessage = error instanceof Error ? error.message : String(error);
-    const isConfigurationError =
-      errorMessage.includes("APIFY_API_TOKEN") ||
-      errorMessage.includes("R2 object storage is not configured");
+    const isConfigurationError = errorMessage.includes("APIFY_API_TOKEN");
 
     return NextResponse.json(
       {

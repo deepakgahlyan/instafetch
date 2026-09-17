@@ -1,8 +1,14 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
     {
       "path": "/api/seo-agent/discover",
       "schedule": "0 6 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "api/instagram.py": {
+      "maxDuration": 20
+    }
+  }
 }

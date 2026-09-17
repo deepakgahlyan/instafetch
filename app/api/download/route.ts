@@ -27,7 +27,7 @@ async function resolveWithFirstPartyApi(url: string): Promise<MediaItem[] | null
   endpoint.searchParams.set("url", url);
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 9_000);
+  const timer = setTimeout(() => controller.abort(), 18_000);
 
   try {
     const headers: HeadersInit = { Accept: "application/json" };
@@ -164,7 +164,10 @@ export async function POST(request: Request) {
           requestId,
           mediaCount: media.length,
           durationMs,
-          source: process.env.INSTAGRAM_API_URL ? "first-party-api-or-fallback" : "local-extractor",
+          source:
+            process.env.INSTAGRAM_API_URL
+              ? "first-party-api-or-fallback"
+              : "local-extractor",
         },
       },
       {

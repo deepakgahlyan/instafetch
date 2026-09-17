@@ -12,7 +12,7 @@ export interface MediaItem {
 }
 
 const PAGE_TIMEOUT_MS = 5_000;
-const MAX_MEDIA_ITEMS = 20;
+const MAX_MEDIA_ITEMS = 50;
 const MEDIA_MARKERS = [
   "xdt_api__v1__clips__home__connection_v2",
   "xdt_api__v1__media__shortcode__web_info",
@@ -177,71 +177,24 @@ function dashVideoUrl(manifest: unknown): string | null {
   return null;
 }
 
-function extractMetaContent(html: string, property: string): string | null {
-  const escaped = property.replace(/[-:]/g, "\\$&");
-  const patterns = [
-    new RegExp(`<meta[^>]+property=[\\"']${escaped}[\\"'][^>]+content=[\\"']([^\\"']+)[\\"']`, "i"),
-    new RegExp(`<meta[^>]+content=[\\"']([^\\"']+)[\\"'][^>]+property=[\\"']${escaped}[\\"']`, "i"),
-    new RegExp(`<meta[^>]+name=[\\"']${escaped}[\\"'][^>]+content=[\\"']([^\\"']+)[\\"']`, "i"),
-  ];
-
-  for (const pattern of patterns) {
-    const match = html.match(pattern);
-    if (match?.[1]) return decodeEmbedded(match[1]);
+function getCaption(item: Record<string, unknown>, inheritedCaption?: string): string | undefined {
+  const raw = item.caption;
+  if (typeof raw === "string" && raw.trim()) return raw;
+  if (raw && typeof raw === "object") {
+    const text = (raw as Record<string, unknown>).text;
+    if (typeof text === "string" && text.trim()) return text;
   }
-
-  return null;
+  if (typeof item.caption_text === "string" && item.caption_text.trim()) return item.caption_text;
+  if (typeof item.title === "string" && item.title.trim()) return item.title;
+  return inheritedCaption;
 }
 
-function extractOpenGraphMedia(html: string, sourceUrl: string): MediaItem[] {
-  const video =
-    extractMetaContent(html, "og:video:secure_url") ||
-    extractMetaContent(html, "og:video") ||
-    extractMetaContent(html, "og:video:url");
-  const image = extractMetaContent(html, "og:image") || extractMetaContent(html, "og:image:url");
-
-  if (isReelSource(sourceUrl)) {
-    if (!video || !isHttpsUrl(video)) return [];
-    return [
-      {
-        url: video,
-        download_url: video,
-        type: "video",
-        source_url: sourceUrl,
-        thumbnail: image || undefined,
-      },
-    ];
-  }
-
-  if (video && isHttpsUrl(video)) {
-    return [
-      {
-        url: video,
-        download_url: video,
-        type: "video",
-        source_url: sourceUrl,
-        thumbnail: image || undefined,
-      },
-    ];
-  }
-
-  if (image && isHttpsUrl(image)) {
-    return [
-      {
-        url: image,
-        download_url: image,
-        type: "image",
-        source_url: sourceUrl,
-      },
-    ];
-  }
-
-  return [];
-}
-
-function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): MediaItem[] {
+function mediaItemFromObject(
+  item: Record<string, unknown>,
+  sourceUrl: string,
+  inheritedCaption?: string
+): MediaItem[] {
   const output: MediaItem[] = [];
-  const seen = new Set<string>();
   const imageVersions =
     item.image_versions2 && typeof item.image_versions2 === "object"
       ? (item.image_versions2 as Record<string, unknown>).candidates
@@ -251,14 +204,9 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
   const videoVersions = Array.isArray(item.video_versions) ? item.video_versions : [];
   const bestVideo = pickBestVideo(videoVersions);
   const dash = dashVideoUrl(item.video_dash_manifest);
+  const caption = getCaption(item, inheritedCaption);
 
   if (bestVideo) {
-    const captionValue = item.caption;
-    const caption =
-      captionValue && typeof captionValue === "object"
-        ? (captionValue as Record<string, unknown>).text
-        : undefined;
-
     output.push({
       url: bestVideo.url,
       download_url: bestVideo.url,
@@ -267,7 +215,7 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       thumbnail: bestImage?.url,
       width: bestVideo.width,
       height: bestVideo.height,
-      caption: typeof caption === "string" ? caption : undefined,
+      caption,
     });
   } else if (dash) {
     output.push({
@@ -276,6 +224,7 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       type: "video",
       source_url: sourceUrl,
       thumbnail: bestImage?.url,
+      caption,
     });
   } else if (bestImage) {
     output.push({
@@ -285,15 +234,11 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       source_url: sourceUrl,
       width: bestImage.width,
       height: bestImage.height,
+      caption,
     });
   }
 
-  return output.filter((media) => {
-    const key = media.url || "";
-    if (!key || seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  return output;
 }
 
 function collectMediaObjects(root: unknown, shortcode: string): Record<string, unknown>[] {
@@ -302,7 +247,7 @@ function collectMediaObjects(root: unknown, shortcode: string): Record<string, u
   const seen = new Set<object>();
 
   function walk(value: unknown, depth: number): void {
-    if (depth > 12 || value === null || typeof value !== "object") return;
+    if (depth > 14 || value === null || typeof value !== "object") return;
     if (seen.has(value as object)) return;
     seen.add(value as object);
 
@@ -338,31 +283,24 @@ function extractFromPayload(payload: unknown, shortcode: string, sourceUrl: stri
   const reel = isReelSource(sourceUrl);
 
   for (const object of objects) {
+    const parentCaption = getCaption(object);
     const carousel = Array.isArray(object.carousel_media) ? object.carousel_media : null;
+    const children = carousel?.length ? carousel.slice(0, MAX_MEDIA_ITEMS) : [object];
 
-    if (carousel?.length) {
-      for (const child of carousel.slice(0, MAX_MEDIA_ITEMS)) {
-        if (!child || typeof child !== "object") continue;
-        for (const item of mediaItemFromObject(child as Record<string, unknown>, sourceUrl)) {
-          if (item.url && !seen.has(item.url)) {
-            seen.add(item.url);
-            output.push(item);
-          }
-        }
-      }
-    } else {
-      for (const item of mediaItemFromObject(object, sourceUrl)) {
-        if (item.url && !seen.has(item.url)) {
-          seen.add(item.url);
-          output.push(item);
-        }
+    for (const child of children) {
+      if (!child || typeof child !== "object") continue;
+      for (const item of mediaItemFromObject(child as Record<string, unknown>, sourceUrl, parentCaption)) {
+        if (!item.url || seen.has(item.url)) continue;
+        if (reel && item.type !== "video") continue;
+        seen.add(item.url);
+        output.push(item);
+        if (output.length >= MAX_MEDIA_ITEMS) return output;
       }
     }
 
     if (reel && output.some((item) => item.type === "video")) {
       return output.filter((item) => item.type === "video").slice(0, MAX_MEDIA_ITEMS);
     }
-    if (output.length >= MAX_MEDIA_ITEMS) break;
   }
 
   return reel
@@ -377,8 +315,23 @@ function extractLooseMedia(html: string, shortcode: string, sourceUrl: string): 
   ].filter((index) => index >= 0);
 
   for (const position of positions) {
+    const carouselMarker = html.indexOf('"carousel_media":', position);
+    if (carouselMarker >= 0 && carouselMarker - position < 80_000) {
+      const arrayStart = html.indexOf("[", carouselMarker);
+      const rawArray = arrayStart >= 0 ? findBalancedJson(html, arrayStart) : null;
+      if (rawArray) {
+        try {
+          const carousel = JSON.parse(rawArray) as unknown;
+          const parsed = extractFromPayload({ carousel_media: carousel, caption: undefined }, shortcode, sourceUrl);
+          if (parsed.length) return parsed;
+        } catch {
+          // Continue with individual media fields.
+        }
+      }
+    }
+
     const videoMarker = html.indexOf('"video_versions":', position);
-    if (videoMarker >= 0 && videoMarker - position < 20_000) {
+    if (videoMarker >= 0 && videoMarker - position < 30_000) {
       const arrayStart = html.indexOf("[", videoMarker);
       if (arrayStart >= 0) {
         const rawArray = findBalancedJson(html, arrayStart);
@@ -397,14 +350,14 @@ function extractLooseMedia(html: string, shortcode: string, sourceUrl: string): 
               }];
             }
           } catch {
-            // Try another structured field.
+            // Continue.
           }
         }
       }
     }
 
     const imageMarker = html.indexOf('"image_versions2":', position);
-    if (imageMarker >= 0 && imageMarker - position < 20_000) {
+    if (imageMarker >= 0 && imageMarker - position < 30_000) {
       const objectStart = html.indexOf("{", imageMarker);
       if (objectStart >= 0) {
         const rawObject = findBalancedJson(html, objectStart);
@@ -434,7 +387,71 @@ function extractLooseMedia(html: string, shortcode: string, sourceUrl: string): 
   return [];
 }
 
+function extractMetaContent(html: string, property: string): string | null {
+  const escaped = property.replace(/[-:]/g, "\\$&");
+  const patterns = [
+    new RegExp(`<meta[^>]+property=[\\"']${escaped}[\\"'][^>]+content=[\\"']([^\\"']+)[\\"']`, "i"),
+    new RegExp(`<meta[^>]+content=[\\"']([^\\"']+)[\\"'][^>]+property=[\\"']${escaped}[\\"']`, "i"),
+    new RegExp(`<meta[^>]+name=[\\"']${escaped}[\\"'][^>]+content=[\\"']([^\\"']+)[\\"']`, "i"),
+  ];
+
+  for (const pattern of patterns) {
+    const match = html.match(pattern);
+    if (match?.[1]) return decodeEmbedded(match[1]);
+  }
+  return null;
+}
+
+function extractOpenGraphMedia(html: string, sourceUrl: string): MediaItem[] {
+  const video =
+    extractMetaContent(html, "og:video:secure_url") ||
+    extractMetaContent(html, "og:video") ||
+    extractMetaContent(html, "og:video:url");
+  const image = extractMetaContent(html, "og:image") || extractMetaContent(html, "og:image:url");
+
+  if (isReelSource(sourceUrl)) {
+    if (!video || !isHttpsUrl(video)) return [];
+    return [{
+      url: video,
+      download_url: video,
+      type: "video",
+      source_url: sourceUrl,
+      thumbnail: image || undefined,
+    }];
+  }
+
+  if (video && isHttpsUrl(video)) {
+    return [{
+      url: video,
+      download_url: video,
+      type: "video",
+      source_url: sourceUrl,
+      thumbnail: image || undefined,
+    }];
+  }
+
+  if (image && isHttpsUrl(image)) {
+    return [{
+      url: image,
+      download_url: image,
+      type: "image",
+      source_url: sourceUrl,
+    }];
+  }
+
+  return [];
+}
+
+function extractPageCaption(html: string): string | undefined {
+  const captionFromMeta =
+    extractMetaContent(html, "og:description") ||
+    extractMetaContent(html, "description");
+  return captionFromMeta || undefined;
+}
+
 function parseInstagramHtml(html: string, sourceUrl: string, shortcode: string): MediaItem[] {
+  const pageCaption = extractPageCaption(html);
+
   for (const marker of MEDIA_MARKERS) {
     let offset = 0;
     while (true) {
@@ -444,14 +461,23 @@ function parseInstagramHtml(html: string, sourceUrl: string, shortcode: string):
       const payload = parseValueAfterMarker(html, markerIndex, marker);
       if (payload) {
         const media = extractFromPayload(payload, shortcode, sourceUrl);
-        if (media.length) return media;
+        if (media.length) {
+          if (pageCaption) {
+            return media.map((item) => item.caption ? item : { ...item, caption: pageCaption });
+          }
+          return media;
+        }
       }
 
       offset = markerIndex + marker.length;
     }
   }
 
-  return extractLooseMedia(html, shortcode, sourceUrl);
+  const loose = extractLooseMedia(html, shortcode, sourceUrl);
+  if (loose.length && pageCaption) {
+    return loose.map((item) => item.caption ? item : { ...item, caption: pageCaption });
+  }
+  return loose;
 }
 
 async function fetchInstagramVariant(url: string): Promise<MediaItem[]> {
@@ -480,9 +506,8 @@ async function fetchInstagramVariant(url: string): Promise<MediaItem[]> {
   const text = await response.text();
   const shortcode = getShortcode(url);
 
-  const openGraph = extractOpenGraphMedia(text, url);
-  if (openGraph.length) return openGraph;
-
+  // Important: structured Instagram payloads come first. Open Graph normally exposes
+  // only the cover image, which incorrectly collapses carousels to one item.
   if (contentType.includes("application/json")) {
     try {
       const json = JSON.parse(text);
@@ -494,8 +519,12 @@ async function fetchInstagramVariant(url: string): Promise<MediaItem[]> {
   }
 
   const media = parseInstagramHtml(text, url, shortcode);
-  if (!media.length) throw new Error("Instagram page contained no downloadable media.");
-  return media;
+  if (media.length) return media;
+
+  const openGraph = extractOpenGraphMedia(text, url);
+  if (openGraph.length) return openGraph;
+
+  throw new Error("Instagram page contained no downloadable media.");
 }
 
 export async function resolveInstagramDirect(inputUrl: string): Promise<MediaItem[]> {

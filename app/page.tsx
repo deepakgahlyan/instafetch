@@ -73,6 +73,22 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="mx-auto max-w-6xl px-6 py-16">
+          <div className="rounded-[2rem] border border-zinc-800 bg-zinc-900/50 p-8 md:p-12">
+            <div className="max-w-4xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-violet-400">Practical guide</p>
+              <h2 className="mt-3 text-3xl font-bold md:text-4xl">What to check before saving Instagram media</h2>
+              <p className="mt-5 text-base leading-8 text-zinc-300">A useful download workflow starts before the file reaches your device. First check the source URL and make sure it points to the public post you intended to view. For videos, look at the visible orientation, expected quality, and whether the audio is important to your use case. For photos and carousels, confirm that the returned set contains the images you expected rather than assuming a single preview represents the entire post.</p>
+              <p className="mt-5 text-base leading-8 text-zinc-300">It is also worth separating technical access from permission. A public page can expose media to a browser while the creator still retains copyright or other rights in the work. Saving a file for personal reference is different from reposting it, building a commercial library from it, or presenting it as your own. The safest workflow is to keep the original source context and obtain permission when your planned use requires it.</p>
+              <div className="mt-8 grid gap-4 md:grid-cols-3">
+                <article className="rounded-2xl border border-zinc-800 bg-zinc-950/70 p-5"><h3 className="font-semibold">Check the source</h3><p className="mt-2 text-sm leading-7 text-zinc-400">Use the original public post or Reel URL and make sure the page is still accessible.</p></article>
+                <article className="rounded-2xl border border-zinc-800 bg-zinc-950/70 p-5"><h3 className="font-semibold">Review the result</h3><p className="mt-2 text-sm leading-7 text-zinc-400">For carousels, verify all returned items; for video, consider orientation and available quality.</p></article>
+                <article className="rounded-2xl border border-zinc-800 bg-zinc-950/70 p-5"><h3 className="font-semibold">Keep context</h3><p className="mt-2 text-sm leading-7 text-zinc-400">Preserve the source information and check copyright or permission before public reuse.</p></article>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="mx-auto max-w-5xl px-6 py-16"><div className="rounded-3xl border border-zinc-800 bg-zinc-900/60 p-8 md:p-10"><p className="text-sm font-semibold uppercase tracking-widest text-violet-400">Transparency</p><h2 className="mt-3 text-3xl font-bold md:text-4xl">What InstaFetch can realistically do</h2><p className="mt-5 leading-8 text-zinc-300">InstaFetch is intended for supported public Instagram media. A page can still fail to resolve when a post is private, deleted, restricted, unsupported, or no longer exposing a compatible public rendition. Platform delivery systems can also change, so a successful result today is not a promise that the same URL will remain downloadable forever.</p><p className="mt-5 leading-8 text-zinc-300">The site does not ask users to submit Instagram passwords. It is also not affiliated with Instagram or Meta. These boundaries are part of the product: users should know what the tool does, what it does not do, and what responsibility remains with them after a file is saved.</p></div></section>
 
         <FAQ />

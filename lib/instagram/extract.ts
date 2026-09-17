@@ -33,6 +33,7 @@ const DIRECT_PAGE_TIMEOUT_MS = 4_500;
 const FAST_RESOLVER_TIMEOUT_MS = 6_000;
 const APIFY_TIMEOUT_SECONDS = 12;
 const APIFY_TIMEOUT_MS = APIFY_TIMEOUT_SECONDS * 1_000;
+const MAX_MEDIA_ITEMS = 20;
 
 function normalizeInstagramUrl(url: string): string {
   const parsed = new URL(url.trim());
@@ -62,6 +63,18 @@ function isFastPath(url: string): boolean {
     return (
       /^\/(p|reel|reels|tv)\/[^/]+$/.test(pathname) ||
       /^\/share\/reel\/[^/]+$/.test(pathname)
+    );
+  } catch {
+    return false;
+  }
+}
+
+function isVideoUrl(value: string): boolean {
+  try {
+    const parsed = new URL(value);
+    return (
+      parsed.protocol === "https:" &&
+      /\.(mp4|m4v|mov|webm)(?:$|[?#])/i.test(parsed.pathname)
     );
   } catch {
     return false;
@@ -108,48 +121,93 @@ function inferMediaType(url: string, hint?: string): "video" | "image" {
     return "video";
   }
 
-  return /\.(mp4|m4v|mov|webm)(?:$|[?#])/i.test(url) ? "video" : "image";
+  return isVideoUrl(url) ? "video" : "image";
+}
+
+function addMedia(
+  output: MediaItem[],
+  seen: Set<string>,
+  value: unknown,
+  sourceUrl: string,
+  hint = ""
+): void {
+  if (output.length >= MAX_MEDIA_ITEMS || typeof value !== "string") return;
+
+  const url = decodeEmbeddedUrl(value);
+  if (!isCandidateMediaUrl(url) || seen.has(url)) return;
+
+  seen.add(url);
+  output.push({
+    url,
+    download_url: url,
+    type: inferMediaType(url, hint),
+    source_url: sourceUrl,
+  });
 }
 
 function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
   const output: MediaItem[] = [];
   const seen = new Set<string>();
 
-  function visit(node: unknown, hint = "", depth = 0): void {
-    if (depth > 7 || node == null) return;
+  const mediaKeys = new Set([
+    "url",
+    "video",
+    "video_url",
+    "videoUrl",
+    "playback_url",
+    "playbackUrl",
+    "download_url",
+    "downloadUrl",
+    "media_url",
+    "mediaUrl",
+    "contentUrl",
+    "display_url",
+    "displayUrl",
+    "image_url",
+    "imageUrl",
+    "thumbnail_src",
+    "thumbnailUrl",
+    "thumbnail_url",
+    "src",
+  ]);
+
+  function visit(node: unknown, keyHint = "", depth = 0): void {
+    if (output.length >= MAX_MEDIA_ITEMS || depth > 10 || node == null) return;
 
     if (typeof node === "string") {
-      const value = decodeEmbeddedUrl(node);
-      if (isCandidateMediaUrl(value) && !seen.has(value)) {
-        seen.add(value);
-        output.push({
-          url: value,
-          download_url: value,
-          type: inferMediaType(value, hint),
-          source_url: sourceUrl,
-        });
+      if (mediaKeys.has(keyHint)) {
+        addMedia(output, seen, node, sourceUrl, keyHint);
       }
       return;
     }
 
     if (Array.isArray(node)) {
-      for (const entry of node) visit(entry, hint, depth + 1);
+      for (const entry of node) {
+        visit(entry, keyHint, depth + 1);
+        if (output.length >= MAX_MEDIA_ITEMS) break;
+      }
       return;
     }
 
     if (typeof node !== "object") return;
 
     const record = node as Record<string, unknown>;
-    const typeHint =
-      typeof record.type === "string"
-        ? record.type
-        : typeof record.media_type === "string"
-          ? record.media_type
-          : hint;
-
     for (const [key, value] of Object.entries(record)) {
-      const nextHint = key.toLowerCase().includes("url") ? key : typeHint;
-      visit(value, nextHint, depth + 1);
+      if (
+        typeof value === "string" &&
+        (mediaKeys.has(key) ||
+          /^(video|image|media|download|playback|content).*(_url|url)$/i.test(key))
+      ) {
+        addMedia(output, seen, value, sourceUrl, key);
+        continue;
+      }
+
+      if (
+        Array.isArray(value) ||
+        (typeof value === "object" && value !== null)
+      ) {
+        visit(value, key, depth + 1);
+      }
     }
   }
 
@@ -221,29 +279,14 @@ async function fetchInstagramPage(url: string): Promise<MediaItem[]> {
 
   collectRegexMediaUrls(
     html,
-    /[\"'](?:video_url|playback_url|contentUrl)[\"']\s*:\s*[\"']([^\"']+)[\"']/gi,
+    /[\"'](?:video_url|playback_url|contentUrl|content_url)[\"']\s*:\s*[\"']([^\"']+)[\"']/gi,
     videoCandidates
   );
 
-  collectRegexMediaUrls(
-    html,
-    /[\"'](?:display_url|thumbnail_src|image_url)[\"']\s*:\s*[\"']([^\"']+)[\"']/gi,
-    imageCandidates
-  );
-
-  const allHttpsUrls = html.match(/https?:\/\/[^\"'\s<>]+/g) || [];
-  for (const raw of allHttpsUrls) {
-    const value = decodeEmbeddedUrl(raw);
-    if (!isCandidateMediaUrl(value)) continue;
-    if (/\.(mp4|m4v|mov|webm)(?:$|[?#])/i.test(value)) {
-      videoCandidates.add(value);
-    } else {
-      imageCandidates.add(value);
-    }
-  }
-
   const media: MediaItem[] = [];
+
   for (const value of videoCandidates) {
+    if (media.length >= MAX_MEDIA_ITEMS) break;
     media.push({
       url: value,
       download_url: value,
@@ -253,8 +296,16 @@ async function fetchInstagramPage(url: string): Promise<MediaItem[]> {
     });
   }
 
-  for (const value of imageCandidates) {
-    if (!media.some((item) => item.download_url === value)) {
+  if (!media.length) {
+    collectRegexMediaUrls(
+      html,
+      /[\"'](?:display_url|thumbnail_src|image_url)[\"']\s*:\s*[\"']([^\"']+)[\"']/gi,
+      imageCandidates
+    );
+
+    for (const value of imageCandidates) {
+      if (media.length >= MAX_MEDIA_ITEMS) break;
+      if (media.some((item) => item.download_url === value)) continue;
       media.push({
         url: value,
         download_url: value,
@@ -283,6 +334,9 @@ async function fetchFastResolver(url: string): Promise<MediaItem[]> {
   ]);
 
   const media = collectFastMedia(payload, url);
+  const videos = media.filter((item) => item.type === "video" || isVideoUrl(item.url || ""));
+
+  if (videos.length) return videos;
   if (!media.length) {
     throw new Error("Fast resolver returned no downloadable media.");
   }
@@ -341,6 +395,7 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
           typeof item.download_url === "string" &&
           item.download_url.length > 0
       )
+      .slice(0, MAX_MEDIA_ITEMS)
       .map((item) => ({
         url: item.download_url,
         download_url: item.download_url,
@@ -396,7 +451,7 @@ export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
 
   const cachedExtractor = unstable_cache(
     () => uncachedExtractInstagramMedia(normalized),
-    ["instagram-media-v6", normalized],
+    ["instagram-media-v7", normalized],
     { revalidate: 120 }
   );
 

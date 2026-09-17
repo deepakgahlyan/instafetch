@@ -177,6 +177,68 @@ function dashVideoUrl(manifest: unknown): string | null {
   return null;
 }
 
+function extractMetaContent(html: string, property: string): string | null {
+  const escaped = property.replace(/[-:]/g, "\\$&");
+  const patterns = [
+    new RegExp(`<meta[^>]+property=[\\"']${escaped}[\\"'][^>]+content=[\\"']([^\\"']+)[\\"']`, "i"),
+    new RegExp(`<meta[^>]+content=[\\"']([^\\"']+)[\\"'][^>]+property=[\\"']${escaped}[\\"']`, "i"),
+    new RegExp(`<meta[^>]+name=[\\"']${escaped}[\\"'][^>]+content=[\\"']([^\\"']+)[\\"']`, "i"),
+  ];
+
+  for (const pattern of patterns) {
+    const match = html.match(pattern);
+    if (match?.[1]) return decodeEmbedded(match[1]);
+  }
+
+  return null;
+}
+
+function extractOpenGraphMedia(html: string, sourceUrl: string): MediaItem[] {
+  const video =
+    extractMetaContent(html, "og:video:secure_url") ||
+    extractMetaContent(html, "og:video") ||
+    extractMetaContent(html, "og:video:url");
+  const image = extractMetaContent(html, "og:image") || extractMetaContent(html, "og:image:url");
+
+  if (isReelSource(sourceUrl)) {
+    if (!video || !isHttpsUrl(video)) return [];
+    return [
+      {
+        url: video,
+        download_url: video,
+        type: "video",
+        source_url: sourceUrl,
+        thumbnail: image || undefined,
+      },
+    ];
+  }
+
+  if (video && isHttpsUrl(video)) {
+    return [
+      {
+        url: video,
+        download_url: video,
+        type: "video",
+        source_url: sourceUrl,
+        thumbnail: image || undefined,
+      },
+    ];
+  }
+
+  if (image && isHttpsUrl(image)) {
+    return [
+      {
+        url: image,
+        download_url: image,
+        type: "image",
+        source_url: sourceUrl,
+      },
+    ];
+  }
+
+  return [];
+}
+
 function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): MediaItem[] {
   const output: MediaItem[] = [];
   const seen = new Set<string>();
@@ -189,13 +251,14 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
   const videoVersions = Array.isArray(item.video_versions) ? item.video_versions : [];
   const bestVideo = pickBestVideo(videoVersions);
   const dash = dashVideoUrl(item.video_dash_manifest);
-  const captionText: string | undefined = (() => {
-    if (!item.caption || typeof item.caption !== "object") return undefined;
-    const text = (item.caption as Record<string, unknown>).text;
-    return typeof text === "string" ? text : undefined;
-  })();
 
   if (bestVideo) {
+    const captionValue = item.caption;
+    const caption =
+      captionValue && typeof captionValue === "object"
+        ? (captionValue as Record<string, unknown>).text
+        : undefined;
+
     output.push({
       url: bestVideo.url,
       download_url: bestVideo.url,
@@ -204,7 +267,7 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       thumbnail: bestImage?.url,
       width: bestVideo.width,
       height: bestVideo.height,
-      caption: captionText,
+      caption: typeof caption === "string" ? caption : undefined,
     });
   } else if (dash) {
     output.push({
@@ -213,7 +276,6 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       type: "video",
       source_url: sourceUrl,
       thumbnail: bestImage?.url,
-      caption: captionText,
     });
   } else if (bestImage) {
     output.push({
@@ -223,7 +285,6 @@ function mediaItemFromObject(item: Record<string, unknown>, sourceUrl: string): 
       source_url: sourceUrl,
       width: bestImage.width,
       height: bestImage.height,
-      caption: captionText,
     });
   }
 
@@ -418,6 +479,9 @@ async function fetchInstagramVariant(url: string): Promise<MediaItem[]> {
   const contentType = response.headers.get("content-type") || "";
   const text = await response.text();
   const shortcode = getShortcode(url);
+
+  const openGraph = extractOpenGraphMedia(text, url);
+  if (openGraph.length) return openGraph;
 
   if (contentType.includes("application/json")) {
     try {

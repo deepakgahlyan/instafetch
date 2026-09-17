@@ -69,13 +69,10 @@ function isFastPath(url: string): boolean {
   }
 }
 
-function isVideoUrl(value: string): boolean {
+function isVideoPath(url: string): boolean {
   try {
-    const parsed = new URL(value);
-    return (
-      parsed.protocol === "https:" &&
-      /\.(mp4|m4v|mov|webm)(?:$|[?#])/i.test(parsed.pathname)
-    );
+    const pathname = new URL(url).pathname.toLowerCase();
+    return /\.(mp4|m4v|mov|webm)(?:$|[?#])/.test(pathname);
   } catch {
     return false;
   }
@@ -121,7 +118,7 @@ function inferMediaType(url: string, hint?: string): "video" | "image" {
     return "video";
   }
 
-  return isVideoUrl(url) ? "video" : "image";
+  return isVideoPath(url) ? "video" : "image";
 }
 
 function addMedia(
@@ -149,8 +146,7 @@ function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
   const output: MediaItem[] = [];
   const seen = new Set<string>();
 
-  const mediaKeys = new Set([
-    "url",
+  const explicitMediaKeys = new Set([
     "video",
     "video_url",
     "videoUrl",
@@ -161,6 +157,7 @@ function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
     "media_url",
     "mediaUrl",
     "contentUrl",
+    "content_url",
     "display_url",
     "displayUrl",
     "image_url",
@@ -171,11 +168,25 @@ function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
     "src",
   ]);
 
+  const containerKeys = new Set([
+    "data",
+    "result",
+    "results",
+    "media",
+    "items",
+    "videos",
+    "images",
+    "carousel",
+    "sources",
+  ]);
+
   function visit(node: unknown, keyHint = "", depth = 0): void {
     if (output.length >= MAX_MEDIA_ITEMS || depth > 10 || node == null) return;
 
     if (typeof node === "string") {
-      if (mediaKeys.has(keyHint)) {
+      if (explicitMediaKeys.has(keyHint)) {
+        addMedia(output, seen, node, sourceUrl, keyHint);
+      } else if (keyHint === "url" && depth <= 2) {
         addMedia(output, seen, node, sourceUrl, keyHint);
       }
       return;
@@ -193,18 +204,24 @@ function collectFastMedia(payload: unknown, sourceUrl: string): MediaItem[] {
 
     const record = node as Record<string, unknown>;
     for (const [key, value] of Object.entries(record)) {
+      if (typeof value === "string" && explicitMediaKeys.has(key)) {
+        addMedia(output, seen, value, sourceUrl, key);
+        continue;
+      }
+
       if (
+        key === "url" &&
         typeof value === "string" &&
-        (mediaKeys.has(key) ||
-          /^(video|image|media|download|playback|content).*(_url|url)$/i.test(key))
+        (depth <= 1 || keyHint === "data" || keyHint === "result")
       ) {
         addMedia(output, seen, value, sourceUrl, key);
         continue;
       }
 
       if (
-        Array.isArray(value) ||
-        (typeof value === "object" && value !== null)
+        containerKeys.has(key) ||
+        explicitMediaKeys.has(key) ||
+        Array.isArray(value)
       ) {
         visit(value, key, depth + 1);
       }
@@ -334,7 +351,9 @@ async function fetchFastResolver(url: string): Promise<MediaItem[]> {
   ]);
 
   const media = collectFastMedia(payload, url);
-  const videos = media.filter((item) => item.type === "video" || isVideoUrl(item.url || ""));
+  const videos = media.filter(
+    (item) => item.type === "video" || isVideoPath(item.url || "")
+  );
 
   if (videos.length) return videos;
   if (!media.length) {
@@ -425,17 +444,41 @@ async function fetchApifyMedia(url: string): Promise<MediaItem[]> {
 }
 
 async function uncachedExtractInstagramMedia(url: string): Promise<MediaItem[]> {
+  const preferVideo = /\/(reel|reels|tv)\/|\/share\/reel\//i.test(url);
+
   if (isFastPath(url)) {
-    try {
-      return await Promise.any([
-        fetchInstagramPage(url),
-        fetchFastResolver(url),
-      ]);
-    } catch (error) {
-      console.warn(
-        "Fast Instagram paths failed; using Apify fallback:",
-        error instanceof Error ? error.message : error
-      );
+    const fastResolverPromise = fetchFastResolver(url);
+    const pagePromise = fetchInstagramPage(url);
+
+    if (preferVideo) {
+      try {
+        return await Promise.any([
+          fastResolverPromise.then((media) => {
+            const videos = media.filter((item) => item.type === "video");
+            if (!videos.length) throw new Error("Resolver returned no video.");
+            return videos;
+          }),
+          pagePromise.then((media) => {
+            const videos = media.filter((item) => item.type === "video");
+            if (!videos.length) throw new Error("Page returned no video.");
+            return videos;
+          }),
+        ]);
+      } catch (error) {
+        console.warn(
+          "Fast Reel video paths failed; using Apify fallback:",
+          error instanceof Error ? error.message : error
+        );
+      }
+    } else {
+      try {
+        return await Promise.any([fastResolverPromise, pagePromise]);
+      } catch (error) {
+        console.warn(
+          "Fast Instagram paths failed; using Apify fallback:",
+          error instanceof Error ? error.message : error
+        );
+      }
     }
   }
 
@@ -451,7 +494,7 @@ export async function extractInstagramMedia(url: string): Promise<MediaItem[]> {
 
   const cachedExtractor = unstable_cache(
     () => uncachedExtractInstagramMedia(normalized),
-    ["instagram-media-v7", normalized],
+    ["instagram-media-v8", normalized],
     { revalidate: 120 }
   );
 

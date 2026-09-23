@@ -258,5 +258,25 @@
     "status": "ready_for_review",
     "automationNote": "Prepared for manual review. Do not submit where CAPTCHA, account creation, payment, or deceptive automation is required.",
     "createdAt": "2026-09-10T11:29:54.104Z"
+  },
+  {
+    "url": "https://creativesfeed.com/software-directory/social-media",
+    "domain": "creativesfeed.com",
+    "sourcePage": "https://creativesfeed.com/software-directory/social-media",
+    "listingName": "InstaFetch",
+    "websiteUrl": "https://www.instafetch.app",
+    "description": "InstaFetch is a simple web-based tool for downloading supported public Instagram videos and Reels.",
+    "category": "Social Media Tools",
+    "tags": [
+      "Instagram downloader",
+      "Instagram Reels downloader",
+      "social media tools",
+      "video downloader"
+    ],
+    "opportunityType": "directory-submission",
+    "qualityScore": 71,
+    "status": "ready_for_review",
+    "automationNote": "Prepared for manual review. Do not submit where CAPTCHA, account creation, payment, or deceptive automation is required.",
+    "createdAt": "2026-09-23T11:49:14.942Z"
   }
 ]

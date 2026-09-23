@@ -75,34 +75,6 @@
     }
   },
   {
-    "url": "https://www.socialpilot.co/instagram-tools",
-    "domain": "socialpilot.co",
-    "to": "hello@socialpilot.co",
-    "subject": "Resource suggestion for your Instagram article",
-    "body": "Hello there,\n\nI was looking at your Instagram resources and came across “19 Instagram Tools Your Competitors Don’t Want You to Know”.\n\nIf you are revisiting the article, InstaFetch could be a relevant addition for readers looking for a straightforward web-based option: https://www.instafetch.app.\n\nIf it doesn't fit the article, no worries at all.\n\nThanks,\nInstaFetch",
-    "personalization": {
-      "targetDomain": "socialpilot.co",
-      "articleTitle": "19 Instagram Tools Your Competitors Don’t Want You to Know",
-      "opportunityType": "resource-page",
-      "variationSeed": 1378589339,
-      "generatedFromTarget": true
-    },
-    "createdAt": "2026-09-11T11:31:55.383Z",
-    "sent": true,
-    "contactSource": "public-site-or-search",
-    "contactCheckedAt": "2026-08-14T17:08:25.763Z",
-    "sentAt": "2026-09-11T11:32:32.275Z",
-    "delivery": {
-      "message_id": "<y5nByBu4T6r4jPGCq0FKbPjfv4UHv47NfLOD@instafetch.app>",
-      "delivered": [],
-      "queued": [
-        "hello@socialpilot.co"
-      ],
-      "permanent_bounces": [],
-      "suppressed_recipients": []
-    }
-  },
-  {
     "url": "https://creatorflow.so/blog/ai-marketing-tools-instagram-creators",
     "domain": "creatorflow.so",
     "to": "hello@creatorflow.so",

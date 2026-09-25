@@ -1,5 +1,24 @@
 [
   {
+    "url": "https://www.jotform.com/ai/agents/instagram-ai-tools",
+    "domain": "jotform.com",
+    "to": "support@jotform.com",
+    "subject": "A possible addition to “The best Instagram AI tools in 2026 based on real testing | Jotfo”",
+    "body": "Hi,\n\nI found “The best Instagram AI tools in 2026 based on real testing | Jotform Blog” while researching Instagram tools and wanted to pass along a resource that may fit the page.\n\nIf you are revisiting the article, InstaFetch could be a relevant addition for readers looking for a straightforward web-based option: https://www.instafetch.app.\n\nFeel free to take a look and decide whether it adds anything useful for your readers.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "jotform.com",
+      "articleTitle": "The best Instagram AI tools in 2026 based on real testing | Jotform Blog",
+      "opportunityType": "resource-page",
+      "variationSeed": 817424062,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-09-25T12:00:11.509Z",
+    "sent": false,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-09-25T12:00:47.811Z",
+    "sendError": "[{\"code\":10203,\"message\":\"email.sending.error.email.sending_disabled\"}]"
+  },
+  {
     "url": "https://blog.hootsuite.com/instagram-tools",
     "domain": "blog.hootsuite.com",
     "to": null,

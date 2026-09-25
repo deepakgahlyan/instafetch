@@ -254,43 +254,49 @@
   {
     "domain": "gwaa.net",
     "email": null,
-    "checkedAt": "2026-09-24T11:58:03.471Z",
+    "checkedAt": "2026-09-25T12:00:14.613Z",
     "source": null
   },
   {
     "domain": "blog.coupler.io",
     "email": null,
-    "checkedAt": "2026-09-24T11:58:19.099Z",
+    "checkedAt": "2026-09-25T12:00:41.964Z",
     "source": null
+  },
+  {
+    "domain": "jotform.com",
+    "email": "support@jotform.com",
+    "checkedAt": "2026-09-25T12:00:47.811Z",
+    "source": "public-site-or-search"
   },
   {
     "domain": "videoconverter.wondershare.com",
     "email": null,
-    "checkedAt": "2026-09-24T11:58:20.618Z",
+    "checkedAt": "2026-09-25T12:00:49.977Z",
     "source": null
   },
   {
     "domain": "blog.hootsuite.com",
     "email": null,
-    "checkedAt": "2026-09-24T11:58:21.715Z",
+    "checkedAt": "2026-09-25T12:00:50.985Z",
     "source": null
   },
   {
     "domain": "anonsaver.com",
     "email": null,
-    "checkedAt": "2026-09-24T11:58:24.921Z",
+    "checkedAt": "2026-09-25T12:00:53.947Z",
     "source": null
   },
   {
     "domain": "toolzin.com",
     "email": null,
-    "checkedAt": "2026-09-24T11:58:26.684Z",
+    "checkedAt": "2026-09-25T12:00:55.200Z",
     "source": null
   },
   {
     "domain": "snapinsta.to",
     "email": null,
-    "checkedAt": "2026-09-24T11:58:28.019Z",
+    "checkedAt": "2026-09-25T12:00:56.873Z",
     "source": null
   }
 ]

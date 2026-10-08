@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-07T13:37:09.200Z",
-  "totalOpportunities": 268,
-  "qualified": 157,
+  "generatedAt": "2026-10-08T13:43:05.043Z",
+  "totalOpportunities": 269,
+  "qualified": 156,
   "outreachDrafts": 38,
   "sent": 25,
   "linked": 0,
@@ -26,9 +26,9 @@
       "linkRate": 0
     },
     "creator-resource": {
-      "opportunities": 7,
+      "opportunities": 8,
       "linked": 0,
-      "avgQuality": 57,
+      "avgQuality": 59,
       "linkRate": 0
     },
     "broken-link-candidate": {

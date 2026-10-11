@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-10-10T12:44:08.119Z",
-  "totalOpportunities": 283,
-  "qualified": 167,
+  "generatedAt": "2026-10-11T13:03:44.223Z",
+  "totalOpportunities": 285,
+  "qualified": 170,
   "outreachDrafts": 38,
   "sent": 25,
   "linked": 0,
   "submissionQueue": 14,
   "byOpportunityType": {
     "resource-page": {
-      "opportunities": 174,
+      "opportunities": 175,
       "linked": 0,
       "avgQuality": 75,
       "linkRate": 0
@@ -20,7 +20,7 @@
       "linkRate": 0
     },
     "editorial-mention": {
-      "opportunities": 39,
+      "opportunities": 40,
       "linked": 0,
       "avgQuality": 66,
       "linkRate": 0

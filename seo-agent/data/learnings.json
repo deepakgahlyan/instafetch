@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-10-19T13:33:21.535Z",
-  "totalOpportunities": 292,
-  "qualified": 175,
+  "generatedAt": "2026-10-20T11:51:31.540Z",
+  "totalOpportunities": 294,
+  "qualified": 178,
   "outreachDrafts": 38,
   "sent": 25,
   "linked": 0,
   "submissionQueue": 15,
   "byOpportunityType": {
     "resource-page": {
-      "opportunities": 181,
+      "opportunities": 183,
       "linked": 0,
       "avgQuality": 75,
       "linkRate": 0

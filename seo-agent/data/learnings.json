@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-23T11:51:37.083Z",
+  "generatedAt": "2026-10-24T11:15:57.589Z",
   "totalOpportunities": 304,
-  "qualified": 183,
+  "qualified": 182,
   "outreachDrafts": 38,
   "sent": 25,
   "linked": 0,
@@ -10,7 +10,7 @@
     "resource-page": {
       "opportunities": 185,
       "linked": 0,
-      "avgQuality": 75,
+      "avgQuality": 74,
       "linkRate": 0
     },
     "directory-submission": {
@@ -22,7 +22,7 @@
     "editorial-mention": {
       "opportunities": 46,
       "linked": 0,
-      "avgQuality": 66,
+      "avgQuality": 65,
       "linkRate": 0
     },
     "creator-resource": {

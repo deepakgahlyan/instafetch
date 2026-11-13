@@ -1,5 +1,24 @@
 [
   {
+    "url": "https://www.businessinsider.com/instagram-tiktok-snapchat-chase-close-friends-with-new-features-2024-6",
+    "domain": "businessinsider.com",
+    "to": "group-subscriptions@businessinsider.com",
+    "subject": "Possible addition for your Instagram resource list",
+    "body": "Hello,\n\nYour “New Instagram, TikTok Tools Try to Get 'Social' Back Into Social Media - Business Insider” caught my attention because it already covers tools in this space.\n\nInstaFetch is another browser-based option for supported public Instagram media, and it may be worth considering if you update the list: https://www.instafetch.app.\n\nFeel free to take a look and decide whether it adds anything useful for your readers.\n\nThanks,\nInstaFetch",
+    "personalization": {
+      "targetDomain": "businessinsider.com",
+      "articleTitle": "New Instagram, TikTok Tools Try to Get 'Social' Back Into Social Media - Business Insider",
+      "opportunityType": "resource-page",
+      "variationSeed": 1579141548,
+      "generatedFromTarget": true
+    },
+    "createdAt": "2026-11-13T14:46:05.088Z",
+    "sent": false,
+    "contactSource": "public-site-or-search",
+    "contactCheckedAt": "2026-11-13T14:46:25.641Z",
+    "sendError": "[{\"code\":10203,\"message\":\"email.sending.error.email.sending_disabled\"}]"
+  },
+  {
     "url": "https://postbae.com/blog/instagram-content-creation-tools",
     "domain": "postbae.com",
     "to": null,

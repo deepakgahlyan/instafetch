@@ -16,7 +16,7 @@
     "sent": false,
     "contactSource": "public-site-or-search",
     "contactCheckedAt": "2026-11-13T14:46:25.641Z",
-    "sendError": "[{\"code\":10203,\"message\":\"email.sending.error.email.sending_disabled\"}]"
+    "sendError": "[{\"code\":10208,\"message\":\"email.sending.error.email.recipient_plan_restricted\"}]"
   },
   {
     "url": "https://postbae.com/blog/instagram-content-creation-tools",
@@ -67,7 +67,7 @@
     "sent": false,
     "contactSource": "public-site-or-search",
     "contactCheckedAt": "2026-09-25T12:00:47.811Z",
-    "sendError": "[{\"code\":10203,\"message\":\"email.sending.error.email.sending_disabled\"}]"
+    "sendError": "[{\"code\":10208,\"message\":\"email.sending.error.email.recipient_plan_restricted\"}]"
   },
   {
     "url": "https://blog.hootsuite.com/instagram-tools",
@@ -102,7 +102,7 @@
     "sent": false,
     "contactSource": "public-site-or-search",
     "contactCheckedAt": "2026-09-20T11:36:07.274Z",
-    "sendError": "[{\"code\":10203,\"message\":\"email.sending.error.email.sending_disabled\"}]"
+    "sendError": "[{\"code\":10208,\"message\":\"email.sending.error.email.recipient_plan_restricted\"}]"
   },
   {
     "url": "https://brand24.com/blog/best-instagram-tools",
@@ -232,7 +232,7 @@
     "sent": false,
     "contactSource": "public-site-or-search",
     "contactCheckedAt": "2026-09-17T11:23:28.944Z",
-    "sendError": "[{\"code\":10203,\"message\":\"email.sending.error.email.sending_disabled\"}]"
+    "sendError": "[{\"code\":10208,\"message\":\"email.sending.error.email.recipient_plan_restricted\"}]"
   },
   {
     "url": "https://inflact.com/instagram-downloader/photo",
@@ -739,7 +739,7 @@
     "to": "jane.doe@keepcalmandchiffon.com",
     "contactSource": "public-site-or-search",
     "contactCheckedAt": "2026-09-21T13:00:36.581Z",
-    "sendError": "[{\"code\":10203,\"message\":\"email.sending.error.email.sending_disabled\"}]"
+    "sendError": "[{\"code\":10208,\"message\":\"email.sending.error.email.recipient_plan_restricted\"}]"
   },
   {
     "url": "https://wildflowersocialmedia.com/the-4-best-content-creation-tools-for-instagram",
@@ -783,6 +783,6 @@
     "to": "hello@toolzin.com",
     "contactSource": "public-site-or-search",
     "contactCheckedAt": "2026-11-02T16:12:45.636Z",
-    "sendError": "[{\"code\":10203,\"message\":\"email.sending.error.email.sending_disabled\"}]"
+    "sendError": "[{\"code\":10208,\"message\":\"email.sending.error.email.recipient_plan_restricted\"}]"
   }
 ]

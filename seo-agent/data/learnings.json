@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-20T15:39:06.878Z",
-  "totalOpportunities": 375,
-  "qualified": 217,
+  "generatedAt": "2026-11-21T14:49:08.276Z",
+  "totalOpportunities": 376,
+  "qualified": 216,
   "outreachDrafts": 39,
   "sent": 23,
   "linked": 0,
-  "submissionQueue": 16,
+  "submissionQueue": 17,
   "byOpportunityType": {
     "resource-page": {
       "opportunities": 230,
@@ -14,9 +14,9 @@
       "linkRate": 0
     },
     "directory-submission": {
-      "opportunities": 53,
+      "opportunities": 54,
       "linked": 0,
-      "avgQuality": 67,
+      "avgQuality": 68,
       "linkRate": 0
     },
     "editorial-mention": {
